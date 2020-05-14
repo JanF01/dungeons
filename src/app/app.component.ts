@@ -39,6 +39,7 @@ export class AppComponent {
   timeInfo: string = "";
   roundEnd = false;
   score = 0;
+  background = new Audio();
   timeouts = [];
 
 
@@ -46,11 +47,10 @@ export class AppComponent {
 
   start(){
     document.getElementById('start').style.display="none";
-    let background = new Audio();
-    background.src= "assets/background.mp3";
-    background.load();
-    background.volume = 0.2;
-    background.play();
+    this.background.src= "assets/background.mp3";
+    this.background.load();
+    this.background.volume = 0.04;
+    this.background.play();
     this.timeouts[0] = setTimeout(()=>{
     this.roundStart(7.5);
     },1000);
@@ -119,6 +119,7 @@ this.timeouts[7] = setTimeout(()=>{
       let s = new Audio();
       s.src= "assets/coins.wav";
       s.load();
+      s.volume=0.2;
       s.play();
 
       document.getElementById('info').style.color="green";
@@ -148,6 +149,7 @@ this.timeouts[7] = setTimeout(()=>{
       let over = new Audio();
       over.src= "assets/gameover.wav";
       over.load();
+      over.volume = 0.15;
       over.play();
       document.getElementById('restart').style.display="block";
      }
@@ -164,6 +166,7 @@ this.timeouts[7] = setTimeout(()=>{
       let count = new Audio();
       count.src= "assets/odliczanie.wav";
       count.load();
+      count.volume = 0.45;
       count.play();
     },4000);
     setTimeout(()=>{
@@ -241,6 +244,7 @@ this.timeouts[7] = setTimeout(()=>{
         let s = new Audio();
       s.src= "assets/coin.wav";
       s.load();
+      s.volume = 0.15;
       s.play();
 
       coin[2] = true;
