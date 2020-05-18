@@ -1,66 +1,15 @@
+<div class="container">
 
+ <mat-grid-list cols="2" rowHeight="2:1">
+     <mat-grid-tile (click)="startDungeons()">Dungeon Grinder</mat-grid-tile>
+     <mat-grid-tile (click)="startCoins()">Coins</mat-grid-tile>
+     <mat-grid-tile>Coming Soon</mat-grid-tile>
+     <mat-grid-tile>Coming Soon</mat-grid-tile>
+ </mat-grid-list>   
 
-
-
-
-<div class="boundary">
-<div class="dark">
-    
-</div> 
-<div class="backyellow">
-
-</div>
-<div class="yellow">
-
-</div>
-<div class="dark">
-
-</div>
-<div class="backred">
-
-</div>
-<div class="red">
-    
-</div>
-<div class="dark">
-    
-</div>
-<div class="backblue">
-
-</div>
-<div class="blue">
-    
-</div>
-<div class="dark">
-    
-</div>
-<div class="backviolet">
-
-</div>
-<div class="violet">
-    
-</div>
-<div class="dark">
     
 </div>
 
-<div class="start" id="start" (click)="start()">START</div>
-<div class="start" id="restart" (click)="reStart()">RESTART</div>
-
-<div class="coins">
-    <img src="assets/coins.png">
-    {{score}}
-</div>
-<div id="timer">{{timeInfo}}</div>
-<div id="info">{{info}}</div>
-<div class="generator" (click)="generateCoin()"></div>
-
-<h1 class="score"><h3>{{sum}}/{{amountOfCoins}}</h3></h1>
-
-
-
-<div *ngFor="let coin of coins">
-<img @showUp [@bumpUp]="{value: coin[2], params: {x: coin[3].x, y: coin[3].y}}" [@getTogether]="{value: roundEnd,params: {x: coin[3].x, y: coin[3].y}}" class="coin" [src]="coin[0].src" cdkDragBoundary=".boundary" [ngStyle]="{left: coin[0].style.left, top: coin[0].style.top}" cdkDrag (cdkDragEnded)="onDrop($event,coin)" [cdkDragFreeDragPosition]="coin[3]">
-</div>
-</div>
-
+    
+<app-coins *ngIf="mode==1"></app-coins>
+<app-dungeons *ngIf="mode==2"></app-dungeons>

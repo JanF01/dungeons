@@ -1,0 +1,52 @@
+<div class="container">
+
+    <header *ngIf="!inGame">
+    <h1>
+    Welcome to dungeons
+   </h1>
+   <h2>
+    Pick a name 
+   </h2>
+   <input id="n" type="text" [(ngModel)]="name" (ngModelChange)="check()">
+   <button (click)="start()">Into Dungeons
+   </button>
+    </header>
+
+    <mat-grid-list *ngIf="player.location=='home'" cols="3" rowHeight="2:1">
+        <mat-grid-tile><div class="col down"><span>Backpack</span><div class="add"><img src="assets/backpack.png"></div></div></mat-grid-tile>
+        <mat-grid-tile><div class="col"><span>Character</span><div class="add"><img src="assets/fighter.png"></div></div></mat-grid-tile>
+        <mat-grid-tile><div class="col down"><span>Shop</span><div class="add"><img src="assets/coins.png">{{player.gold}}</div></div></mat-grid-tile>
+        <mat-grid-tile></mat-grid-tile>
+        <mat-grid-tile><div class="col"><span>Arena</span><div class="add"><img src="assets/char.png"></div></div></mat-grid-tile>
+        <mat-grid-tile></mat-grid-tile>
+        <mat-grid-tile><div class="col up"><span>Village</span><div class="add"><img src="assets/village.png"></div></div></mat-grid-tile>
+        <mat-grid-tile></mat-grid-tile>
+        <mat-grid-tile (click)="goToDungeons()"><div class="col up"><span>Dungeons</span><div class="add"><img src="assets/dungeon.png"></div></div></mat-grid-tile>
+    </mat-grid-list>
+
+
+
+    <section class="dungeons" *ngIf="player.location=='dungeons'">
+        <nav>
+        <mat-grid-list cols="1" rowHeight="1:1">
+            <mat-grid-tile><div class="col"><span>Home</span><div class="add"><img src="assets/home.png"></div></div></mat-grid-tile>
+            <mat-grid-tile><div class="col"><span>Loot</span><div class="add"><img src="assets/loot.png"></div></div></mat-grid-tile>
+        </mat-grid-list>
+        </nav>
+        <main>
+            <img id="1" src="assets/flag.png" (click)="fight(1)">
+        </main>
+    </section>
+
+    <section class="dfight" *ngIf="player.location=='dfight'">
+
+        <div class="tile">
+            <img src="assets/knight1.png" @showUp [@momentum]="{value: playerAnimation}">
+                <img src="assets/sword1.png" class="sword" @showUp [@swordMomentum]="{value: swordAnimation}">
+            </div>
+            <div class="tile">
+            <img class="enemy" src="assets/enemy1.png">
+        </div>
+     
+    </section>
+</div>
