@@ -166,14 +166,55 @@ section{
         opacity:1;
     }
     .sword{
-        position:absolute;
         width:4%;
         transform:rotate(0deg);
         opacity:0;
     }
+    .fireball{
+        width:6.5%;
+        transform:rotate(90deg);
+        opacity:0;
+        z-index:-1;
+    }
     .enemy{
         left:70%;
+        transition:all 0.2s;
+        filter:saturate(0%);
     }
+    .hp,.ep{
+        position:absolute;
+        top:65%;
+        min-width:18%;
+        min-height:3em;
+        left:15%;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        .playerHealth,.enemyHealth{
+            border:rgb(202, 24, 11) solid 0.13em;
+            width:100%;
+            min-height:1.8em;
+            @include radius(1em);
+        }
+  }
+  .ep{
+    left:66%;
+  }
+}
 }
 
+.damage,.playerDamage{
+    width:10%;
+    text-align:center;
+    display:block;
+    position:absolute;
+    color:#da0a0a;
+    left:69.5%;
+    font-size:2em;
+    font-family:'Abel',sans-serif; 
+    font-weight:bold;
+    z-index:-1;
+}
+.playerDamage{
+    left:20%;
 }

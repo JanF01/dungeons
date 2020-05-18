@@ -5,7 +5,9 @@ export class User {
    experience: number;
    gold: number;
    strength: number;
+   damage: number;
    hitPoints: number;
+   health: number;
    stamina: number;
    staminaLeft: number;
    luck: number;

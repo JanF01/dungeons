@@ -13,15 +13,15 @@
     </header>
 
     <mat-grid-list *ngIf="player.location=='home'" cols="3" rowHeight="2:1">
-        <mat-grid-tile><div class="col down"><span>Backpack</span><div class="add"><img src="assets/backpack.png"></div></div></mat-grid-tile>
+        <mat-grid-tile><div class="col"><span>Backpack</span><div class="add"><img src="assets/backpack.png"></div></div></mat-grid-tile>
         <mat-grid-tile><div class="col"><span>Character</span><div class="add"><img src="assets/fighter.png"></div></div></mat-grid-tile>
-        <mat-grid-tile><div class="col down"><span>Shop</span><div class="add"><img src="assets/coins.png">{{player.gold}}</div></div></mat-grid-tile>
+        <mat-grid-tile><div class="col"><span>Shop</span><div class="add"><img src="assets/coins.png">{{player.gold}}</div></div></mat-grid-tile>
         <mat-grid-tile></mat-grid-tile>
         <mat-grid-tile><div class="col"><span>Arena</span><div class="add"><img src="assets/char.png"></div></div></mat-grid-tile>
         <mat-grid-tile></mat-grid-tile>
-        <mat-grid-tile><div class="col up"><span>Village</span><div class="add"><img src="assets/village.png"></div></div></mat-grid-tile>
+        <mat-grid-tile><div class="col"><span>Village</span><div class="add"><img src="assets/village.png"></div></div></mat-grid-tile>
         <mat-grid-tile></mat-grid-tile>
-        <mat-grid-tile (click)="goToDungeons()"><div class="col up"><span>Dungeons</span><div class="add"><img src="assets/dungeon.png"></div></div></mat-grid-tile>
+        <mat-grid-tile (click)="goToDungeons()"><div class="col"><span>Dungeons</span><div class="add"><img src="assets/dungeon.png"></div></div></mat-grid-tile>
     </mat-grid-list>
 
 
@@ -41,11 +41,24 @@
     <section class="dfight" *ngIf="player.location=='dfight'">
 
         <div class="tile">
-            <img src="assets/knight1.png" @showUp [@momentum]="{value: playerAnimation}">
+            <img src="assets/knight1.png" @showUp [@momentum]="{value: playerAnimation}" [@takeDamage]="enemyHit">
                 <img src="assets/sword1.png" class="sword" @showUp [@swordMomentum]="{value: swordAnimation}">
+                <div *ngFor="let damage of playerDamage">
+                    <div class="playerDamage" @showUp [@showDamage]="{value: damage[1]}">{{damage[0]}}</div>
+                 </div>
+                    <div class="hp">
+                        <div class="playerHealth" [ngStyle]="{background: 'linear-gradient(to right, red '+((player.health/player.hitPoints)*100-6)+'%, #ff000000 '+ (player.health/player.hitPoints)*100 +'% )'}"></div>
+                    </div>
             </div>
             <div class="tile">
-            <img class="enemy" src="assets/enemy1.png">
+            <img class="enemy" src="assets/enemy1.png" @showUp [@enemyAnimation]="{value: enemyState}">
+            <img src="assets/fireball.png" class="fireball" @showUp [@enemyAttack]="{value: enemyState}">
+            <div *ngFor="let damage of enemyDamage">
+              <div class="damage" @showUp [@showDamage]="{value: damage[1]}">{{damage[0]}}</div>
+           </div>
+           <div class="ep">
+            <div class="enemyHealth" [ngStyle]="{background: 'linear-gradient(to right, red '+((enemy.health/enemy.hitPoints)*100-6)+'%, #ff000000 '+ (enemy.health/enemy.hitPoints)*100 +'% )'}"></div>
+        </div>
         </div>
      
     </section>
