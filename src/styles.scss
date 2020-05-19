@@ -27,9 +27,42 @@ $dungeons-theme: mat-light-theme($dungeons-primary, $dungeons-accent, $dungeons-
 @include angular-material-theme($dungeons-theme);
 
 /* You can add global styles to this file, and also import other style files */
+
+
 body{
     margin:0 auto;
     overflow:hidden;
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+mat-grid-list{
+    color:white;
+    font-family:'Abel',sans-serif; 
+    font-size:2em;
+
+    mat-grid-tile{
+        .add{
+            margin-top:1em;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            text-align:center;
+            font-size:0.9em;
+            img{
+                width:1.7em;
+                margin-top:0;
+                transition:0.9s all;
+            }
+        }
+        &:hover{
+           cursor:pointer;
+            color:rgba(0,0,0,0);
+            .col > .add > img{
+                width:4em;
+                margin-top:-5em;
+            }
+        }
+
+    }
+}

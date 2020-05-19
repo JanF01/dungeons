@@ -1,65 +1,82 @@
 <div class="container">
 
-    <header *ngIf="!inGame">
+  <header *ngIf="!inGame">
     <h1>
-    Welcome to dungeons
-   </h1>
-   <h2>
-    Pick a name 
-   </h2>
-   <input id="n" type="text" [(ngModel)]="name" (ngModelChange)="check()">
-   <button (click)="start()">Into Dungeons
-   </button>
-    </header>
+      Welcome to dungeons
+    </h1>
+    <h2>
+      Pick a name
+    </h2>
+    <input id="n" type="text" [(ngModel)]="name" (ngModelChange)="check()">
+    <button (click)="start()">Into Dungeons
+    </button>
+  </header>
 
-    <mat-grid-list *ngIf="player.location=='home'" cols="3" rowHeight="2:1">
-        <mat-grid-tile><div class="col"><span>Backpack</span><div class="add"><img src="assets/backpack.png"></div></div></mat-grid-tile>
-        <mat-grid-tile><div class="col"><span>Character</span><div class="add"><img src="assets/fighter.png"></div></div></mat-grid-tile>
-        <mat-grid-tile><div class="col"><span>Shop</span><div class="add"><img src="assets/coins.png">{{player.gold}}</div></div></mat-grid-tile>
-        <mat-grid-tile></mat-grid-tile>
-        <mat-grid-tile><div class="col"><span>Arena</span><div class="add"><img src="assets/char.png"></div></div></mat-grid-tile>
-        <mat-grid-tile></mat-grid-tile>
-        <mat-grid-tile><div class="col"><span>Village</span><div class="add"><img src="assets/village.png"></div></div></mat-grid-tile>
-        <mat-grid-tile></mat-grid-tile>
-        <mat-grid-tile (click)="goToDungeons()"><div class="col"><span>Dungeons</span><div class="add"><img src="assets/dungeon.png"></div></div></mat-grid-tile>
-    </mat-grid-list>
+  <mat-grid-list *ngIf="player.location=='home'" cols="3" rowHeight="2:1">
+    <mat-grid-tile>
+      <div class="col"><span>Backpack</span>
+        <div class="add"><img src="assets/backpack.png" draggable="false"></div>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile (click)="this.player.location='character'">
+      <div class="col"><span>Character</span>
+        <div class="add"><img src="assets/fighter.png" draggable="false"></div>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <div class="col"><span>Shop</span>
+        <div class="add"><img src="assets/coins.png" draggable="false">{{player.gold}}</div>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile></mat-grid-tile>
+    <mat-grid-tile>
+      <div class="col"><span>Arena</span>
+        <div class="add"><img src="assets/char.png" draggable="false"></div>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile></mat-grid-tile>
+    <mat-grid-tile>
+      <div class="col"><span>Village</span>
+        <div class="add"><img src="assets/village.png" draggable="false"></div>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile></mat-grid-tile>
+    <mat-grid-tile (click)="this.player.location='dungeons'">
+      <div class="col"><span>Dungeons</span>
+        <div class="add"><img src="assets/dungeon.png" draggable="false"></div>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
 
 
 
-    <section class="dungeons" *ngIf="player.location=='dungeons'">
-        <nav>
-        <mat-grid-list cols="1" rowHeight="1:1">
-            <mat-grid-tile><div class="col"><span>Home</span><div class="add"><img src="assets/home.png"></div></div></mat-grid-tile>
-            <mat-grid-tile><div class="col"><span>Loot</span><div class="add"><img src="assets/loot.png"></div></div></mat-grid-tile>
-        </mat-grid-list>
-        </nav>
-        <main>
-            <img id="1" src="assets/flag.png" (click)="fight(1)">
-        </main>
-    </section>
+  <section class="dungeons" *ngIf="player.location=='dungeons'">
+    <nav>
+      <mat-grid-list cols="1" rowHeight="1:1">
+        <mat-grid-tile (click)="backHome()">
+          <div class="col" ><span>Home</span>
+            <div class="add"><img src="assets/home.png" draggable="false"></div>
+          </div>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <div class="col"><span>Loot</span>
+            <div class="add"><img src="assets/loot.png" draggable="false"></div>
+          </div>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </nav>
+    <main>
+      <img id="1" src="assets/dungeon1.png" (click)="goCave(1)">
+      <img id="2" src="assets/dungeon2.png" (click)="goCave(2)">
+      <img id="1" src="assets/dungeon3.png" (click)="goCave(3)">
+      <img id="2" src="assets/dungeon4.png" (click)="goCave(4)">
+    </main>
+  </section>
 
-    <section class="dfight" *ngIf="player.location=='dfight'">
 
-        <div class="tile">
-            <img src="assets/knight1.png" @showUp [@momentum]="{value: playerAnimation}" [@takeDamage]="enemyHit">
-                <img src="assets/sword1.png" class="sword" @showUp [@swordMomentum]="{value: swordAnimation}">
-                <div *ngFor="let damage of playerDamage">
-                    <div class="playerDamage" @showUp [@showDamage]="{value: damage[1]}">{{damage[0]}}</div>
-                 </div>
-                    <div class="hp">
-                        <div class="playerHealth" [ngStyle]="{background: 'linear-gradient(to right, red '+((player.health/player.hitPoints)*100-6)+'%, #ff000000 '+ (player.health/player.hitPoints)*100 +'% )'}"></div>
-                    </div>
-            </div>
-            <div class="tile">
-            <img class="enemy" src="assets/enemy1.png" @showUp [@enemyAnimation]="{value: enemyState}">
-            <img src="assets/fireball.png" class="fireball" @showUp [@enemyAttack]="{value: enemyState}">
-            <div *ngFor="let damage of enemyDamage">
-              <div class="damage" @showUp [@showDamage]="{value: damage[1]}">{{damage[0]}}</div>
-           </div>
-           <div class="ep">
-            <div class="enemyHealth" [ngStyle]="{background: 'linear-gradient(to right, red '+((enemy.health/enemy.hitPoints)*100-6)+'%, #ff000000 '+ (enemy.health/enemy.hitPoints)*100 +'% )'}"></div>
-        </div>
-        </div>
-     
-    </section>
+
+  <app-cave #cave [user]="this.player" *ngIf="player.location=='dfight'"></app-cave>
+  <app-character #character [user]="this.player" *ngIf="player.location=='character'"></app-character>
+
+ 
 </div>

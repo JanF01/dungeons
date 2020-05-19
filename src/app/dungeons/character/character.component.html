@@ -1,0 +1,30 @@
+<mat-grid-list cols="1">
+    <mat-grid-tile>
+<div class="col" (click)="backHome()"><span>Home</span>
+    <div class="add"><img src="assets/home.png" draggable="false"></div>
+</div>
+</mat-grid-tile>
+</mat-grid-list>
+<section>
+<div class="user">
+    <img class="weapon item" src="{{player.weapon}}" draggable="false" cdkDrag [cdkDragFreeDragPosition]="weaponPos" (cdkDragEnded)="weaponDrop($event)" (cdkDragStarted)="startDrag()">
+    <img class="armor item" src="{{player.armor}}" draggable="false" cdkDrag [cdkDragFreeDragPosition]="armorPos" (cdkDragEnded)="armorDrop($event)" (cdkDragStarted)="startDrag()">
+    <img class="necklace item" src="{{player.necklace}}" draggable="false" cdkDrag [cdkDragFreeDragPosition]="necklacePos" (cdkDragEnded)="necklaceDrop($event)" (cdkDragStarted)="startDrag()">
+    <img class="ring item" src="{{player.ring}}" draggable="false" cdkDrag [cdkDragFreeDragPosition]="ringPos" (cdkDragEnded)="ringDrop($event)" (cdkDragStarted)="startDrag()">
+    <img src="{{this.player.graphic}}" draggable="false">
+    <span>{{player.name}}</span>
+    <div class="exp">
+        <div class="expBar" [ngStyle]="{background: 'linear-gradient(to right, rgb(86, 173, 3) '+ (((player.exp)/(player.level*(player.level*player.level*0.4)*1920))*100-2) +'% , #03EF6900 '+ ((player.exp)/(player.level*(player.level*player.level*0.4)*1920))*100 +'% )'}">
+            <span>LVL {{player.level}}</span><span>{{player.exp}} / {{player.level*(player.level*player.level*0.4)*1920}}</span>
+        </div>    
+        
+    </div>
+</div>
+<div class="stats">
+    <div class="gridTile">Strength: <span>{{player.strength}}</span> <div class="plus">+</div></div>
+    <div class="gridTile">Health: <span>{{player.health}} / {{player.hitPoints}}</span><div class="plus">+</div></div>
+    <div class="gridTile">Speed: <span>{{player.speed}}</span><div class="plus">+</div></div>
+    <div class="gridTile">Stamina: <span>{{player.stamina}}</span><div class="plus">+</div></div>
+    <div class="gridTile">Luck: <span>{{player.luck}}</span><div class="plus">+</div></div>
+</div>
+</section>

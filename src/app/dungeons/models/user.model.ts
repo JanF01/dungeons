@@ -2,7 +2,7 @@
 export class User {
    name: string;
    level: number;
-   experience: number;
+   exp: number;
    gold: number;
    strength: number;
    damage: number;
@@ -10,11 +10,17 @@ export class User {
    health: number;
    stamina: number;
    staminaLeft: number;
+   speed: number;
    luck: number;
    location: string;
    dungeon: number;
    subdungeon: number;
-
+   goldInSack: number;
+   graphic: string;
+   weapon: string;
+   armor: string;
+   necklace: string;
+   ring: string;
 
 
 }

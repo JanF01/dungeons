@@ -1,11 +1,9 @@
-
 @mixin radius($r){
     border-radius:$r;
     -webkit-border-radius:$r;
     -moz-border-radius:$r;
     -ms-border-radius:$r;
 }
-
 
 .container{
     z-index:10;
@@ -92,42 +90,6 @@
 }
 }
 
-mat-grid-list{
-    color:white;
-    font-family:'Abel',sans-serif; 
-    font-size:2em;
-
-    mat-grid-tile{
-        .up{
-            margin-bottom: 5em;
-        }
-        .down{
-            margin-bottom: -6em;
-        }
-
-        .add{
-            margin-top:1em;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            font-size:0.9em;
-            img{
-                width:1.7em;
-                margin-top:0;
-                transition:1.2s all;
-            }
-        }
-        &:hover{
-           cursor:pointer;
-            color:rgba(0,0,0,0);
-            .col > .add > img{
-                width:4em;
-                margin-top:-5em;
-            }
-        }
-
-    }
-}
 
 section{
     min-width:100%;
@@ -137,84 +99,34 @@ section{
   }
   main{
       img{
-          width:2.5em;
-          position:absolute;
+        position:absolute;
+
+          &:nth-child(1){
+          width:5.5em;
           top:75%;
-          left:calc(20em + 9%);
+          left:calc(20em + 7%);
+          }
+          &:nth-child(2){
+            width:5em;
+            top:63%;
+            left:calc(20em + 17%);
+         }
+         &:nth-child(3){
+            width:6em;
+            top:71%;
+            left:calc(20em + 24%);
+         }
+         &:nth-child(4){
+            width:7em;
+            top:64%;
+            left:calc(20em + 33%);
+         }
           cursor:pointer;
           transition:0.2s all;
           &:hover{
-              transform:scale(0.8);
+              transform:scale(0.9);
           }
       }
 
   }
-}
-.dfight{
-    display:flex;
-    width:100%;
-  .tile{
-      min-width:50%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      min-height:100vh;
-    img{
-        position:absolute;
-        width:10%;
-        left:30%;
-        opacity:1;
-    }
-    .sword{
-        width:4%;
-        transform:rotate(0deg);
-        opacity:0;
-    }
-    .fireball{
-        width:6.5%;
-        transform:rotate(90deg);
-        opacity:0;
-        z-index:-1;
-    }
-    .enemy{
-        left:70%;
-        transition:all 0.2s;
-        filter:saturate(0%);
-    }
-    .hp,.ep{
-        position:absolute;
-        top:65%;
-        min-width:18%;
-        min-height:3em;
-        left:15%;
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        .playerHealth,.enemyHealth{
-            border:rgb(202, 24, 11) solid 0.13em;
-            width:100%;
-            min-height:1.8em;
-            @include radius(1em);
-        }
-  }
-  .ep{
-    left:66%;
-  }
-}
-}
-
-.damage,.playerDamage{
-    width:10%;
-    text-align:center;
-    display:block;
-    position:absolute;
-    color:#da0a0a;
-    left:69.5%;
-    font-size:2em;
-    font-family:'Abel',sans-serif; 
-    font-weight:bold;
-    z-index:-1;
-}
-.playerDamage{
-    left:20%;
 }
