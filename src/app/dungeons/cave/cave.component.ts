@@ -171,6 +171,7 @@ export class CaveComponent {
 
   
   showCoins(bag: MoneyBag){
+
      for(let i=0;i<bag.coins;i++){
       this.coins.push([1,'assets/game_coin.png',Math.random()*12-6+bag.offset,"static"]);
       let index = this.coins.length-1;
@@ -183,6 +184,7 @@ export class CaveComponent {
 
       },Math.random()*500+500);
      }
+
      let index = this.enemy.loot.indexOf(bag);  
      this.enemy.loot.splice(index,1);
      if(this.enemy.loot.length<1){
@@ -190,6 +192,8 @@ export class CaveComponent {
           this.fighting=false;
        },2200);
      }
+
+     this.audio.openSmallMoneyBag();
   }
 
 }
