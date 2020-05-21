@@ -7,6 +7,15 @@ export class Enemy {
     damage: number;
     level: number;
     loot: Array<any>;
+
+    constructor(hp,hpleft,name,dmg,lvl,loot){
+         this.hitPoints = hp;
+         this.health = hpleft;
+         this.name = name;
+         this.damage = dmg;
+         this.level = lvl;
+         this.loot = loot;
+    }
     
  
  }

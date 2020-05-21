@@ -1,9 +1,11 @@
 
 .container{
+   z-index:-12;
     background:#222244;
     animation:bg 5s infinite;
     mat-grid-tile{
         background:radial-gradient(circle,rgba(46, 13, 77, 0.945),rgba(34, 2, 58, 0.678));
+        z-index:-11;
         font-size:1.8em;
         letter-spacing:0.05em;
         color:white;

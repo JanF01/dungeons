@@ -1,3 +1,6 @@
+<div class="under">
+
+</div>
 <div class="container">
 
   <header *ngIf="!inGame">
@@ -41,7 +44,7 @@
       </div>
     </mat-grid-tile>
     <mat-grid-tile></mat-grid-tile>
-    <mat-grid-tile (click)="this.player.location='dungeons'">
+    <mat-grid-tile (click)="goToDungeon()">
       <div class="col"><span>Dungeons</span>
         <div class="add"><img src="assets/dungeon.png" draggable="false"></div>
       </div>
@@ -66,10 +69,12 @@
       </mat-grid-list>
     </nav>
     <main>
-      <img id="1" src="assets/dungeon1.png" (click)="goCave(1)">
-      <img id="2" src="assets/dungeon2.png" (click)="goCave(2)">
-      <img id="1" src="assets/dungeon3.png" (click)="goCave(3)">
-      <img id="2" src="assets/dungeon4.png" (click)="goCave(4)">
+      <div *ngFor="let dungeon of this.getDungeons(); let i = index" [ngClass]="{applyFilter: !dungeon.open}">
+        <img id="{{i+1}}" src="{{dungeon.img}}" (click)="goCave(i+1)">
+        <div class="bar" [ngStyle]="{background: 'linear-gradient(to right, rgb(9, 120, 163) '+ ((dungeon.completed/14)*100-1) +'%, rgba(9, 120, 163,0) '+ (dungeon.completed/14)*100 +'% )'}">
+          {{dungeon.completed}}/14
+        </div>
+      </div>
     </main>
   </section>
 

@@ -6,6 +6,7 @@ import { PlayerAnimations } from '../animations/player.animation';
 import { EnemyAnimations } from '../animations/enemy.animation';
 import { AdditionAnimations } from '../animations/additions.animation';
 import { AudioService } from '../../audio.service';
+import { DungeonsService } from '../../dungeons.service';
 
 @Component({
   selector: 'app-cave',
@@ -41,17 +42,11 @@ export class CaveComponent {
   playerDamage: Array<any> = [];
   enemyHit: boolean = false;
   showLoot: boolean = false;
-  enemy: Enemy = {
-      hitPoints: 4561,
-      health: 4561,
-      name: "Glimmer",
-      damage: 112,
-      level: 1,
-      loot: [new MoneyBag(6,"assets/smallMoneySack.png",Math.random()*4),new MoneyBag(3,"assets/smallMoneySack.png",Math.random()*20-10)]
-    };
+  enemy: Enemy;
 
 
-  constructor(private audio: AudioService){
+  constructor(private audio: AudioService, private dungeons: DungeonsService){
+    this.enemy = this.dungeons.dungeons[0].monsters[0]; 
   }
 
 
@@ -65,6 +60,8 @@ export class CaveComponent {
 
   tour(){
 
+
+
     this.playerTurn();
 
     let r = Math.random()*100;
@@ -76,7 +73,7 @@ export class CaveComponent {
       else{
         this.enemyState = "die";
         this.showLoot = true;
-        this.audio.deadIs();
+        this.audio.enemyDead();
       }
     },1111*this.speed);
   }
@@ -91,12 +88,13 @@ export class CaveComponent {
 
   fight(lvl){
 
+
     if(lvl<=this.player.subdungeon){
+
       this.enemy.health = this.enemy.hitPoints;
       this.showLoot=false;
       this.enemyState='back';
       this.coins=[];
-      this.enemy.loot = [new MoneyBag(6,"assets/smallMoneySack.png",Math.random()*4),new MoneyBag(3,"assets/smallMoneySack.png",Math.random()*20-10)];
       this.tour();
       this.fighting = true;
     }
@@ -161,7 +159,11 @@ export class CaveComponent {
       this.playerDamage[this.playerDamage.length-1][1] = true;
       },10*this.speed);
     setTimeout(()=>{ 
+
+      if(this.checkIfAlive()){
       this.tour();
+      }
+
     },200*this.speed);
     },860*this.speed);
     setTimeout(()=>{
@@ -169,6 +171,21 @@ export class CaveComponent {
     },2300*this.speed);
   }
 
+
+
+  checkIfAlive(){
+    if(this.player.health>0){
+
+    return true;
+
+    }else{
+
+      this.audio.playerIsDead();
+      return false
+
+    }
+
+  }
   
   showCoins(bag: MoneyBag){
 
@@ -187,9 +204,12 @@ export class CaveComponent {
 
      let index = this.enemy.loot.indexOf(bag);  
      this.enemy.loot.splice(index,1);
+
      if(this.enemy.loot.length<1){
        setTimeout(()=>{
           this.fighting=false;
+          this.player.subdungeon++;
+          this.enemy = this.dungeons.dungeons[this.player.dungeon-1].monsters[this.player.subdungeon-1];
        },2200);
      }
 

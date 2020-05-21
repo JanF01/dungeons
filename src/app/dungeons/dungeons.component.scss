@@ -5,6 +5,33 @@
     -ms-border-radius:$r;
 }
 
+@keyframes grad{
+0%{
+    background:black;
+ }
+25%{
+    background:rgb(108, 4, 112);
+}
+50%{
+    background:black;
+}
+75%{
+    background:rgb(4, 4, 179);
+}
+100%{
+    background:black; 
+ }
+}
+
+.under{
+    position:absolute;
+    top:0;
+    left:0;
+    min-width:100%;
+    min-height:100vh;
+    z-index:1;
+    animation:grad 3.91s infinite;
+}
 .container{
     z-index:10;
     position:absolute;
@@ -12,7 +39,7 @@
     left:0;
     min-width:100%;
     min-height:100vh;
-    background:radial-gradient(circle,#131320,#000);
+    background:radial-gradient(circle,#131320,rgba(0, 0, 0, 0.753));
     header{
     min-width:100%;
     margin-top:15%;
@@ -98,35 +125,135 @@ section{
       width:20em;
   }
   main{
-      img{
+      div{
         position:absolute;
 
-          &:nth-child(1){
-          width:5.5em;
-          top:75%;
-          left:calc(20em + 7%);
-          }
-          &:nth-child(2){
-            width:5em;
-            top:63%;
-            left:calc(20em + 17%);
+        &:nth-child(1){
+            width:6.5em;
+            top:75%;
+            left:calc(20em + 7%);
+            }
+            &:nth-child(2){
+              width:6.2em;
+              top:63%;
+              left:calc(20em + 17%);
+           }
+           &:nth-child(3){
+              width:7em;
+              top:72.5%;
+              left:calc(20em + 25.4%);
+           }
+           &:nth-child(4){
+              width:7.5em;
+              top:61.1%;
+              left:calc(20em + 33.3%);
+           }
+           &:nth-child(5){
+              width:6.5em;
+              top:45.5%;
+              left:calc(20em + 26.9%);
+              filter: hue-rotate(170deg);
+              img{
+              filter: brightness(70%);
+              }
+           }
+           &:nth-child(6){
+            width:6.5em;
+            top:30%;
+            left:calc(20em + 19.6%);
+            filter:hue-rotate(100deg);
+            img{
+            filter: brightness(70%);
+            }
          }
-         &:nth-child(3){
-            width:6em;
-            top:71%;
-            left:calc(20em + 24%);
+         &:nth-child(7){
+            width:6.5em;
+            top:21%;
+            left:calc(20em + 28.5%);
+            filter:hue-rotate(310deg);
+            img{
+            filter: brightness(70%);
+            }
          }
-         &:nth-child(4){
+         &:nth-child(8){
             width:7em;
-            top:64%;
-            left:calc(20em + 33%);
+            top:12.5%;
+            left:calc(20em + 37.8%);
+            filter:hue-rotate(160deg);
+            img{
+            filter:brightness(70%);
+            }
          }
-          cursor:pointer;
-          transition:0.2s all;
-          &:hover{
-              transform:scale(0.9);
+
+         &:nth-child(9){
+            width:7em;
+            top:32%;
+            left:calc(20em + 43.8%);
+            filter:hue-rotate(110deg);
+            img{
+            filter: brightness(70%);
+            }
+         }
+         &:nth-child(10){
+            width:6.9em;
+            top:43%;
+            left:calc(20em + 53.8%);
+            filter:hue-rotate(30deg);
+            img{
+            filter:brightness(70%);
+           // filter:grayscale(100%);
+            }
+         }
+         &:nth-child(11){
+            width:7.1em;
+            top:30%;
+            left:calc(20em + 64.8%);
+
+            img{
+            filter: brightness(70%);
+            }
+         }
+         &:nth-child(12){
+            width:9.9em;
+            top:13%;
+            left:calc(20em + 73.8%);
+            filter: hue-rotate(310deg);
+            img{
+            filter: brightness(70%);
+            }
+         }
+
+
+         .bar{
+            width:100%;
+            min-height:0.9em;
+            @include radius(0.25em);
+            background:rgb(9, 120, 163);
+            border:0.13em rgb(9, 119, 163) solid;
+            left:0;
+            top:105%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:white;
+            font-family:"Abel",sans-serif;
+        }
+
+        img{        
+              width:100%;
+              cursor:pointer;
+              transition:0.2s all;
+              &:hover{
+                  transform:scale(0.9);
+              }
           }
       }
 
   }
+}
+
+
+
+.applyFilter{
+    filter:grayscale(100%) !important;
 }

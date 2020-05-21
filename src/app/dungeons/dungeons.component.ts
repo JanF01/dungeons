@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { User } from "./models/user.model";
 import { CaveComponent } from './cave/cave.component';
 import { AudioService } from '../audio.service';
+import { DungeonsService } from '../dungeons.service';
 
 @Component({
   selector: 'app-dungeons',
@@ -20,8 +21,35 @@ export class DungeonsComponent implements OnInit {
     this.start();
   }
 
-  constructor(private audio: AudioService){
+  constructor(private audio: AudioService, private dungeons: DungeonsService){
+    this.player = {
+      name: this.name,
+      level: 1,
+      exp: 590,
+      gold: 0,
+      strength: 5,
+      damage: 1251,
+      hitPoints: 5189,
+      health: 5189,
+      stamina: 20,
+      staminaLeft: 20,
+      speed:23,
+      luck: 0,
+      location: "home",
+      dungeon: 1,
+      subdungeon: 1,
+      goldInSack: 0,
+      graphic: "assets/knight1.png",
+      weapon: "assets/sword1.png",
+      armor: "assets/armor2.png",
+      necklace: "assets/necklace.png",
+      ring: "assets/ring2.png",
+    }
+  }
 
+
+  getDungeons(){
+    return this.dungeons.dungeons;
   }
 
   
@@ -45,29 +73,6 @@ export class DungeonsComponent implements OnInit {
     if(this.check()){
       this.audio.playBackgroundOne();
       this.inGame = true;
-      this.player = {
-        name: this.name,
-        level: 1,
-        exp: 590,
-        gold: 0,
-        strength: 5,
-        damage: 1251,
-        hitPoints: 5189,
-        health: 5189,
-        stamina: 20,
-        staminaLeft: 20,
-        speed:23,
-        luck: 0,
-        location: "home",
-        dungeon: 1,
-        subdungeon: 1,
-        goldInSack: 0,
-        graphic: "assets/knight1.png",
-        weapon: "assets/sword1.png",
-        armor: "assets/armor2.png",
-        necklace: "assets/necklace.png",
-        ring: "assets/ring2.png",
-      }
     }
   }
 
@@ -84,7 +89,15 @@ export class DungeonsComponent implements OnInit {
      this.player.location="dfight";
      setTimeout(()=>{
      this.cave.fight(lvl);
-     },10);
+     },150);
+     this.audio.stopMusicBck();
+     this.audio.playDungeonsMusic();
+  }
+
+  goToDungeon(){
+      this.audio.stopMusicBck();
+      this.audio.playDungeonsMusic();
+    this.player.location="dungeons";
   }
 
 
