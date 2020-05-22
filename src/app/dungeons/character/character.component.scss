@@ -20,17 +20,6 @@
               user-select: none;               
   }
 
-@keyframes bg{
-    0%{
-        background:radial-gradient(circle,#ffffff02,#741cd803 40%,#0fe7dc17 65%, #e7d20f00 75%);
-    }
-    50%{
-        background:radial-gradient(circle,#ffffff02,#741cd803 40%,#36cec61e 65%, #e7d20f00 75%);
-    }
-    100%{
-        background:radial-gradient(circle,#ffffff02,#741cd803 40%,#0fe7dc17 65%, #e7d20f00 75%);
-    }
-}
 
 section{
     @include noselect();
@@ -42,8 +31,9 @@ section{
 
     .assets{
         position:absolute;
-        left:4.5em;
+        left:0em;
         top:30%;
+        width:13.5em;
         color:white;
         @include flex();
         font-size:2em;
@@ -53,8 +43,6 @@ section{
     }
     .user{
         position:relative;
-        background:radial-gradient(circle,#ffffff02,#741cd803 40%,#0fe7dc17 65%, #e7d20f00 75%);
-        animation:bg 0.7s infinite;
         width:17.5em;
         min-height:18em;
         @include flex();

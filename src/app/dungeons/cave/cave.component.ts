@@ -7,6 +7,7 @@ import { EnemyAnimations } from '../animations/enemy.animation';
 import { AdditionAnimations } from '../animations/additions.animation';
 import { AudioService } from '../../audio.service';
 import { DungeonsService } from '../../dungeons.service';
+import { ImagesService } from '../../images.service';
 
 @Component({
   selector: 'app-cave',
@@ -28,7 +29,7 @@ export class CaveComponent {
 
   @Input('user') player: User;
 
-  speed: number = 0.2;
+  speed: number = 0.1;
 
   fighting: boolean = true; 
 
@@ -47,7 +48,7 @@ export class CaveComponent {
   playerIsDead: boolean =  false;
 
 
-  constructor(private audio: AudioService, private dungeons: DungeonsService){
+  constructor(private audio: AudioService, private dungeons: DungeonsService, private images:ImagesService){
     this.enemy = this.dungeons.dungeons[0].monsters[0]; 
   }
 
@@ -57,6 +58,16 @@ export class CaveComponent {
     this.player.location='home'; 
     this.player.gold+=this.player.goldInSack; 
     this.player.goldInSack=0
+    this.audio.stopDungeonMusic();
+    this.audio.playBackgroundOne();
+   }
+   goBackToMap(){
+    this.player.location='dungeons';
+    this.audio.dungeonsBck.volume=0.09;
+    setTimeout(()=>{
+      document.getElementById('dungeons').style.opacity="1";
+      document.getElementById('dungeons').appendChild(this.images.map);
+       },60);
    }
 
    enemyDead(){
@@ -64,7 +75,9 @@ export class CaveComponent {
     this.showLoot = true;
     this.audio.enemyDead();
 
+    if(this.player.subdungeon>this.dungeons.dungeons[this.player.dungeon-1].completed){
     this.dungeons.dungeons[this.player.dungeon-1].completed++;
+    }
    }
 
 
@@ -73,7 +86,7 @@ export class CaveComponent {
 
   this.playerTurn();
 
-   if(Math.random()*100<=92){
+   if(Math.random()*100<=(100-this.player.speed*2)){
     setTimeout(()=>{ (this.enemy.health>0) ? this.enemyTurn() : this.enemyDead(); }, 1111*this.speed);
   }
   else{
@@ -83,6 +96,10 @@ export class CaveComponent {
 }
 
 nextFight(lvl){
+  
+    document.getElementById('d').style.opacity="1";
+    document.getElementById('d').appendChild(this.images.map);
+
 
   this.enemy = this.dungeons.dungeons[lvl-1].monsters[this.player.subdungeon-1]; 
 
@@ -100,6 +117,7 @@ nextFight(lvl){
 
 
     if(lvl<=this.player.subdungeon){
+      this.audio.dungeonsBck.volume=0.03;
       this.nextFight(lvl);
       this.tour();
     }else{
@@ -211,11 +229,12 @@ nextFight(lvl){
     this.audio.playerIsDead();
     this.playerIsDead = true;
     this.player.goldInSack=0;
-    this.player.subdungeon=0;
+    this.player.subdungeon=1;
 
     setTimeout(()=>{
     this.backHome();
     this.player.health = this.player.hitPoints;
+    this.dungeons.reFillDungeon(this.player.dungeon);
     },1500);
 
     return false;
@@ -240,7 +259,7 @@ nextFight(lvl){
     this.playerDamage.push([this.enemy.damage,false]);
     setTimeout(()=>{
 
-      this.playerDamage[this.playerDamage.length-1][1] = true;
+      this.playerDamage[this.playerDamage.length-1][1] = true;3
       },10*this.speed);
 
       setTimeout(()=>{

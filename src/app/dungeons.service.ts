@@ -14,18 +14,7 @@ export class DungeonsService {
   constructor() { 
 
     this.dungeons.push(
-      new Dungeon("assets/dungeon1.png",[ 
-        new Enemy("assets/enemy1.png",this.getHitPoints(1,1),"Glimmerini",this.getDamage(1,1),1,this.createLoot(1,1)),
-        new Enemy("assets/enemy1.png",this.getHitPoints(1,2),"Glimmerini",this.getDamage(1,2),1,this.createLoot(1,2)),
-     new Enemy("assets/enemy1.png",this.getHitPoints(1,3),"Glimmerinio",this.getDamage(1,3),2,this.createLoot(1,3)),
-    new Enemy("assets/enemy1.png",this.getHitPoints(1,4),"Glimmerinio",this.getDamage(1,4),3,this.createLoot(1,4)),
-    new Enemy("assets/enemy1.png",this.getHitPoints(1,5),"Glimmer",this.getDamage(1,5),3,this.createLoot(1,5)),
-     new Enemy("assets/enemy1.png",this.getHitPoints(1,6),"Glimmer",this.getDamage(1,6),4,this.createLoot(1,6)),
-    new Enemy("assets/enemy1.png",this.getHitPoints(1,7),"Glimmer",this.getDamage(1,7),4,this.createLoot(1,7)),
-    new Enemy("assets/enemy1.png",this.getHitPoints(1,8),"Glimmer v2",this.getDamage(1,8),4,this.createLoot(1,8)),
-    new Enemy("assets/enemy1.png",this.getHitPoints(1,9),"Glimmer Alpha",this.getDamage(1,9),5,this.createLoot(1,9)),
-    new Enemy("assets/enemy1.png",this.getHitPoints(1,10),"Glimmer Alpha",this.getDamage(1,10),5,this.createLoot(1,10))
-    ],0,true));
+      new Dungeon("assets/dungeon1.png",this.fillDungeon(1),0,true));
     this.dungeons.push(
       new Dungeon("assets/dungeon2.png",[ 
         new Enemy("assets/enemy1.png",2193,"Glimmer",293,1,[
@@ -130,7 +119,7 @@ export class DungeonsService {
          }
          
 
-         loot.push(new MoneyBag(coins,src,Math.random()*30-15,src));
+         loot.push(new MoneyBag(coins,src,Math.random()*30-15,size));
      }
 
      return loot;
@@ -138,7 +127,28 @@ export class DungeonsService {
  }
 
 
-  fillDungeon(){
-
+  fillDungeon(dungeon){
+    return [
+    new Enemy("assets/enemy1.png",this.getHitPoints(1,1),"Glimmerini Aksmano",this.getDamage(1,1),1,this.createLoot(1,1)),
+    new Enemy("assets/enemy1.png",this.getHitPoints(1,2),"Glimmerini",this.getDamage(1,2),1,this.createLoot(1,2)),
+    new Enemy("assets/enemy1.png",this.getHitPoints(1,3),"Glimmerinio",this.getDamage(1,3),2,this.createLoot(1,3)),
+    new Enemy("assets/enemy1.png",this.getHitPoints(1,4),"Glimmerinio",this.getDamage(1,4),3,this.createLoot(1,4)),
+    new Enemy("assets/zubrowka.png",this.getHitPoints(1,5),"Wóda",this.getDamage(1,5),3,this.createLoot(1,5)),
+    new Enemy("assets/malpka.png",this.getHitPoints(1,6),"Małpka",this.getDamage(1,6),4,this.createLoot(1,6)),
+    new Enemy("assets/enemy1.png",this.getHitPoints(1,7),"Glimmer Pasja Programowanie",this.getDamage(1,7),4,this.createLoot(1,7)),
+    new Enemy("assets/enemy1.png",this.getHitPoints(1,8),"Glimmer v2",this.getDamage(1,8),4,this.createLoot(1,8)),
+    new Enemy("assets/enemy1.png",this.getHitPoints(1,9),"Glimmer Alpha",this.getDamage(1,9),5,this.createLoot(1,9)),
+    new Enemy("assets/enemy1.png",this.getHitPoints(1,10),"Glimmer Apha",this.getDamage(1,10),5,this.createLoot(1,10)),
+    new Enemy("assets/enemy1.png",this.getHitPoints(1,11),"Glimmer Alpha+",this.getDamage(1,11),6,this.createLoot(1,11)),
+    new Enemy("assets/enemy1.png",this.getHitPoints(1,12),"Glimmer Alpha++",this.getDamage(1,12),6,this.createLoot(1,12)),
+    new Enemy("assets/jerczak.jpg",this.getHitPoints(1,13),"Oktikk",this.getDamage(1,13),7,this.createLoot(1,13))
+    ]
   }
+
+
+  reFillDungeon(dungeon){
+
+    this.dungeons[dungeon-1].monsters = this.fillDungeon(dungeon);
+  }
+
 }

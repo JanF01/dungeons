@@ -1,6 +1,6 @@
 
 
-<section class="dfight">
+<section class="dfight" id="d">
 
 <div class="tile">
 
@@ -26,7 +26,7 @@
 
   <div class="tile" *ngIf="fighting">
 
-    <img class="enemy" src="assets/enemy1.png" @showUp [@enemyAnimation]="{value: enemyState}" draggable="false">
+    <img class="enemy" src="{{enemy.graphic}}" @showUp [@enemyAnimation]="{value: enemyState}" draggable="false">
     <img src="assets/fireball.png" class="fireball" @showUp [@enemyAttack]="{value: enemyState}" draggable="false">
 
     <div *ngFor="let damage of enemyDamage">
@@ -42,7 +42,7 @@
     </div>
 
     <div class="loot" *ngIf="showLoot">
-      <img *ngFor="let item of enemy.loot" [src]="item.graphic" class="item.class" [ngStyle]="{left: (70+item.offset)+'%' }" (click)="showCoins(item)" draggable="false">
+      <img *ngFor="let item of enemy.loot" [src]="item.graphic" class="{{item.class}}" [ngStyle]="{left: (70+item.offset)+'%' }" (click)="showCoins(item)" draggable="false">
       <img *ngFor="let coin of coins" [src]="coin[1]" class="coin" [ngStyle]="{left: (70+coin[2])+'%',top: 55+coin[2]-7.5+'%' }" @showUp [@grabGold]="{value: coin[3]}" draggable="false">
     </div>
 
@@ -52,7 +52,7 @@
   <div *ngIf="!fighting" style="width:50%;min-height:100vh">
     <mat-grid-list cols="2" rowHeight="1:1">
 
-      <mat-grid-tile (click)="player.location='dungeons'">
+      <mat-grid-tile (click)="goBackToMap()">
         <div class="col"><span>Map</span>
           <div class="add"><img src="assets/map.png" draggable="false"></div>
         </div>

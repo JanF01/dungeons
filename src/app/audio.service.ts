@@ -48,12 +48,13 @@ export class AudioService {
 
 
     this.dead = new Audio();
+    this.dead.volume=0.03*this.globalVolume;
     this.dead.src="assets/win2.wav";
-    this.dead.volume=0.05*this.globalVolume;;
+
 
     this.playerDead= new Audio();
+    this.playerDead.volume=0.2*this.globalVolume;
     this.playerDead.src="assets/playerDead.wav";
-    this.playerDead.volume=0.2*this.globalVolume;;
 
     
     this.smallMoneyBag = new Audio();
@@ -63,7 +64,9 @@ export class AudioService {
   }
 
   playBackgroundOne(){
+    setTimeout(()=>{
     this.bckMusicOne.play();
+    },600);
   }
   stopMusicBck(){
     this.bckMusicOne.pause();
@@ -91,12 +94,17 @@ export class AudioService {
 
   openSmallMoneyBag(){
     const newAudio = this.smallMoneyBag.cloneNode();
-    newAudio.volume = 0.06;
+    newAudio.volume = 0.05;
     newAudio.play()
   }
 
   playDungeonsMusic(){
+    setTimeout(()=>{
     this.dungeonsBck.play();
+    },600);
+  }
+  stopDungeonMusic(){
+    this.dungeonsBck.pause();
   }
 
 

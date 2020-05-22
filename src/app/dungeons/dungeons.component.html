@@ -4,7 +4,7 @@
 <div class="container">
 
   <div class="assets" *ngIf="this.player.location=='home'">
-  <img src="assets/coins.png" draggable="false">{{player.gold}}
+
   </div>
 
   <header *ngIf="!inGame">
@@ -25,12 +25,12 @@
         <div class="add"><img src="assets/backpack.png" draggable="false"></div>
       </div>
     </mat-grid-tile>
-    <mat-grid-tile (click)="this.player.location='character'">
+    <mat-grid-tile (click)="goToCharacter()">
       <div class="col"><span>Character</span>
         <div class="add"><img src="assets/fighter.png" draggable="false"></div>
       </div>
     </mat-grid-tile>
-    <mat-grid-tile>
+    <mat-grid-tile (click)="goToShop()">
       <div class="col"><span>Shop</span>
         <div class="add"><img src="assets/shop.png" draggable="false"></div>
       </div>
@@ -57,7 +57,7 @@
 
 
 
-  <section class="dungeons" *ngIf="player.location=='dungeons'">
+  <section class="dungeons" id="dungeons" *ngIf="player.location=='dungeons'">
     <nav>
       <mat-grid-list cols="1" rowHeight="1:1">
         <mat-grid-tile (click)="backHome()">
@@ -86,6 +86,7 @@
 
   <app-cave #cave [user]="this.player" *ngIf="player.location=='dfight'"></app-cave>
   <app-character #character [user]="this.player" *ngIf="player.location=='character'"></app-character>
+  <app-shop #shop [user]="this.player" *ngIf="player.location=='shop'"></app-shop>
 
  
 </div>

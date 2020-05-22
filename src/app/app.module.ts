@@ -13,6 +13,8 @@ import { CaveComponent } from './dungeons/cave/cave.component';
 import { CharacterComponent } from './dungeons/character/character.component';
 
 import { AudioService } from './audio.service';
+import { ShopComponent } from './dungeons/shop/shop.component';
+import { ImagesService } from './images.service';
 
 
 @NgModule({
@@ -21,7 +23,8 @@ import { AudioService } from './audio.service';
     CoinsComponent,
     DungeonsComponent,
     CaveComponent,
-    CharacterComponent
+    CharacterComponent,
+    ShopComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +34,7 @@ import { AudioService } from './audio.service';
     MatGridListModule,
     FormsModule
   ],
-  providers: [AudioService],
+  providers: [AudioService, ImagesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

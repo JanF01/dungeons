@@ -3,6 +3,8 @@ import { User } from "./models/user.model";
 import { CaveComponent } from './cave/cave.component';
 import { AudioService } from '../audio.service';
 import { DungeonsService } from '../dungeons.service';
+import { ShopComponent } from './shop/shop.component';
+import { ImagesService } from '../images.service';
 
 @Component({
   selector: 'app-dungeons',
@@ -14,14 +16,16 @@ export class DungeonsComponent implements OnInit {
   name: string = "Janke";
   inGame: boolean = true;
   @ViewChild(CaveComponent) cave: CaveComponent;
+  @ViewChild(ShopComponent) shop: ShopComponent;
 
   player: User = new User();
+
     
   ngOnInit(){
     this.start();
   }
 
-  constructor(private audio: AudioService, private dungeons: DungeonsService){
+  constructor(private audio: AudioService, private dungeons: DungeonsService, private images: ImagesService){
     this.player = {
       name: this.name,
       level: 1,
@@ -34,7 +38,7 @@ export class DungeonsComponent implements OnInit {
       health: 812,
       stamina: 20,
       staminaLeft: 20,
-      speed:23,
+      speed:2,
       luck: 0,
       location: "home",
       dungeon: 1,
@@ -45,10 +49,22 @@ export class DungeonsComponent implements OnInit {
       armor: "assets/armor2.png",
       necklace: "assets/necklace.png",
       ring: "assets/ring2.png",
+      items: []
     }
+
   }
 
 
+  goToShop(){
+   this.player.location = 'shop';
+   setTimeout(()=>{
+   this.shop.showPotions();
+   },50);
+  }
+ 
+  goToCharacter(){
+   this.player.location = "character";
+  }
   getDungeons(){
     return this.dungeons.dungeons;
   }
@@ -80,7 +96,15 @@ export class DungeonsComponent implements OnInit {
   backHome(){
     this.player.location='home'; 
     this.player.gold+=this.player.goldInSack; 
-    this.player.goldInSack=0
+    this.player.goldInSack=0;
+    this.audio.stopDungeonMusic();
+    this.audio.playBackgroundOne();
+    setTimeout(()=>{
+    let assets = document.getElementsByClassName('assets')[0];
+    assets.innerHTML="";
+    assets.appendChild(this.images.gold);
+    assets.append(this.player.gold.toString());
+    },40);
    }
 
 
@@ -98,7 +122,11 @@ export class DungeonsComponent implements OnInit {
   goToDungeon(){
       this.audio.stopMusicBck();
       this.audio.playDungeonsMusic();
-    this.player.location="dungeons";
+      this.player.location="dungeons";
+      setTimeout(()=>{
+     document.getElementById('dungeons').style.opacity="1";
+     document.getElementById('dungeons').appendChild(this.images.map);
+      },60);
   }
 
 

@@ -22,6 +22,7 @@ export class User {
    armor: string;
    necklace: string;
    ring: string;
+   items: Array<any>;
 
 
 }

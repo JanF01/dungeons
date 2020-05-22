@@ -49,7 +49,7 @@ export class CharacterComponent implements OnInit {
 
 
     this.player.gold-=this.speedCost;
-    this.speedCost = Math.round((this.player.basePoints[2]+5)*((this.player.basePoints[2]+1)/2)*1.04);
+    this.speedCost = Math.round((this.player.basePoints[2]+5)*((this.player.basePoints[2]+1)/2)*1.2);
     }
   }
   addHealth(){
@@ -90,7 +90,7 @@ export class CharacterComponent implements OnInit {
  
     this.staminaCost = Math.round((this.player.basePoints[1]+5)*((this.player.basePoints[1]+1)/2)*1.04);
 
-    this.speedCost = Math.round((this.player.basePoints[2]+5)*((this.player.basePoints[2]+1)/2)*1.04);
+    this.speedCost = Math.round((this.player.basePoints[2]+5)*((this.player.basePoints[2]+1)/2)*1.10);
 
     this.hpCost = Math.round((this.player.basePoints[3]+5)*((this.player.basePoints[3]+1)/2)*1.04);
 
