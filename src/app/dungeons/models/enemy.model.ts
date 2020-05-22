@@ -1,6 +1,7 @@
 
 
 export class Enemy {
+    graphic: string ;
     hitPoints: number;
     health: number;
     name: string;
@@ -8,9 +9,10 @@ export class Enemy {
     level: number;
     loot: Array<any>;
 
-    constructor(hp,hpleft,name,dmg,lvl,loot){
+    constructor(src,hp,name,dmg,lvl,loot){
+         this.graphic = src;
          this.hitPoints = hp;
-         this.health = hpleft;
+         this.health = hp;
          this.name = name;
          this.damage = dmg;
          this.level = lvl;

@@ -26,7 +26,7 @@ export class DungeonsComponent implements OnInit {
       name: this.name,
       level: 1,
       exp: 590,
-      gold: 1287,
+      gold: 0,
       basePoints: [0,0,0,0,0],
       strength: 5,
       damage: 15,

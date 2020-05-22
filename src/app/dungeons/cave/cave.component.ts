@@ -44,6 +44,8 @@ export class CaveComponent {
   showLoot: boolean = false;
   enemy: Enemy;
 
+  playerIsDead: boolean =  false;
+
 
   constructor(private audio: AudioService, private dungeons: DungeonsService){
     this.enemy = this.dungeons.dungeons[0].monsters[0]; 
@@ -57,48 +59,50 @@ export class CaveComponent {
     this.player.goldInSack=0
    }
 
+   enemyDead(){
+    this.enemyState = "die";
+    this.showLoot = true;
+    this.audio.enemyDead();
+
+    this.dungeons.dungeons[this.player.dungeon-1].completed++;
+   }
+
+
 
   tour(){
 
+  this.playerTurn();
 
-
-    this.playerTurn();
-
-    let r = Math.random()*100;
-   if(r<=92){
-    setTimeout(()=>{
-      if(this.enemy.health>0){
-       this.enemyTurn();
-      }
-      else{
-        this.enemyState = "die";
-        this.showLoot = true;
-        this.audio.enemyDead();
-      }
-    },1111*this.speed);
+   if(Math.random()*100<=92){
+    setTimeout(()=>{ (this.enemy.health>0) ? this.enemyTurn() : this.enemyDead(); }, 1111*this.speed);
   }
   else{
-    setTimeout(()=>{
-  this.tour();
-     },1111*this.speed);
-  }
+    setTimeout(()=>{ this.tour(); },1111*this.speed);
   }
 
+}
+
+nextFight(lvl){
+
+  this.enemy = this.dungeons.dungeons[lvl-1].monsters[this.player.subdungeon-1]; 
+
+  this.enemy.health = this.enemy.hitPoints;
+  this.showLoot=false;
+  this.enemyState='back';
+  this.coins=[];
+
+  this.fighting = true;
+
+}
 
 
   fight(lvl){
 
 
     if(lvl<=this.player.subdungeon){
-      this.enemy = this.dungeons.dungeons[lvl-1].monsters[this.player.subdungeon-1]; 
-      this.enemy.health = this.enemy.hitPoints;
-      this.showLoot=false;
-      this.enemyState='back';
-      this.coins=[];
+      this.nextFight(lvl);
       this.tour();
-      this.fighting = true;
-    }
-    else{
+    }else{
       this.player.location="dungeons";
     }
 
@@ -112,103 +116,61 @@ export class CaveComponent {
     this.playerAnimation = "playerTurn";
     },11*this.speed);
 
-    setTimeout(()=>{
-    this.playerAnimation = "back";
-    this.swordAnimation = "throw";
-    this.audio.throwSword();
-    },411*this.speed)
+    setTimeout(()=>{ this.throwSword(); },411*this.speed)
 
-    setTimeout(()=>{
-      this.audio.enemyDamage();
-      this.swordAnimation = "back";
-      this.enemyState = "takeDamage";
-      this.enemy.health-=this.player.damage;
-    },711*this.speed);
+    setTimeout(()=>{ this.hitEnemy(); },711*this.speed);
 
-    setTimeout(()=>{
-      this.enemyState = "back";
-      this.enemyDamage.push([this.player.damage,false]);
-      setTimeout(()=>{
-      this.enemyDamage[this.enemyDamage.length-1][1] = true;
-      },10*this.speed);
-    },911*this.speed);
-    //t+=200;
-    setTimeout(()=>{
-      this.enemyDamage.shift();
-    },2450*this.speed);
-
+    setTimeout(()=>{ this.enemyHurt(); },911*this.speed);
 
   }
 
 
 
   enemyTurn(){
-    this.enemyState = "throwFireball";
-    this.audio.throwFireball();
+    this.enemyFireball();
+
+    setTimeout(()=>{ this.enemyHitAnimation(); },660*this.speed);
 
     setTimeout(()=>{
+    
+      this.playerHurt();
 
-    this.audio.takeDamage();  
-    this.enemyState = "back";
-    this.enemyHit=true;
-    this.player.health-=this.enemy.damage;
 
-    },660*this.speed);
+      setTimeout(()=>{ 
 
-    setTimeout(()=>{
-    this.enemyHit=false;
-    this.playerDamage.push([this.enemy.damage,false]);
-    setTimeout(()=>{
+        if(this.checkIfAlive()) this.tour();
+        
+      },200*this.speed);
 
-      this.playerDamage[this.playerDamage.length-1][1] = true;
-      },10*this.speed);
-    setTimeout(()=>{ 
-
-      if(this.checkIfAlive()){
-      this.tour();
-      }
-
-    },200*this.speed);
     },860*this.speed);
-    setTimeout(()=>{
-      this.playerDamage.shift();
-    },2300*this.speed);
-  }
-
-
-
-  checkIfAlive(){
-    if(this.player.health>0){
-
-    return true;
-
-    }else{
-
-      this.audio.playerIsDead();
-      this.player.goldInSack=0;
-      setTimeout(()=>{
-      this.backHome();
-      this.player.health = this.player.hitPoints;
-      },1500);
-      return false;
-
-    }
 
   }
+
+  
+
   
   showCoins(bag: MoneyBag){
 
-     for(let i=0;i<bag.coins;i++){
+     for(let i=bag.coins;i>0;){
+     if(i>=10){
+      this.coins.push([10,'assets/game_coin2.png',Math.random()*12-6+bag.offset,"static"]);
+      i-=10;
+     }
+     else{
       this.coins.push([1,'assets/game_coin.png',Math.random()*12-6+bag.offset,"static"]);
+      i-=1;
+     }
       let index = this.coins.length-1;
+
       setTimeout(()=>{
         this.coins[index][3]="collected";
 
         setTimeout(()=>{
-        this.player.goldInSack++;
+        this.player.goldInSack+=this.coins[index][0];
         },1200);
 
       },Math.random()*500+500);
+
      }
 
      let index = this.enemy.loot.indexOf(bag);  
@@ -216,13 +178,12 @@ export class CaveComponent {
 
      if(this.enemy.loot.length<1){
 
-       setTimeout(()=>{
-          this.nextDungeon();
-       },2200);
+       setTimeout(()=>{ this.nextDungeon(); },2200);
 
      }
 
      this.audio.openSmallMoneyBag();
+
   }
 
   nextDungeon(){
@@ -230,5 +191,92 @@ export class CaveComponent {
     this.player.subdungeon++;
     this.enemy = this.dungeons.dungeons[this.player.dungeon-1].monsters[this.player.subdungeon-1];
   }
+
+
+  //Status check
+
+  checkIfAlive = () => { return this.player.health>0 ? true: this.playerDead() };
+
+
+
+
+
+  //Animations
+
+
+  //Player Animations
+
+  playerDead(){
+
+    this.audio.playerIsDead();
+    this.playerIsDead = true;
+    this.player.goldInSack=0;
+    this.player.subdungeon=0;
+
+    setTimeout(()=>{
+    this.backHome();
+    this.player.health = this.player.hitPoints;
+    },1500);
+
+    return false;
+
+  }
+
+  throwSword(){
+    this.playerAnimation = "back";
+    this.swordAnimation = "throw";
+    this.audio.throwSword();
+  }
+
+  hitEnemy(){
+    this.audio.enemyDamage();
+    this.swordAnimation = "back";
+    this.enemyState = "takeDamage";
+    this.enemy.health-=this.player.damage;
+  }
+
+  playerHurt(){
+    this.enemyHit=false;
+    this.playerDamage.push([this.enemy.damage,false]);
+    setTimeout(()=>{
+
+      this.playerDamage[this.playerDamage.length-1][1] = true;
+      },10*this.speed);
+
+      setTimeout(()=>{
+        this.playerDamage.shift();
+      },2350);
+  }
+
+//Enemy Animations
+
+  enemyFireball(){
+    this.enemyState = "throwFireball";
+    this.audio.throwFireball();
+  }
+
+  enemyHitAnimation(){
+    this.audio.takeDamage();  
+    this.enemyState = "back";
+    this.enemyHit=true;
+    this.player.health-=this.enemy.damage;
+  }
+
+  enemyHurt(){
+    this.enemyState = "back";
+    this.enemyDamage.push([this.player.damage,false]);
+
+    setTimeout(()=>{ 
+      this.enemyDamage[this.enemyDamage.length-1][1] = true; 
+    },10*this.speed);
+
+    setTimeout(()=>{
+      this.enemyDamage.shift();
+    },2449);
+
+  }
+
+
+
 
 }

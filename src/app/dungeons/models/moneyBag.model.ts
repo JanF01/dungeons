@@ -2,12 +2,13 @@ export class MoneyBag{
    coins: number;
    graphic: string;
    offset: number;
-   class: string = "moneyBag";
+   class: string;
 
-   constructor(coins,src,offset){
+   constructor(coins,src,offset,cl){
        this.coins = coins;
        this.graphic = src;
-       this.offset = offset
+       this.offset = offset;
+       this.class = cl;
    }
 
 
