@@ -4,6 +4,7 @@ export class User {
    level: number;
    exp: number;
    gold: number;
+   basePoints: Array<number>;
    strength: number;
    damage: number;
    hitPoints: number;

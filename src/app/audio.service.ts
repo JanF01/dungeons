@@ -58,7 +58,6 @@ export class AudioService {
     
     this.smallMoneyBag = new Audio();
     this.smallMoneyBag.src="assets/smallMoneyBag.mp3";
-    this.smallMoneyBag.volume=0.003*this.globalVolume;
     this.smallMoneyBag.load();
 
   }
@@ -92,6 +91,7 @@ export class AudioService {
 
   openSmallMoneyBag(){
     const newAudio = this.smallMoneyBag.cloneNode();
+    newAudio.volume = 0.06;
     newAudio.play()
   }
 

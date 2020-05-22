@@ -39,6 +39,18 @@ section{
     @include flex();
     flex-direction:column;
     font-family:"Abel",sans-serif;
+
+    .assets{
+        position:absolute;
+        left:4.5em;
+        top:30%;
+        color:white;
+        @include flex();
+        font-size:2em;
+        img{
+            width:2.4em;
+        }
+    }
     .user{
         position:relative;
         background:radial-gradient(circle,#ffffff02,#741cd803 40%,#0fe7dc17 65%, #e7d20f00 75%);
@@ -146,9 +158,9 @@ section{
            .plus{
                position:absolute;
                font-size:1.6em;
-               padding:0.6em;
-               left:9.3em;
-               top:-0.06em;
+               left:9.8em;
+               padding:0.15em;
+               top:0.4em;
                font-weight:bold;
                cursor:pointer;
                transition:all 0.2s;
@@ -156,6 +168,21 @@ section{
                    transform:scale(0.8);
                }
            }
+           .cost{
+            @include flex();
+            justify-content:right;
+            position:absolute;
+            left:17.6em;
+            bottom:0.8em;
+            width:5em;
+            text-align:right;
+            transition:0.35s all;
+            opacity:0;
+            img{
+             width:1em;
+             margin-left:0.3em;
+            }
+            }
         }
     }
 }

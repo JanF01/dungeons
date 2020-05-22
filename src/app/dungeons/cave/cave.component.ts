@@ -28,7 +28,7 @@ export class CaveComponent {
 
   @Input('user') player: User;
 
-  speed: number = 1;
+  speed: number = 0.2;
 
   fighting: boolean = true; 
 
@@ -90,7 +90,7 @@ export class CaveComponent {
 
 
     if(lvl<=this.player.subdungeon){
-
+      this.enemy = this.dungeons.dungeons[lvl-1].monsters[this.player.subdungeon-1]; 
       this.enemy.health = this.enemy.hitPoints;
       this.showLoot=false;
       this.enemyState='back';
@@ -147,15 +147,19 @@ export class CaveComponent {
     this.audio.throwFireball();
 
     setTimeout(()=>{
+
     this.audio.takeDamage();  
     this.enemyState = "back";
     this.enemyHit=true;
     this.player.health-=this.enemy.damage;
+
     },660*this.speed);
+
     setTimeout(()=>{
     this.enemyHit=false;
     this.playerDamage.push([this.enemy.damage,false]);
     setTimeout(()=>{
+
       this.playerDamage[this.playerDamage.length-1][1] = true;
       },10*this.speed);
     setTimeout(()=>{ 
@@ -181,7 +185,12 @@ export class CaveComponent {
     }else{
 
       this.audio.playerIsDead();
-      return false
+      this.player.goldInSack=0;
+      setTimeout(()=>{
+      this.backHome();
+      this.player.health = this.player.hitPoints;
+      },1500);
+      return false;
 
     }
 
@@ -206,14 +215,20 @@ export class CaveComponent {
      this.enemy.loot.splice(index,1);
 
      if(this.enemy.loot.length<1){
+
        setTimeout(()=>{
-          this.fighting=false;
-          this.player.subdungeon++;
-          this.enemy = this.dungeons.dungeons[this.player.dungeon-1].monsters[this.player.subdungeon-1];
+          this.nextDungeon();
        },2200);
+
      }
 
      this.audio.openSmallMoneyBag();
+  }
+
+  nextDungeon(){
+    this.fighting=false;
+    this.player.subdungeon++;
+    this.enemy = this.dungeons.dungeons[this.player.dungeon-1].monsters[this.player.subdungeon-1];
   }
 
 }

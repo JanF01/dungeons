@@ -3,6 +3,10 @@
 </div>
 <div class="container">
 
+  <div class="assets" *ngIf="this.player.location=='home'">
+  <img src="assets/coins.png" draggable="false">{{player.gold}}
+  </div>
+
   <header *ngIf="!inGame">
     <h1>
       Welcome to dungeons
@@ -28,7 +32,7 @@
     </mat-grid-tile>
     <mat-grid-tile>
       <div class="col"><span>Shop</span>
-        <div class="add"><img src="assets/coins.png" draggable="false">{{player.gold}}</div>
+        <div class="add"><img src="assets/shop.png" draggable="false"></div>
       </div>
     </mat-grid-tile>
     <mat-grid-tile></mat-grid-tile>

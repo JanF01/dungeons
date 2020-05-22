@@ -15,19 +15,27 @@ export class DungeonsService {
 
     this.dungeons.push(
       new Dungeon("assets/dungeon1.png",[ 
-        new Enemy(2193,2193,"Glimmer",229,1,[
+        new Enemy(111,111,"Glimmerini",9,1,[
           new MoneyBag(6,"assets/smallMoneySack.png",Math.random()*30-15),
           new MoneyBag(3,"assets/smallMoneySack.png",Math.random()*30-15)
       ]),
-       new Enemy(7342,7342,"Glimmer",534,2,[
+       new Enemy(243,243,"Glimmerini",18,1,[
         new MoneyBag(7,"assets/smallMoneySack.png",Math.random()*30-15),
         new MoneyBag(3,"assets/smallMoneySack.png",Math.random()*30-15),
         new MoneyBag(4,"assets/smallMoneySack.png",Math.random()*30-15)
      ]),
-     new Enemy(10242,10242,"Glimmer Alpha",934,4,[
-      new MoneyBag(7,"assets/smallMoneySack.png",Math.random()*30-15),
-      new MoneyBag(9,"assets/smallMoneySack.png",Math.random()*30-15),
-      new MoneyBag(4,"assets/smallMoneySack.png",Math.random()*30-15)
+     new Enemy(398,398,"Glimmerinio",27,2,[
+      new MoneyBag(24,"assets/smallMoneySack.png",Math.random()*30-15),
+      new MoneyBag(5,"assets/smallMoneySack.png",Math.random()*30-15),
+      new MoneyBag(12,"assets/smallMoneySack.png",Math.random()*30-15),
+      new MoneyBag(1,"assets/smallMoneySack.png",Math.random()*30-15)
+   ]
+    ),
+    new Enemy(784,784,"Glimmerinio",78,2,[
+      new MoneyBag(24,"assets/smallMoneySack.png",Math.random()*30-15),
+      new MoneyBag(5,"assets/smallMoneySack.png",Math.random()*30-15),
+      new MoneyBag(12,"assets/smallMoneySack.png",Math.random()*30-15),
+      new MoneyBag(1,"assets/smallMoneySack.png",Math.random()*30-15)
    ]
     )],0,true));
     this.dungeons.push(
