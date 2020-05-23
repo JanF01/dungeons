@@ -1,0 +1,54 @@
+<section id="backpack">
+
+<app-left-nav [gold]="player.gold" (click)="backHome()"></app-left-nav>
+
+
+    <div class="backpack">
+        <div class="potions">
+        <img src="assets/backpack.png">
+        <div class="spaces">
+            <div class="spot">
+                <img *ngIf="player.items[0]!=undefined" src="{{player.items[0].graphic.src}}">
+            </div>
+            <div class="spot">
+                <img *ngIf="player.items[1]!=undefined" src="{{player.items[1].graphic.src}}">
+            </div>
+            <div class="spot">
+                <img *ngIf="player.items[2]!=undefined" src="{{player.items[2].graphic.src}}">
+            </div>
+            <div class="spot">
+                <img *ngIf="player.items[3]!=undefined" src="{{player.items[3].graphic.src}}">
+            </div>
+            <div class="spot">
+                <img *ngIf="player.items[4]!=undefined" src="{{player.items[4].graphic.src}}">
+            </div>
+            <div class="spot">
+                <img *ngIf="player.items[5]!=undefined" src="{{player.items[5].graphic.src}}">
+            </div>
+            <div class="spot">
+                <img *ngIf="player.items[6]!=undefined" src="{{player.items[6].graphic.src}}">
+            </div>
+            <div class="spot">
+                <img *ngIf="player.items[7]!=undefined" src="{{player.items[7].graphic.src}}">
+            </div>
+        </div>
+    </div>
+    <div class="items">
+        <div class="spaces">
+            <div class="spot"></div><div class="spot"></div><div class="spot"></div>
+            <div class="spot"></div><div class="spot"></div><div class="spot"></div>
+            <div class="spot"></div><div class="spot"></div><div class="spot"></div>
+            <div class="spot"></div><div class="spot"></div><div class="spot"></div>
+            <div class="spot"></div><div class="spot"></div><div class="spot"></div>
+            <div class="spot"></div><div class="spot"></div><div class="spot"></div>
+            <div class="spot"></div><div class="spot"></div><div class="spot"></div>
+            <div class="spot"></div><div class="spot"></div><div class="spot"></div>
+        </div>
+    </div>
+    </div>
+
+    <img src="assets/background3d.jpg" class="bkg">
+
+</section>
+    
+

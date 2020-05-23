@@ -6,6 +6,11 @@
     -moz-border-radius:$r;
     -ms-border-radius:$r;
 }
+@mixin flex(){
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
 
 
 mat-grid-tile{
@@ -21,9 +26,7 @@ mat-grid-tile{
     width:100%;
     .tile{
         min-width:50%;
-        display:flex;
-        align-items:center;
-        justify-content:center;
+        @include flex();
         min-height:100vh;
         img{
             position:absolute;
@@ -67,9 +70,7 @@ mat-grid-tile{
             min-width:18%;
             min-height:3em;
             left:15%;
-            display:flex;
-            justify-content:center;
-            align-items:center;
+            @include flex();
             flex-direction:column;
             font-size:1.6em;
             font-family:'Abel',sans-serif; 
@@ -126,3 +127,4 @@ mat-grid-tile{
 .playerDamage{
     left:20%;
 }
+

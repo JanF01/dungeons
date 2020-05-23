@@ -12,6 +12,7 @@ export class User {
    stamina: number;
    staminaLeft: number;
    speed: number;
+   speedBuildUp: number;
    luck: number;
    location: string;
    dungeon: number;

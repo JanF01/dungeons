@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, ɵPlayer } from '@angular/core';
 import { User } from '../models/user.model';
 import { CdkDragEnd } from '@angular/cdk/drag-drop';
+import { ImagesService } from '../../images.service';
 
 @Component({
   selector: 'app-character',
@@ -19,9 +20,30 @@ export class CharacterComponent implements OnInit {
   hpCost = 5;
   speedCost = 5;
   luckCost = 5;
+  potions = {
+    hp: 0,
+    stamina: 0,
+    speed: 0
+  }
 
-  constructor() { }
+  constructor(private images: ImagesService) { }
 
+
+  countPotions(){
+    for(let i=0;i<this.player.items.length;i++){
+      switch(this.player.items[i].type){
+        case 'hp':
+          this.potions.hp++;
+        break;
+        case 'stamina':
+         this.potions.stamina++;
+        break;
+        case 'speed':
+         this.potions.speed++;
+        break;
+      }
+ }
+  }
 
   showCost(i){
     let collection = document.getElementsByClassName("cost") as HTMLCollectionOf<HTMLElement>;
@@ -129,6 +151,14 @@ export class CharacterComponent implements OnInit {
 
   backHome(){
     this.player.location="home";
+    setTimeout(()=>{
+      document.getElementById("cont").style.opacity = "1";
+
+      let assets = document.getElementsByClassName('assets')[0];
+    assets.innerHTML="";
+    assets.appendChild(this.images.gold);
+    assets.append(this.player.gold.toString());
+    },10);
   }
 
 

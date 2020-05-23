@@ -3,6 +3,8 @@
 </div>
 <div class="container">
 
+  <img *ngIf="this.mainBck!=undefined" src="{{this.mainBck.src}}" class="mainBck" id="mainBck">
+
   <div class="assets" *ngIf="this.player.location=='home'">
 
   </div>
@@ -19,8 +21,8 @@
     </button>
   </header>
 
-  <mat-grid-list *ngIf="player.location=='home'" cols="3" rowHeight="2:1">
-    <mat-grid-tile>
+  <mat-grid-list *ngIf="player.location=='home'" cols="3" rowHeight="2:1" id="cont">
+    <mat-grid-tile (click)="goToBackpack()">
       <div class="col"><span>Backpack</span>
         <div class="add"><img src="assets/backpack.png" draggable="false"></div>
       </div>
@@ -57,7 +59,7 @@
 
 
 
-  <section class="dungeons" id="dungeons" *ngIf="player.location=='dungeons'">
+  <section class="dungeons" *ngIf="player.location=='dungeons'" id="dungeons">
     <nav>
       <mat-grid-list cols="1" rowHeight="1:1">
         <mat-grid-tile (click)="backHome()">
@@ -75,8 +77,8 @@
     <main>
       <div *ngFor="let dungeon of this.getDungeons(); let i = index" [ngClass]="{applyFilter: !dungeon.open}">
         <img id="{{i+1}}" src="{{dungeon.img}}" (click)="goCave(i+1)">
-        <div class="bar" [ngStyle]="{background: 'linear-gradient(to right, rgb(9, 120, 163) '+ ((dungeon.completed/14)*100-1) +'%, rgba(9, 120, 163,0) '+ (dungeon.completed/14)*100 +'% )'}">
-          {{dungeon.completed}}/14
+        <div class="bar" [ngStyle]="{background: 'linear-gradient(to right, rgb(9, 120, 163) '+ ((dungeon.completed/13)*100-1) +'%, rgba(9, 120, 163,0) '+ (dungeon.completed/13)*100 +'% )'}">
+          {{dungeon.completed}}/13
         </div>
       </div>
     </main>
@@ -87,6 +89,7 @@
   <app-cave #cave [user]="this.player" *ngIf="player.location=='dfight'"></app-cave>
   <app-character #character [user]="this.player" *ngIf="player.location=='character'"></app-character>
   <app-shop #shop [user]="this.player" *ngIf="player.location=='shop'"></app-shop>
+  <app-backpack #backpack [user]="this.player" *ngIf="player.location=='backpack'"></app-backpack>
 
  
 </div>

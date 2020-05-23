@@ -1,13 +1,9 @@
-<mat-grid-list cols="1">
-    <mat-grid-tile>
-<div class="col" (click)="backHome()"><span>Home</span>
-    <div class="add"><img src="assets/home.png" draggable="false"></div>
-</div>
-</mat-grid-tile>
-</mat-grid-list>
+
+    <app-left-nav (click)="backHome()" [gold]="player.gold"></app-left-nav>
+
 <section>
 
-    <div class="assets" ><img src="assets/coins.png" draggable="false">{{player.gold}}</div>
+    
 
 <div class="user">
     <img class="weapon item" src="{{player.weapon}}" draggable="false" cdkDrag [cdkDragFreeDragPosition]="weaponPos" (cdkDragEnded)="weaponDrop($event)" (cdkDragStarted)="startDrag()">
@@ -31,3 +27,6 @@
     <div class="gridTile">Luck: <span>{{player.luck}}</span><div class="plus" (click)="addLuck()" (mouseenter)="showCost(4)" (mouseleave)="hideCost(4)"> + </div><div class="cost">{{luckCost}}<img src="assets/game_coin.png"></div></div>
 </div>
 </section>
+
+
+<app-potions [potions]="potions" [user]="player" [character]="true"></app-potions>

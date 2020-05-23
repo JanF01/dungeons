@@ -1,10 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { User } from "./models/user.model";
+import { Potion } from './models/potion.model';
 import { CaveComponent } from './cave/cave.component';
 import { AudioService } from '../audio.service';
 import { DungeonsService } from '../dungeons.service';
 import { ShopComponent } from './shop/shop.component';
 import { ImagesService } from '../images.service';
+import { CharacterComponent } from './character/character.component';
+import { BackpackComponent } from './backpack/backpack.component';
 
 @Component({
   selector: 'app-dungeons',
@@ -17,8 +20,11 @@ export class DungeonsComponent implements OnInit {
   inGame: boolean = true;
   @ViewChild(CaveComponent) cave: CaveComponent;
   @ViewChild(ShopComponent) shop: ShopComponent;
+  @ViewChild(CharacterComponent) character: CharacterComponent;
+  @ViewChild(BackpackComponent) backpack: BackpackComponent;
 
   player: User = new User();
+  mainBck:any;
 
     
   ngOnInit(){
@@ -30,15 +36,16 @@ export class DungeonsComponent implements OnInit {
       name: this.name,
       level: 1,
       exp: 590,
-      gold: 0,
+      gold: 10,
       basePoints: [0,0,0,0,0],
-      strength: 5,
-      damage: 15,
+      strength: 7,
+      damage: 2144,
       hitPoints: 812,
       health: 812,
       stamina: 20,
       staminaLeft: 20,
       speed:2,
+      speedBuildUp:0,
       luck: 0,
       location: "home",
       dungeon: 1,
@@ -49,22 +56,46 @@ export class DungeonsComponent implements OnInit {
       armor: "assets/armor2.png",
       necklace: "assets/necklace.png",
       ring: "assets/ring2.png",
-      items: []
+      items: [new Potion(images.hpPotion,"hp",600)]
     }
+
+    setTimeout(()=>{
+      this.mainBck = this.images.bckMain;
+
+      document.getElementById("cont").style.opacity = "1";
+     
+      let assets = document.getElementsByClassName('assets')[0];
+
+      assets.appendChild(this.images.gold);
+      assets.append(this.player.gold.toString());
+    },10);
 
   }
 
 
   goToShop(){
+    document.getElementById('mainBck').style.opacity='0';
    this.player.location = 'shop';
    setTimeout(()=>{
    this.shop.showPotions();
    },50);
   }
+  goToBackpack(){
+    document.getElementById('mainBck').style.opacity='0';
+    this.player.location = "backpack";
+    setTimeout(()=>{
+      this.backpack.showBackpack();
+      },50);
+  }
  
   goToCharacter(){
+    
    this.player.location = "character";
+   setTimeout(()=>{
+   this.character.countPotions();
+   },100);
   }
+
   getDungeons(){
     return this.dungeons.dungeons;
   }
@@ -100,10 +131,14 @@ export class DungeonsComponent implements OnInit {
     this.audio.stopDungeonMusic();
     this.audio.playBackgroundOne();
     setTimeout(()=>{
+
     let assets = document.getElementsByClassName('assets')[0];
     assets.innerHTML="";
     assets.appendChild(this.images.gold);
     assets.append(this.player.gold.toString());
+
+    document.getElementById('mainBck').style.opacity='0.8';
+      document.getElementById("cont").style.opacity = "1";
     },40);
    }
 
@@ -111,12 +146,12 @@ export class DungeonsComponent implements OnInit {
   // DUNGEONS
 
   goCave(lvl){
+    if(lvl<=this.player.dungeon){
      this.player.location="dfight";
      setTimeout(()=>{
      this.cave.fight(lvl);
      },150);
-     this.audio.stopMusicBck();
-     this.audio.playDungeonsMusic();
+    }
   }
 
   goToDungeon(){
@@ -126,6 +161,7 @@ export class DungeonsComponent implements OnInit {
       setTimeout(()=>{
      document.getElementById('dungeons').style.opacity="1";
      document.getElementById('dungeons').appendChild(this.images.map);
+    document.getElementById('mainBck').style.opacity='0';
       },60);
   }
 

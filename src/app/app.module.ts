@@ -15,6 +15,9 @@ import { CharacterComponent } from './dungeons/character/character.component';
 import { AudioService } from './audio.service';
 import { ShopComponent } from './dungeons/shop/shop.component';
 import { ImagesService } from './images.service';
+import { BackpackComponent } from './dungeons/backpack/backpack.component';
+import { LeftNavComponent } from './dungeons/left-nav/left-nav.component';
+import { PotionsComponent } from './dungeons/potions/potions.component';
 
 
 @NgModule({
@@ -24,7 +27,10 @@ import { ImagesService } from './images.service';
     DungeonsComponent,
     CaveComponent,
     CharacterComponent,
-    ShopComponent
+    ShopComponent,
+    BackpackComponent,
+    LeftNavComponent,
+    PotionsComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,56 @@
+
+@mixin flex(){
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.potions{
+    position:absolute;
+    left:14%;
+    top:77%;
+    @include flex();
+    font-family:'Abel',sans-serif; 
+    div{
+        @include flex();
+        flex-direction:column;
+        img{
+            width:4.2em;
+            transition:0.3s all;
+            &:hover{
+                transform:scale(0.84);
+                cursor:pointer
+            }
+        }
+        span{
+            display:block;
+            margin-top:1em;
+            font-size:2em;
+            color:white;
+        }
+    }
+}
+
+.character{
+    position:absolute;
+    top:60%;
+    left:15%;
+    .hp,.stamina{
+    img{
+    width:6em !important;
+    }
+}
+}
+
+@media (min-width: 1200px){
+    .character{
+        left:20%;
+    }
+}
+
+@media (min-width: 1600px){
+    .character{
+        top:68%;
+        left:27%;
+    }
+}

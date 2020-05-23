@@ -29,7 +29,7 @@ export class CaveComponent {
 
   @Input('user') player: User;
 
-  speed: number = 0.1;
+  speed: number = 0.5;
 
   fighting: boolean = true; 
 
@@ -44,6 +44,13 @@ export class CaveComponent {
   enemyHit: boolean = false;
   showLoot: boolean = false;
   enemy: Enemy;
+  speedBuildUp = 0;
+  potions = {
+    hp: 0,
+    stamina: 0,
+    speed: 0
+  };
+  DI = 1;
 
   playerIsDead: boolean =  false;
 
@@ -55,34 +62,61 @@ export class CaveComponent {
 
 
   backHome(){
+
     this.player.location='home'; 
     this.player.gold+=this.player.goldInSack; 
-    this.player.goldInSack=0
+    this.player.goldInSack=0;
     this.audio.stopDungeonMusic();
     this.audio.playBackgroundOne();
+    setTimeout(()=>{
+    let mBck = document.getElementsByClassName('mainBck') as HTMLCollectionOf<HTMLElement>;
+    mBck[0].style.opacity='0.8';
+    document.getElementById("cont").style.opacity = "1";
+ 
+    this.player.speed-=this.player.speedBuildUp;
+    this.player.speedBuildUp=0;
+
+    let assets = document.getElementsByClassName('assets')[0];
+    assets.innerHTML="";
+    assets.appendChild(this.images.gold);
+    assets.append(this.player.gold.toString());
+  },10);
+
    }
+
    goBackToMap(){
+
     this.player.location='dungeons';
     this.audio.dungeonsBck.volume=0.09;
     setTimeout(()=>{
       document.getElementById('dungeons').style.opacity="1";
       document.getElementById('dungeons').appendChild(this.images.map);
+      this.player.speed-=this.player.speedBuildUp;
+      this.player.speedBuildUp=0;
        },60);
+
    }
+
+
+
+
+
 
    enemyDead(){
     this.enemyState = "die";
     this.showLoot = true;
     this.audio.enemyDead();
 
-    if(this.player.subdungeon>this.dungeons.dungeons[this.player.dungeon-1].completed){
-    this.dungeons.dungeons[this.player.dungeon-1].completed++;
-    }
+
    }
 
 
 
+
+
   tour(){
+
+    this.DI+=0.1;
 
   this.playerTurn();
 
@@ -90,7 +124,7 @@ export class CaveComponent {
     setTimeout(()=>{ (this.enemy.health>0) ? this.enemyTurn() : this.enemyDead(); }, 1111*this.speed);
   }
   else{
-    setTimeout(()=>{ this.tour(); },1111*this.speed);
+    setTimeout(()=>{ (this.enemy.health>0) ? this.tour() : this.enemyDead(); },1111*this.speed);
   }
 
 }
@@ -116,13 +150,30 @@ nextFight(lvl){
   fight(lvl){
 
 
-    if(lvl<=this.player.subdungeon){
+    
+      this.DI=1;
+      this.potions.hp=0;
+      this.potions.stamina=0;
+      this.potions.speed=0;
+
+      for(let i=0;i<this.player.items.length;i++){
+           switch(this.player.items[i].type){
+             case 'hp':
+               this.potions.hp++;
+             break;
+             case 'stamina':
+              this.potions.stamina++;
+             break;
+             case 'speed':
+              this.potions.speed++;
+             break;
+           }
+      }
+
       this.audio.dungeonsBck.volume=0.03;
       this.nextFight(lvl);
       this.tour();
-    }else{
-      this.player.location="dungeons";
-    }
+  
 
   }
 
@@ -185,9 +236,9 @@ nextFight(lvl){
 
         setTimeout(()=>{
         this.player.goldInSack+=this.coins[index][0];
-        },1200);
+        },600);
 
-      },Math.random()*500+500);
+      },Math.random()*300+100);
 
      }
 
@@ -196,7 +247,7 @@ nextFight(lvl){
 
      if(this.enemy.loot.length<1){
 
-       setTimeout(()=>{ this.nextDungeon(); },2200);
+       setTimeout(()=>{ this.nextDungeon(); },1000);
 
      }
 
@@ -206,8 +257,21 @@ nextFight(lvl){
 
   nextDungeon(){
     this.fighting=false;
+    if(this.player.subdungeon<this.dungeons.dungeons[this.player.dungeon-1].monsters.length){
     this.player.subdungeon++;
     this.enemy = this.dungeons.dungeons[this.player.dungeon-1].monsters[this.player.subdungeon-1];
+    }
+    else{
+      if(this.dungeons.dungeons[this.player.dungeon-1].completed==this.dungeons.dungeons[this.player.dungeon-1].monsters.length-1){
+      this.dungeons.dungeons[this.player.dungeon-1].completed++;
+      }
+        this.dungeons.dungeons[this.player.dungeon-1].monsters[this.player.subdungeon-1].loot = this.dungeons.createLoot(1,13);
+        this.enemy = this.dungeons.dungeons[this.player.dungeon-1].monsters[this.player.subdungeon-1];
+      
+    }
+    if(this.player.subdungeon>this.dungeons.dungeons[this.player.dungeon-1].completed){
+      this.dungeons.dungeons[this.player.dungeon-1].completed++;
+      }
   }
 
 
@@ -233,7 +297,8 @@ nextFight(lvl){
 
     setTimeout(()=>{
     this.backHome();
-    this.player.health = this.player.hitPoints;
+    this.player.health = 0;
+    this.player.gold+=10;
     this.dungeons.reFillDungeon(this.player.dungeon);
     },1500);
 
@@ -251,12 +316,13 @@ nextFight(lvl){
     this.audio.enemyDamage();
     this.swordAnimation = "back";
     this.enemyState = "takeDamage";
-    this.enemy.health-=this.player.damage;
+    this.enemy.health-=Math.round(this.player.damage*this.DI);
+    if(this.enemy.health<0) this.enemy.health=0;
   }
 
   playerHurt(){
     this.enemyHit=false;
-    this.playerDamage.push([this.enemy.damage,false]);
+    this.playerDamage.push([Math.round(this.enemy.damage*this.DI),false]);
     setTimeout(()=>{
 
       this.playerDamage[this.playerDamage.length-1][1] = true;3
@@ -278,12 +344,12 @@ nextFight(lvl){
     this.audio.takeDamage();  
     this.enemyState = "back";
     this.enemyHit=true;
-    this.player.health-=this.enemy.damage;
+    this.player.health-=Math.round(this.enemy.damage*this.DI);
   }
 
   enemyHurt(){
     this.enemyState = "back";
-    this.enemyDamage.push([this.player.damage,false]);
+    this.enemyDamage.push([Math.round(this.player.damage*this.DI),false]);
 
     setTimeout(()=>{ 
       this.enemyDamage[this.enemyDamage.length-1][1] = true; 

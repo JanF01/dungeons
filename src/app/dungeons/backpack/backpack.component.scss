@@ -1,0 +1,150 @@
+@mixin flex(){
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+@mixin radius($r){
+    border-radius:$r;
+    -webkit-border-radius:$r;
+    -moz-border-radius:$r;
+    -ms-border-radius:$r;
+}
+section{
+
+    min-height:100vh;
+    width:100%;
+    opacity:0;
+    transition:all 1s;
+
+
+    .bkg{
+        opacity:0.3;
+        width:100%;
+        height:100%;
+        position:absolute;
+        top:0;
+        left:0;
+        z-index:-5;
+    }
+
+
+
+
+.backpack{
+    z-index:-1;
+    position:absolute;
+    top:5%;
+    min-width:77%;
+    left:18%;
+    min-height:74%;
+    padding-top:2%;
+    display:flex;
+    flex-direction:column;
+
+   .potions,.items{
+    
+    @include flex();
+    min-width:100%;
+
+    img{
+        width:7.1%;
+        margin:2%;
+    }
+    .spaces{
+       min-width:80%;
+       display:flex;
+       min-height:6.8em;
+       &::before{
+          content: "";
+          background: url("../../../assets/backpackSkin.png");
+          @include radius(0.6em);
+          background-size:100%;
+          opacity: 0.15;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          position: absolute;
+          z-index: -1;   
+        }
+       .spot{
+           min-height:100%;
+           width: calc( 100% / 8 - 0.4em );
+           background:radial-gradient(circle,#00000000,#000000a1 70%, #000000c9 90%);
+           border:solid rgba(0, 0, 0, 0.801) 0.2em;
+           border-right:none;
+        
+           @include flex();
+           img{
+               width:3.8em;
+               height:3.8em;
+               z-index:10;
+           }
+       }
+    }
+ }
+   .items{
+       margin-top:5%;
+       margin-left:5.55%;
+       .spaces{
+        min-height:20.4em;
+       flex-wrap:wrap;
+       .spot{
+        background:radial-gradient(circle,#00000000,#00000081 70%, #000000a9 90%);
+        border-color:rgba(0, 0, 0, 0.692);
+       }
+       }
+
+   }
+
+
+
+
+}
+
+}
+
+@media (min-width: 1200px){
+    section{
+    .backpack{
+        .potions,.items{
+    .spaces{
+        min-height:8em;
+        .spot{
+            img{
+                width:4.4em;
+                height:4.4em;
+            }
+        }
+    }
+}
+.items{
+    .spaces{
+        min-height:24em;
+    }
+}
+}
+    }
+}
+@media (min-width: 1550px){
+    section{
+    .backpack{
+        .potions,.items{
+    .spaces{
+        min-height:9.7em;
+        .spot{
+            img{
+                width:5.2em;
+                height:5.2em;
+            }
+        }
+    }
+   }
+   .items{
+    .spaces{
+        min-height:29.1em;
+    }
+}
+}
+    }
+}

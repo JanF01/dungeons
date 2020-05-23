@@ -8,19 +8,19 @@ export const EnemyAnimations = {
     state('throwFireball',style({left:"74%", filter:"brightness(100%)"})),
     state('die',style({opacity:"0"})),
     transition('back => takeDamage', [
-      animate(200*0.1)
+      animate(200*0.5)
     ]),
     transition('takeDamage => back', [
-      animate(200*0.1)
+      animate(200*0.5)
     ]),
     transition('back => throwFireball', [
-      animate(200*0.1)
+      animate(200*0.5)
     ]),
     transition('throwFireball => back', [
-      animate(200*0.1)
+      animate(200*0.5)
     ]),
     transition('back => die', [
-      animate(1200*0.1)
+      animate(1200*0.5)
     ])
   ]),
 
@@ -28,7 +28,7 @@ export const EnemyAnimations = {
     state('back',style({opacity:0, left:"80%"})),
     state('throwFireball',style({opacity:1, left:"21%"})),
     transition('back => throwFireball', [
-      animate(660*0.1)
+      animate(660*0.5)
     ])
   ]),
 

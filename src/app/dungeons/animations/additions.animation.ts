@@ -17,7 +17,7 @@ export const AdditionAnimations = {
         state("collected",style({left:'14.6%',top:'17.1em'})),
         state("static",style({top:'55%'})),
         transition('static => collected', [
-          animate(1200)
+          animate(600)
         ])
       ])
 

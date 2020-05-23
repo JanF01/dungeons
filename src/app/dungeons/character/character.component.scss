@@ -22,6 +22,7 @@
 
 
 section{
+    font-size:0.85em;
     @include noselect();
     width:100%;
     min-height:100%;
@@ -29,18 +30,6 @@ section{
     flex-direction:column;
     font-family:"Abel",sans-serif;
 
-    .assets{
-        position:absolute;
-        left:0em;
-        top:30%;
-        width:13.5em;
-        color:white;
-        @include flex();
-        font-size:2em;
-        img{
-            width:2.4em;
-        }
-    }
     .user{
         position:relative;
         width:17.5em;
@@ -116,19 +105,19 @@ section{
         .gridTile{
             &:nth-child(2){
             margin-left:26%;
-            background: radial-gradient(circle,#ffffff02,#e64b304b);
+            background: radial-gradient(circle,#00000036,#e64b308a);
             }
             &:nth-child(3){
                 margin-left:16%;
-                background: radial-gradient(circle,#ffffff02,#15a7d34b);
+                background: radial-gradient(circle,#00000036,#15a7d38a);
              }
              &:nth-child(4){
                 margin-left:36%;
-                background: radial-gradient(circle,#ffffff02,#00a0504b);
+                background: radial-gradient(circle,#00000036,#00a0508a);
              }
              &:nth-child(5){
                 margin-left:7%;
-                background: radial-gradient(circle,#ffffff02,#adbe0d4b);
+                background: radial-gradient(circle,#00000036,#adbe0d8a);
              }
              position:relative;
             padding:0.2em 0.5em 0.2em 0.5em;
@@ -138,17 +127,17 @@ section{
            color:white;
            display:flex;
            align-items:center;
-           background: radial-gradient(circle,#ffffff02,#78079b4b);
+           background: radial-gradient(circle,#00000036,#78079b8a);
            span{
                display:block;
                margin-left:1em;
            }
            .plus{
                position:absolute;
-               font-size:1.6em;
-               left:9.8em;
-               padding:0.15em;
-               top:0.4em;
+               font-size:1.7em;
+               left:8.9em;
+               padding:0.5em;
+               top:0em;
                font-weight:bold;
                cursor:pointer;
                transition:all 0.2s;
@@ -173,6 +162,13 @@ section{
             }
         }
     }
+}
+
+
+@media (min-width:1600px){
+   section{
+       font-size:0.94em;
+   }
 }
 
 mat-grid-list{

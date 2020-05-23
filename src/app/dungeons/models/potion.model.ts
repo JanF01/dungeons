@@ -1,7 +1,7 @@
 
 export class Potion {
    
-    graphic: string;
+    graphic: any;
     type: string;
     power: string;
     
