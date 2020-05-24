@@ -38,18 +38,18 @@ export class DungeonsComponent implements OnInit {
       exp: 590,
       gold: 10,
       basePoints: [0,0,0,0,0],
-      strength: 7,
-      damage: 2144,
-      hitPoints: 812,
-      health: 812,
+      strength: 8,
+      damage: 24,
+      hitPoints: 894,
+      health: 894,
       stamina: 20,
       staminaLeft: 20,
       speed:2,
       speedBuildUp:0,
       luck: 0,
       location: "home",
-      dungeon: 1,
-      subdungeon: 1,
+      dungeon: 0,
+      subdungeon: [0,0,0,0,0,0,0,0,0,0,0,0],
       goldInSack: 0,
       graphic: "assets/knight1.png",
       weapon: "assets/sword1.png",
@@ -146,11 +146,11 @@ export class DungeonsComponent implements OnInit {
   // DUNGEONS
 
   goCave(lvl){
-    if(lvl<=this.player.dungeon){
+    if(this.dungeons.dungeons[lvl-1].open){
      this.player.location="dfight";
      setTimeout(()=>{
      this.cave.fight(lvl);
-     },150);
+     },100);
     }
   }
 

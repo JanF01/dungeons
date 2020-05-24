@@ -52,6 +52,8 @@ export class CaveComponent {
   };
   DI = 1;
 
+  monstersInCave: number = 0;
+
   playerIsDead: boolean =  false;
 
 
@@ -135,7 +137,7 @@ nextFight(lvl){
     document.getElementById('d').appendChild(this.images.map);
 
 
-  this.enemy = this.dungeons.dungeons[lvl-1].monsters[this.player.subdungeon-1]; 
+  this.enemy = this.dungeons.dungeons[lvl-1].monsters[this.player.subdungeon[this.player.dungeon]]; 
 
   this.enemy.health = this.enemy.hitPoints;
   this.showLoot=false;
@@ -155,6 +157,12 @@ nextFight(lvl){
       this.potions.hp=0;
       this.potions.stamina=0;
       this.potions.speed=0;
+      this.player.dungeon=lvl-1;
+
+      this.monstersInCave = this.dungeons.dungeons[this.player.dungeon].monsters.length-1;
+
+
+      this.enemy = this.dungeons.dungeons[this.player.dungeon].monsters[this.player.subdungeon[this.player.dungeon]];
 
       for(let i=0;i<this.player.items.length;i++){
            switch(this.player.items[i].type){
@@ -220,8 +228,12 @@ nextFight(lvl){
   
   showCoins(bag: MoneyBag){
 
-     for(let i=bag.coins;i>0;){
-     if(i>=10){
+     for(let i=bag.coins+Math.random()*this.player.luck;i>0;){
+      if(i>=30){
+        this.coins.push([30,'assets/game_coin3.png',Math.random()*12-6+bag.offset,"static"]);
+        i-=30;
+       }
+     else if(i>=10){
       this.coins.push([10,'assets/game_coin2.png',Math.random()*12-6+bag.offset,"static"]);
       i-=10;
      }
@@ -257,20 +269,26 @@ nextFight(lvl){
 
   nextDungeon(){
     this.fighting=false;
-    if(this.player.subdungeon<this.dungeons.dungeons[this.player.dungeon-1].monsters.length){
-    this.player.subdungeon++;
-    this.enemy = this.dungeons.dungeons[this.player.dungeon-1].monsters[this.player.subdungeon-1];
+    if(this.player.subdungeon[this.player.dungeon]<this.dungeons.dungeons[this.player.dungeon].monsters.length-1){
+    this.player.subdungeon[this.player.dungeon]++;
+     this.enemy = this.dungeons.dungeons[this.player.dungeon].monsters[this.player.subdungeon[this.player.dungeon]];
     }
     else{
-      if(this.dungeons.dungeons[this.player.dungeon-1].completed==this.dungeons.dungeons[this.player.dungeon-1].monsters.length-1){
-      this.dungeons.dungeons[this.player.dungeon-1].completed++;
-      }
-        this.dungeons.dungeons[this.player.dungeon-1].monsters[this.player.subdungeon-1].loot = this.dungeons.createLoot(1,13);
-        this.enemy = this.dungeons.dungeons[this.player.dungeon-1].monsters[this.player.subdungeon-1];
-      
+
+      this.dungeons.reFillDungeon(this.player.dungeon);
+      if(this.player.subdungeon[this.player.dungeon]==this.dungeons.dungeons[this.player.dungeon].completed){
+        this.dungeons.dungeons[this.player.dungeon].completed++;
+        this.player.subdungeon[this.player.dungeon+1]=0;
+        this.dungeons.dungeons[this.player.dungeon+1].open=true;
+        }
+  
+      this.player.subdungeon[this.player.dungeon]=0;
+      this.player.dungeon++;
+      this.enemy = this.dungeons.dungeons[this.player.dungeon].monsters[this.player.subdungeon[this.player.dungeon]];
+      this.goBackToMap();
     }
-    if(this.player.subdungeon>this.dungeons.dungeons[this.player.dungeon-1].completed){
-      this.dungeons.dungeons[this.player.dungeon-1].completed++;
+    if(this.player.subdungeon[this.player.dungeon]>this.dungeons.dungeons[this.player.dungeon].completed){
+      this.dungeons.dungeons[this.player.dungeon].completed++;
       }
   }
 
@@ -293,7 +311,7 @@ nextFight(lvl){
     this.audio.playerIsDead();
     this.playerIsDead = true;
     this.player.goldInSack=0;
-    this.player.subdungeon=1;
+    this.player.subdungeon[this.player.dungeon]=0;
 
     setTimeout(()=>{
     this.backHome();

@@ -42,7 +42,7 @@ export class CharacterComponent implements OnInit {
          this.potions.speed++;
         break;
       }
- }
+   }
   }
 
   showCost(i){
@@ -61,7 +61,7 @@ export class CharacterComponent implements OnInit {
     this.player.basePoints[0]++;
     
     this.player.gold-=this.strengthCost;
-    this.strengthCost = Math.round((this.player.basePoints[0]+5)*((this.player.basePoints[0]+1)/2)*1.04);
+    this.strengthCost = Math.round((this.player.basePoints[0]+5)*((this.player.basePoints[0]+1)/3));
     }
   }
   addSpeed(){
@@ -76,7 +76,7 @@ export class CharacterComponent implements OnInit {
   }
   addHealth(){
     if(this.player.gold>=this.hpCost){
-    this.player.hitPoints*=1.12;
+    this.player.hitPoints*=1.08;
     this.player.hitPoints = Math.round(this.player.hitPoints);
     this.player.basePoints[3]++;
 
@@ -90,7 +90,7 @@ export class CharacterComponent implements OnInit {
     this.player.basePoints[4]++;
 
     this.player.gold-=this.luckCost;
-    this.luckCost = Math.round((this.player.basePoints[4]+5)*((this.player.basePoints[4]+1)/2)*1.04);
+    this.luckCost = Math.round((this.player.basePoints[4]+5)*((this.player.basePoints[4]+1))*1.15);
     }
   }
   addStamina(){
@@ -108,7 +108,7 @@ export class CharacterComponent implements OnInit {
   }
 
   costUpdate(){
-    this.strengthCost = Math.round((this.player.basePoints[0]+5)*((this.player.basePoints[0]+1)/2)*1.04);
+    this.strengthCost = Math.round((this.player.basePoints[0]+5)*((this.player.basePoints[0]+1)/3));
  
     this.staminaCost = Math.round((this.player.basePoints[1]+5)*((this.player.basePoints[1]+1)/2)*1.04);
 
@@ -116,7 +116,7 @@ export class CharacterComponent implements OnInit {
 
     this.hpCost = Math.round((this.player.basePoints[3]+5)*((this.player.basePoints[3]+1)/2)*1.04);
 
-    this.luckCost = Math.round((this.player.basePoints[4]+5)*((this.player.basePoints[4]+1)/2)*1.15);
+    this.luckCost = Math.round((this.player.basePoints[4]+5)*((this.player.basePoints[4]+1))*1.15);
   }
 
   setDefault(){

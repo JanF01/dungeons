@@ -16,7 +16,7 @@ export class User {
    luck: number;
    location: string;
    dungeon: number;
-   subdungeon: number;
+   subdungeon: Array<number>;
    goldInSack: number;
    graphic: string;
    weapon: string;

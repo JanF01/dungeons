@@ -98,10 +98,17 @@ mat-grid-tile{
             position:absolute;
             top:49.5%;
             width:4.2%;
+            z-index:2;
         }
         .bigMoneyBag{
-            top:47.2%;
+            top:45.2%;
             width:5.5%;
+            z-index:1;
+        }
+        .hugeMoneyBag{
+            top:47.7%;
+            width:6%;
+            z-index:3;
         }
         .coin{
             top:55%;

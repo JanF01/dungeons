@@ -61,7 +61,7 @@ export class ShopComponent implements OnInit {
     let backpack = document.getElementsByClassName('backpack') as HTMLCollectionOf<HTMLElement>;
     let width = window.innerWidth;
     var rect = backpack[0].getBoundingClientRect(); 
-    if(potion.x<=rect.x+width*0.8 && potion.x>rect.x+width/16 && potion.y>=rect.y-30 && potion.y<rect.y+width/35){
+    if(potion.x<=rect.x+width*0.8 && potion.x>rect.x+width/16 && potion.y>=rect.y-width/25 && potion.y<rect.y+width/35){
       return true;
      }
      else{

@@ -42,7 +42,7 @@
     </div>
 
     <div class="loot" *ngIf="showLoot">
-      <img *ngFor="let item of enemy.loot" [src]="item.graphic" class="{{item.class}}" [ngStyle]="{left: (70+item.offset)+'%' }" (click)="showCoins(item)" draggable="false">
+      <img *ngFor="let item of enemy.loot" [src]="item.graphic" class="{{item.class}}" [ngStyle]="{left: (70+item.offset)+'%' }" (mouseenter)="showCoins(item)" draggable="false">
       <img *ngFor="let coin of coins" [src]="coin[1]" class="coin" [ngStyle]="{left: (70+coin[2])+'%',top: 55+coin[2]-7.5+'%' }" @showUp [@grabGold]="{value: coin[3]}" draggable="false">
     </div>
 
@@ -58,7 +58,7 @@
         </div>
       </mat-grid-tile>
 
-      <mat-grid-tile (click)="fight(1)">
+      <mat-grid-tile (click)="fight(player.dungeon+1)">
         <div class="col"><span>Next Dungeon</span>
           <div class="add"><img src="assets/path.png" draggable="false"></div>
         </div>

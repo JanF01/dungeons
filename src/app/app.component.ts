@@ -10,6 +10,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'dungeons';
   mode: number = 2;
+  
 
   startCoins(){
     this.mode=1;
