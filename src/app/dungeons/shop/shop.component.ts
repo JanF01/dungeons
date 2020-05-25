@@ -96,8 +96,9 @@ export class ShopComponent implements OnInit {
 
     let potions = document.getElementsByClassName('item') as HTMLCollectionOf<HTMLElement>;
     potions[1].style.cursor="grab";
-
-
+    this.potionPos[1] = {x:0,y:0};
+ 
+    /*
     if(this.checkIfBought("stamina",1)){
       if(this.player.gold>=10){
         if(this.player.potions.length<8){
@@ -114,6 +115,9 @@ export class ShopComponent implements OnInit {
        }
       }
     }
+    */
+
+
   }
    buySpeedPotion(size,$event: CdkDragEnd){
 

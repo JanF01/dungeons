@@ -24,6 +24,13 @@ export class BackpackComponent implements OnInit {
   backHome(){
     this.player.location="home";
 
+    for(let i=0;i<this.player.loot.length;i++){
+      if(this.player.items.length<27){
+          this.player.items.push(this.player.loot[i]);
+      }
+      this.player.loot.splice(i,1);
+    }
+
     setTimeout(()=>{
       document.getElementById("cont").style.opacity = "1";
       let mBck = document.getElementsByClassName('mainBck') as HTMLCollectionOf<HTMLElement>;

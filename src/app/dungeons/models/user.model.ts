@@ -1,5 +1,6 @@
 import { Weapon } from "./items/weapon.model";
 import { Armor } from "./items/armor.model";
+import { Item } from "./item.model";
 
 export class User {
    name: string;
@@ -27,6 +28,7 @@ export class User {
    ring: string;
    potions: Array<any>;
    items: Array<any>;
+   loot: Array<Item>;
 
 
 }

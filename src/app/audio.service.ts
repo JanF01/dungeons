@@ -10,6 +10,7 @@ export class AudioService {
   swordThrow: any;
   enemyDmg: any;
   takeDmg: any;
+  block: any;
   smallMoneyBag: any;
   dead: any;
   playerDead: any;
@@ -20,13 +21,13 @@ export class AudioService {
   constructor() { 
     this.bckMusicOne = new Audio();
     this.bckMusicOne.src = "assets/main_background.mp3";
-    this.bckMusicOne.volume=0.007*this.globalVolume;
+    this.bckMusicOne.volume=0.008*this.globalVolume;
     this.bckMusicOne.load();
     this.bckMusicOne.loop = true;
 
     this.dungeonsBck = new Audio();
     this.dungeonsBck.src = "assets/dungeonsMusic.wav";
-    this.dungeonsBck.volume = 0.09;
+    this.dungeonsBck.volume = 0.11;
     this.dungeonsBck.load();
     this.dungeonsBck.loop = true;
 
@@ -35,16 +36,20 @@ export class AudioService {
     this.fireball.src="assets/fireball.mp3";
 
     this.swordThrow = new Audio();
-    this.swordThrow.volume=0.03*this.globalVolume;;
+    this.swordThrow.volume=0.03*this.globalVolume;
     this.swordThrow.src="assets/sword.mp3";
 
     this.enemyDmg = new Audio();
-    this.enemyDmg.volume=0.015*this.globalVolume;;
+    this.enemyDmg.volume=0.015*this.globalVolume;
     this.enemyDmg.src="assets/enemyDamage.mp3";
 
     this.takeDmg = new Audio();
-    this.takeDmg.volume=0.015*this.globalVolume;;
+    this.takeDmg.volume=0.015*this.globalVolume;
     this.takeDmg.src="assets/takeDamage.mp3";
+
+    this.block = new Audio();
+    this.block.volume = 0.016*this.globalVolume;
+    this.block.src="assets/block2.mp3";
 
 
     this.dead = new Audio();
@@ -84,6 +89,10 @@ export class AudioService {
   enemyDamage(){
     this.enemyDmg.play();
   }
+
+  playBlock(){
+    this.block.play();
+  }
   enemyDead(){
     this.dead.play();
   }
@@ -106,6 +115,7 @@ export class AudioService {
   stopDungeonMusic(){
     this.dungeonsBck.pause();
   }
+
 
 
 }

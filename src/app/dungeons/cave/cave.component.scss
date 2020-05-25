@@ -21,6 +21,16 @@ mat-grid-tile{
     }
 }
 
+app-infobubble{
+    min-width:8em;
+    min-height:10em;
+    pointer-events: none;
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:150;
+}
+
 .dfight{
     display:flex;
     width:100%;
@@ -110,6 +120,10 @@ mat-grid-tile{
             width:6%;
             z-index:3;
         }
+        .normal{
+            top:37%;
+            width:6%;
+        }
         .coin{
             top:55%;
             width:1.7%;
@@ -135,3 +149,89 @@ mat-grid-tile{
     left:20%;
 }
 
+
+.backpack{
+    position:absolute;
+    top:5%;
+    width:40%;
+    padding:2%;
+    left:3%;
+    min-height:60vh;
+    display:flex;
+    justify-content:center;
+
+    img{
+        width:7.1%;
+        margin:2%;
+    }
+    .spaces{
+       width:80%;
+       display:flex;
+       flex-wrap:wrap;
+       max-height:13.8em;
+       .spot{
+           height:6.9em;
+           width: calc( 100% / 4 - 0.4em );
+           background:radial-gradient(circle,#00000000,#000000a1 70%, #000000c9 90%);
+           border:solid rgba(0, 0, 0, 0.801) 0.2em;
+           border-right:none;     
+           @include flex();
+           img{
+               width:3.8em;
+               height:3.8em;
+               z-index:10;
+               transition:0.2s all;
+               &:hover{
+                  transform:scale(1.09);
+               }
+           }
+       }
+    }
+}
+
+
+
+.normal{
+    background:radial-gradient(circle,#00000000,#00000038 70%, #0000005d 90%);
+}
+.legend{
+    background:radial-gradient(circle,#00000000,#ceb10a81 70%, #cfb108a6 90%);
+}
+
+@media (min-width: 1200px){
+    section{
+    .backpack{
+    .spaces{
+        max-height:16em;
+        .spot{
+            height:8em;
+            img{
+         
+                width:4.4em;
+                height:4.4em;
+            }
+        }
+    }
+    }
+}
+
+}
+
+
+@media (min-width: 1550px){
+    section{
+    .backpack{
+    .spaces{
+        max-height:19.4em;
+        .spot{
+            height:9.7em;
+            img{
+           
+                width:5.2em;
+                height:5.2em;
+            }
+        }
+    }
+   }
+ }
+}

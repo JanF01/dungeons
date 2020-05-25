@@ -7,7 +7,7 @@ export class Weapon extends Item {
     state: number;
     
 
-    constructor(type,name,src,code,perks,dmgL,dmgH,state){
+    constructor(type,name,src,code,perks,dmgL,dmgH,state,public offset?: number,public clas?: string){
         super(type,name,src,code,perks);
 
         this.damageLow = dmgL;

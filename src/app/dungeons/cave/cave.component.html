@@ -2,13 +2,23 @@
 
 <section class="dfight" id="d">
 
-<div class="tile">
+  
+<div class="backpack" *ngIf="showItemsLooted">
+     <div class="spaces">
+         <div *ngFor="let i of [0,1,2,3,4,5,6,7]" class="spot" (mouseenter)="showInfo(player.loot[i])" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()">
+             <div></div>
+             <img *ngIf="player.loot[i]!=undefined" src="{{player.loot[i].graphic}}">
+         </div>
+ </div>
+ </div>
+
+<div class="tile" *ngIf="!showItemsLooted">
 
     <img src="{{this.player.graphic}}" @showUp [@momentum]="{value: playerAnimation}" [@takeDamage]="enemyHit" draggable="false">
-    <img src="assets/sword1.png" class="sword" @showUp [@swordMomentum]="{value: swordAnimation}" draggable="false">
+    <img src="{{this.player.weapon.graphic}}" class="sword" @showUp [@swordMomentum]="{value: swordAnimation}" draggable="false">
 
     <div *ngFor="let damage of playerDamage">
-      <div class="playerDamage" @showUp [@showDamage]="{value: damage[1]}">{{damage[0]}}</div>
+      <div class="playerDamage" [ngStyle]="{color: damage[0]==0?'#60A0FF':'#da0a0a'}" @showUp [@showDamage]="{value: damage[1]}">{{damage[0]}}</div>
     </div>
 
     <div class="hp">
@@ -42,14 +52,14 @@
     </div>
 
     <div class="loot" *ngIf="showLoot">
-      <img *ngFor="let item of enemy.loot" [src]="item.graphic" class="{{item.class}}" [ngStyle]="{left: (70+item.offset)+'%' }" (mouseenter)="showCoins(item)" draggable="false">
+      <img *ngFor="let item of enemy.loot" [src]="item.graphic" class="{{item.clas}}" [ngStyle]="{left: (70+item.offset)+'%' }" (mouseenter)="showCoins(item)" (click)="collectItem(item)" draggable="false">
       <img *ngFor="let coin of coins" [src]="coin[1]" class="coin" [ngStyle]="{left: (70+coin[2])+'%',top: 55+coin[2]-7.5+'%' }" @showUp [@grabGold]="{value: coin[3]}" draggable="false">
     </div>
 
   </div>
 
 
-  <div *ngIf="!fighting" style="width:50%;min-height:100vh">
+  <div *ngIf="!fighting" style="width:50%;min-height:100vh" [ngStyle]="{marginLeft: this.showItemsLooted?'50%':'0%'}">
     <mat-grid-list cols="2" rowHeight="1:1">
 
       <mat-grid-tile (click)="goBackToMap()">
@@ -70,7 +80,7 @@
         </div>
       </mat-grid-tile>
 
-      <mat-grid-tile>
+      <mat-grid-tile (click)="showItemsLooted=!showItemsLooted">
         <div class="col"><span>Loot</span>
           <div class="add"><img src="assets/loot.png" draggable="false"></div>
         </div>
@@ -78,8 +88,12 @@
 
     </mat-grid-list>
 
-   <app-potions [potions]="this.potions" [user]="this.player" [buildUp]="this.speedBuildUp" [character]="false"></app-potions>
+   <app-potions *ngIf="!showItemsLooted" [potions]="potions" [user]="player" [buildUp]="speedBuildUp" [character]="false"></app-potions>
   </div>
 
 
+
+
 </section>
+
+<app-infobubble [user]="player" [item]="itemForInfo" *ngIf="showInfoBubble" [ngStyle]="{left: ''+ bubblePos.x + 'px' ,top: ''+bubblePos.y + 'px'}"></app-infobubble>

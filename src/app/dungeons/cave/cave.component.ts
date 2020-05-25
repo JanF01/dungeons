@@ -8,6 +8,8 @@ import { AdditionAnimations } from '../animations/additions.animation';
 import { AudioService } from '../../audio.service';
 import { DungeonsService } from '../../dungeons.service';
 import { ImagesService } from '../../images.service';
+import { Item } from '../models/item.model';
+import { Weapon } from '../models/items/weapon.model';
 
 @Component({
   selector: 'app-cave',
@@ -29,7 +31,7 @@ export class CaveComponent {
 
   @Input('user') player: User;
 
-  speed: number = 0.5;
+  speed: number = 0.6;
 
   fighting: boolean = true; 
 
@@ -43,6 +45,7 @@ export class CaveComponent {
   playerDamage: Array<any> = [];
   enemyHit: boolean = false;
   showLoot: boolean = false;
+  showItemsLooted: boolean = false;
   enemy: Enemy;
   speedBuildUp = 0;
   potions = {
@@ -64,6 +67,18 @@ export class CaveComponent {
 
 
   backHome(){
+
+    this.showItemsLooted=false;
+
+
+
+    while(this.player.loot[0]!=undefined){
+      if(this.player.items.length<27){
+          this.player.items.push(this.player.loot[0]);
+      }
+      this.player.loot.splice(0,1);
+    }
+    
 
     this.player.location='home'; 
     this.player.gold+=this.player.goldInSack; 
@@ -87,6 +102,8 @@ export class CaveComponent {
    }
 
    goBackToMap(){
+
+    this.showItemsLooted=false;
 
     this.player.location='dungeons';
     this.audio.dungeonsBck.volume=0.09;
@@ -151,7 +168,7 @@ nextFight(lvl){
 
   fight(lvl){
 
-
+      this.showItemsLooted=false;
     
       this.DI=1;
       this.potions.hp=0;
@@ -185,7 +202,7 @@ nextFight(lvl){
 
   }
 
-
+  critical = 1;
 
   playerTurn(){
 
@@ -193,7 +210,11 @@ nextFight(lvl){
 
     setTimeout(()=>{
     this.playerAnimation = "playerTurn";
-    dmg = Math.round(this.player.strength*Math.round(this.player.weapon.damageLow+Math.random()*(this.player.weapon.damageHigh-this.player.weapon.damageLow)));
+
+    Math.random()<0.1?this.critical=1.8:this.critical=1;
+    dmg = Math.round(this.player.strength*(this.player.weapon.damageLow+Math.random()*(this.player.weapon.damageHigh-this.player.weapon.damageLow))*this.critical);
+       
+  
     },11*this.speed);
 
     setTimeout(()=>{ this.throwSword(); },411*this.speed)
@@ -204,16 +225,23 @@ nextFight(lvl){
 
   }
 
-
+  
+  block = 0;
 
   enemyTurn(){
     this.enemyFireball();
 
-    setTimeout(()=>{ this.enemyHitAnimation(); },660*this.speed);
+    this.block = Math.random()*100;
+    let dmg = this.block<this.player.armor.chance?this.enemy.damage-this.player.armor.defence:this.enemy.damage;
+    if(dmg<0) dmg=0;
+
+
+    setTimeout(()=>{ this.enemyHitAnimation(dmg); },660*this.speed);
+    
 
     setTimeout(()=>{
     
-      this.playerHurt();
+      this.playerHurt(dmg);
 
 
       setTimeout(()=>{ 
@@ -230,6 +258,8 @@ nextFight(lvl){
 
   
   showCoins(bag: MoneyBag){
+
+   if(bag.coins!=undefined){
 
      for(let i=bag.coins+Math.random()*this.player.luck;i>0;){
       if(i>=30){
@@ -267,6 +297,36 @@ nextFight(lvl){
      }
 
      this.audio.openSmallMoneyBag();
+
+    }
+
+  }
+
+  collectItem(item: Weapon){
+
+      if(item.code!=undefined){
+
+        if(this.player.loot.length<8){
+
+       
+          if(!this.player.loot.includes(item)){
+          this.player.loot.push(item);
+          }
+
+        }
+        
+        setTimeout(()=>{
+
+          let index = this.enemy.loot.indexOf(item); 
+          this.enemy.loot.splice(index,1);
+
+              if(this.enemy.loot.length<1){
+              this.nextDungeon();
+              }
+
+          },600);
+
+      }
 
   }
 
@@ -316,6 +376,8 @@ nextFight(lvl){
     this.player.goldInSack=0;
     this.player.subdungeon[this.player.dungeon]=0;
 
+    this.player.loot = [];
+
     setTimeout(()=>{
     this.backHome();
     this.player.health = 0;
@@ -342,12 +404,13 @@ nextFight(lvl){
     if(this.enemy.health<0) this.enemy.health=0;
   }
 
-  playerHurt(){
+  playerHurt(dmg){
+
     this.enemyHit=false;
-    this.playerDamage.push([Math.round(this.enemy.damage*this.DI),false]);
+    this.playerDamage.push([Math.round(dmg*this.DI),false]);
     setTimeout(()=>{
 
-      this.playerDamage[this.playerDamage.length-1][1] = true;3
+      this.playerDamage[this.playerDamage.length-1][1] = true;
       },10*this.speed);
 
       setTimeout(()=>{
@@ -362,11 +425,16 @@ nextFight(lvl){
     this.audio.throwFireball();
   }
 
-  enemyHitAnimation(){
-    this.audio.takeDamage();  
+  enemyHitAnimation(dmg){
     this.enemyState = "back";
-    this.enemyHit=true;
-    this.player.health-=Math.round(this.enemy.damage*this.DI);
+    if(dmg!=0){
+      this.audio.takeDamage();  
+      this.enemyHit=true;
+    }
+    else{
+      this.audio.playBlock();  
+    }
+    this.player.health-=Math.round(dmg*this.DI);
   }
 
   enemyHurt(dmg){
@@ -381,6 +449,31 @@ nextFight(lvl){
       this.enemyDamage.shift();
     },2449);
 
+  }
+
+
+
+
+  //bubble
+
+  itemForInfo: any;
+  showInfoBubble = false;
+  bubblePos = {x:180,y:180};
+
+  showInfo(item){
+  
+      this.itemForInfo = item;
+      this.showInfoBubble=true;
+
+  }
+
+  changePosition($event: MouseEvent){
+     this.bubblePos.x = $event.clientX;
+     this.bubblePos.y = $event.clientY;
+  }
+
+  hideInfo(){
+    this.showInfoBubble=false;
   }
 
 

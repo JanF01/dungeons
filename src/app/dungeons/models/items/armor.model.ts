@@ -6,7 +6,7 @@ export class Armor extends Item {
     chance: number;
     state: number;
 
-    constructor(type,name,src,code,perks,def,chance,status){
+    constructor(type,name,src,code,perks,def,chance,status,public offset?: number, public clas?: string){
           super(type,name,src,perks,code);
 
           this.defence = def;

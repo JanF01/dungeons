@@ -1,9 +1,11 @@
-<div>
+<div *ngIf="this.item!=undefined">
 <img src="{{this.getSrc()}}" [ngStyle]="{opacity: this.item.type=='normal'?'0.95':'0.8'}">
 </div>
+<div *ngIf="this.item!=undefined">
 <span class="name">{{item.name}}</span>
-<span class="strength" *ngIf="this.item.power!=undefined">Power: {{item.power}}</span>
+<span class="strength" *ngIf="this.item.power!=undefined">Power: {{this.getPower(item.power)}}</span>
 <span class="defence" *ngIf="this.item.defence!=undefined">Defence: {{item.defence}}</span>
 <span class="strength" *ngIf="this.item.damageLow!=undefined">DMG: {{item.damageLow}} - {{item.damageHigh}}</span>
 <span class="status" *ngIf="this.item.state!=undefined">Status: <div [ngStyle]="{background: 'linear-gradient(to right,rgb(25, 193, 223) '+ (this.item.state-2) +'%, #30F17000 '+this.item.state+'%)'}"></div></span>
-<span class="reliability" *ngIf="this.item.chance!=undefined">Reliability: {{item.chance}}</span>
+<span class="reliability" *ngIf="this.item.chance!=undefined">Reliability: {{item.chance}}%</span>
+</div>

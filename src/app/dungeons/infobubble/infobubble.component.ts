@@ -8,10 +8,15 @@ import { Component, OnInit, Input } from '@angular/core';
 export class InfobubbleComponent implements OnInit {
 
   @Input('item') item: any;
+  @Input('user') player: any;
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  getPower(p){
+     return Math.round(p+this.player.hitPoints*0.09);
   }
 
   getSrc(){

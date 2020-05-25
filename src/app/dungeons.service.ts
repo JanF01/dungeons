@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Dungeon } from './dungeons/models/dungeon.model';
 import { Enemy } from './dungeons/models/enemy.model';
 import { MoneyBag } from './dungeons/models/moneyBag.model';
+import { Weapon } from './dungeons/models/items/weapon.model';
 
 @Injectable({
   providedIn: 'root'
@@ -60,6 +61,9 @@ export class DungeonsService {
 
  }
 
+ private weapons = [new Weapon("normal","A Fricking Sword","assets/sword2.png","#00A11","fire",4,5,100,0,"normal"),
+ new Weapon("legend","Big Black","assets/sword3.png","#00A01","darkness",8,12,100,0,"legend")];
+
  createLoot(dungeon: number, subdungeon: number){
 
 
@@ -77,6 +81,13 @@ export class DungeonsService {
         src = "assets/hugeMoneySack.png";
         size = "hugeMoneyBag";
          i-=10;
+         if(coins==40){
+         setTimeout(()=>{
+          var sword: Weapon = Object.assign({},this.weapons[1]);
+          sword.offset = Math.random()*30-15;
+          loot.push(sword);
+        },10);
+      }
        }
        else{
         coins = Math.round(Math.random()*3+2)+Math.round(Math.random()*0.7)*10;
@@ -84,7 +95,13 @@ export class DungeonsService {
          {
            src = "assets/bigMoneySack.png";
            size = "bigMoneyBag";
-
+           if(coins==12){
+             setTimeout(()=>{
+               var sword: Weapon = Object.assign({},this.weapons[0]);
+               sword.offset = Math.random()*30-15;
+               loot.push(sword);
+             },10);
+           }
          }else{
            src = "assets/smallMoneySack.png"
            size = "smallMoneyBag";
@@ -94,7 +111,7 @@ export class DungeonsService {
          
 
          loot.push(new MoneyBag(coins,src,Math.random()*30-15,size));
-     }
+    }
 
      return loot;
  
