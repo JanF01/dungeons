@@ -164,8 +164,8 @@ nextFight(lvl){
 
       this.enemy = this.dungeons.dungeons[this.player.dungeon].monsters[this.player.subdungeon[this.player.dungeon]];
 
-      for(let i=0;i<this.player.items.length;i++){
-           switch(this.player.items[i].type){
+      for(let i=0;i<this.player.potions.length;i++){
+           switch(this.player.potions[i].type){
              case 'hp':
                this.potions.hp++;
              break;
@@ -189,15 +189,18 @@ nextFight(lvl){
 
   playerTurn(){
 
+    let dmg;
+
     setTimeout(()=>{
     this.playerAnimation = "playerTurn";
+    dmg = Math.round(this.player.strength*Math.round(this.player.weapon.damageLow+Math.random()*(this.player.weapon.damageHigh-this.player.weapon.damageLow)));
     },11*this.speed);
 
     setTimeout(()=>{ this.throwSword(); },411*this.speed)
 
-    setTimeout(()=>{ this.hitEnemy(); },711*this.speed);
+    setTimeout(()=>{ this.hitEnemy(dmg); },711*this.speed);
 
-    setTimeout(()=>{ this.enemyHurt(); },911*this.speed);
+    setTimeout(()=>{ this.enemyHurt(dmg); },911*this.speed);
 
   }
 
@@ -330,11 +333,12 @@ nextFight(lvl){
     this.audio.throwSword();
   }
 
-  hitEnemy(){
+  hitEnemy(dmg){
     this.audio.enemyDamage();
     this.swordAnimation = "back";
     this.enemyState = "takeDamage";
-    this.enemy.health-=Math.round(this.player.damage*this.DI);
+
+    this.enemy.health-=Math.round(dmg*this.DI);
     if(this.enemy.health<0) this.enemy.health=0;
   }
 
@@ -365,9 +369,9 @@ nextFight(lvl){
     this.player.health-=Math.round(this.enemy.damage*this.DI);
   }
 
-  enemyHurt(){
+  enemyHurt(dmg){
     this.enemyState = "back";
-    this.enemyDamage.push([Math.round(this.player.damage*this.DI),false]);
+    this.enemyDamage.push([Math.round(dmg*this.DI),false]);
 
     setTimeout(()=>{ 
       this.enemyDamage[this.enemyDamage.length-1][1] = true; 

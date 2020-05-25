@@ -30,8 +30,8 @@ export class CharacterComponent implements OnInit {
 
 
   countPotions(){
-    for(let i=0;i<this.player.items.length;i++){
-      switch(this.player.items[i].type){
+    for(let i=0;i<this.player.potions.length;i++){
+      switch(this.player.potions[i].type){
         case 'hp':
           this.potions.hp++;
         break;

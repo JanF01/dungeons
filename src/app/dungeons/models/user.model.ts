@@ -1,3 +1,5 @@
+import { Weapon } from "./items/weapon.model";
+import { Armor } from "./items/armor.model";
 
 export class User {
    name: string;
@@ -19,10 +21,11 @@ export class User {
    subdungeon: Array<number>;
    goldInSack: number;
    graphic: string;
-   weapon: string;
-   armor: string;
+   weapon: Weapon;
+   armor: Armor;
    necklace: string;
    ring: string;
+   potions: Array<any>;
    items: Array<any>;
 
 

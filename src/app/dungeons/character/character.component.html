@@ -6,8 +6,8 @@
     
 
 <div class="user">
-    <img class="weapon item" src="{{player.weapon}}" draggable="false" cdkDrag [cdkDragFreeDragPosition]="weaponPos" (cdkDragEnded)="weaponDrop($event)" (cdkDragStarted)="startDrag()">
-    <img class="armor item" src="{{player.armor}}" draggable="false" cdkDrag [cdkDragFreeDragPosition]="armorPos" (cdkDragEnded)="armorDrop($event)" (cdkDragStarted)="startDrag()">
+    <img class="weapon item" src="{{player.weapon.graphic}}" draggable="false" cdkDrag [cdkDragFreeDragPosition]="weaponPos" (cdkDragEnded)="weaponDrop($event)" (cdkDragStarted)="startDrag()">
+    <img class="armor item" src="{{player.armor.graphic}}" draggable="false" cdkDrag [cdkDragFreeDragPosition]="armorPos" (cdkDragEnded)="armorDrop($event)" (cdkDragStarted)="startDrag()">
     <img class="necklace item" src="{{player.necklace}}" draggable="false" cdkDrag [cdkDragFreeDragPosition]="necklacePos" (cdkDragEnded)="necklaceDrop($event)" (cdkDragStarted)="startDrag()">
     <img class="ring item" src="{{player.ring}}" draggable="false" cdkDrag [cdkDragFreeDragPosition]="ringPos" (cdkDragEnded)="ringDrop($event)" (cdkDragStarted)="startDrag()">
     <img src="{{this.player.graphic}}" draggable="false">

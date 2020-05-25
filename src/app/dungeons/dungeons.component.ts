@@ -8,6 +8,9 @@ import { ShopComponent } from './shop/shop.component';
 import { ImagesService } from '../images.service';
 import { CharacterComponent } from './character/character.component';
 import { BackpackComponent } from './backpack/backpack.component';
+import { Item } from './models/item.model';
+import { Armor } from './models/items/armor.model';
+import { Weapon } from './models/items/weapon.model';
 
 @Component({
   selector: 'app-dungeons',
@@ -52,11 +55,13 @@ export class DungeonsComponent implements OnInit {
       subdungeon: [0,0,0,0,0,0,0,0,0,0,0,0],
       goldInSack: 0,
       graphic: "assets/knight1.png",
-      weapon: "assets/sword1.png",
-      armor: "assets/armor2.png",
+      weapon: new Weapon("legend","Dagger of Doom","assets/sword1.png","#00A9A","none",2,4,92),
+      armor: new Armor("normal","Just an Armor","assets/armor2.png","#00B11","none",9,20,59),
       necklace: "assets/necklace.png",
       ring: "assets/ring2.png",
-      items: [new Potion(images.hpPotion,"hp",600)]
+      potions: [new Potion("Health I",images.hpPotion,"hp",600)],
+      items: [new Weapon("legend","Dagger of Doom","assets/sword1.png","#00A9A","none",2,4,92),
+      new Armor("normal","Just an Armor","assets/armor2.png","#00B11","none",9,20,59)]
     }
 
     setTimeout(()=>{

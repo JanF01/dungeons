@@ -11,6 +11,15 @@
     -ms-border-radius:$r;
 }
 
+app-infobubble{
+    min-width:8em;
+    min-height:10em;
+    pointer-events: none;
+    position:absolute;
+    top:0;
+    left:0;
+}
+
 section{
 
     .bkg{
@@ -73,6 +82,7 @@ section{
                 &:hover{
                     cursor:grab;
                 }
+                z-index:10;
                 div{
                     @include flex();
                     position:relative;
@@ -82,6 +92,7 @@ section{
                     opacity:0;
                     img{
                         width:0.9em;
+
                     }
                     span{
                         font-size:0.95em;
@@ -106,7 +117,6 @@ section{
 
 
   .backpack{
-      z-index:-1;
       position:absolute;
       top:73%;
       min-width:90%;
@@ -140,13 +150,16 @@ section{
              width: calc( 100% / 8 );
              background:radial-gradient(circle,#00000000,#000000a1 70%, #000000c9 90%);
              border:solid rgba(0, 0, 0, 0.801) 0.2em;
-             border-right:none;
-          
+             border-right:none;     
              @include flex();
              img{
                  width:3.8em;
                  height:3.8em;
                  z-index:10;
+                 transition:0.2s all;
+                 &:hover{
+                    transform:scale(1.09);
+                 }
              }
          }
       }

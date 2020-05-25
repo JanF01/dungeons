@@ -108,6 +108,17 @@ img{
         transform:scale(1.16);
     }
   }
+
+
+  .cdk-drag{
+   z-index:100 !important;
+  }
+
+  .cdk-drag-dragging{
+    z-index:201 !important;
+  }
+
+
   @media (min-width:1600px){
     .potion{
       width:3.9em;

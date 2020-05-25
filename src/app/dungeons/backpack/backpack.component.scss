@@ -9,6 +9,21 @@
     -moz-border-radius:$r;
     -ms-border-radius:$r;
 }
+
+
+
+
+app-infobubble{
+    min-width:8em;
+    min-height:10em;
+    pointer-events: none;
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:150;
+}
+
+
 section{
 
     min-height:100vh;
@@ -31,7 +46,6 @@ section{
 
 
 .backpack{
-    z-index:-1;
     position:absolute;
     top:5%;
     min-width:77%;
@@ -51,7 +65,7 @@ section{
         margin:2%;
     }
     .spaces{
-       min-width:80%;
+       min-width:86%;
        display:flex;
        min-height:6.8em;
        &::before{
@@ -68,30 +82,45 @@ section{
           z-index: -1;   
         }
        .spot{
+           position:relative;
            min-height:100%;
-           width: calc( 100% / 8 - 0.4em );
-           background:radial-gradient(circle,#00000000,#000000a1 70%, #000000c9 90%);
-           border:solid rgba(0, 0, 0, 0.801) 0.2em;
-           border-right:none;
-        
+           width: calc( 100% / 9 - 0.4em );
            @include flex();
+           div{
+               width:100%;
+               min-height:100%;
+               position:absolute;
+               left:0;
+               top:0;
+               z-index:100;
+               background:radial-gradient(circle,#00000000,#000000a1 70%, #000000c9 90%);
+               border:solid rgba(0, 0, 0, 0.801) 0.2em;
+               border-right:none;
+           }
            img{
+               z-index:130 !important;
                width:3.8em;
                height:3.8em;
-               z-index:10;
+               transition:0.3s all;
+           }
+           &:hover{
+            img{
+            transform:scale(1.09);
+           }
+           cursor:grab;
            }
        }
     }
  }
    .items{
        margin-top:5%;
-       margin-left:5.55%;
+       margin-left:0.5%;
        .spaces{
+        min-width:96%;
         min-height:20.4em;
        flex-wrap:wrap;
        .spot{
-        background:radial-gradient(circle,#00000000,#00000081 70%, #000000a9 90%);
-        border-color:rgba(0, 0, 0, 0.692);
+        height:6.8em;
        }
        }
 
@@ -104,6 +133,13 @@ section{
 
 }
 
+.normal{
+    background:radial-gradient(circle,#00000000,#000000a1 70%, #000000c9 90%);
+}
+.legend{
+    background:radial-gradient(circle,#00000000,#a78f0aa1 70%, #a78f0ac9 90%);
+}
+
 @media (min-width: 1200px){
     section{
     .backpack{
@@ -112,6 +148,7 @@ section{
         min-height:8em;
         .spot{
             img{
+         
                 width:4.4em;
                 height:4.4em;
             }
@@ -121,6 +158,9 @@ section{
 .items{
     .spaces{
         min-height:24em;
+        .spot{
+            height:8em;
+        }
     }
 }
 }
@@ -134,6 +174,7 @@ section{
         min-height:9.7em;
         .spot{
             img{
+           
                 width:5.2em;
                 height:5.2em;
             }
@@ -143,6 +184,9 @@ section{
    .items{
     .spaces{
         min-height:29.1em;
+        .spot{
+            height:9.7em;
+        }
     }
 }
 }

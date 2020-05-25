@@ -72,17 +72,17 @@ export class ShopComponent implements OnInit {
 
   buyHpPotion(size,$event: CdkDragEnd){
 
-    let items = document.getElementsByClassName('item') as HTMLCollectionOf<HTMLElement>;
-    items[0].style.cursor="grab";
+    let potions = document.getElementsByClassName('item') as HTMLCollectionOf<HTMLElement>;
+    potions[0].style.cursor="grab";
 
     if(this.checkIfBought("hp",0)){
       if(this.player.gold>=10){
-        if(this.player.items.length<8){
+        if(this.player.potions.length<8){
         this.player.gold-=10;
         let potion = this.images.newHpPotion() as HTMLImageElement;
         potion.classList.toggle("potionInBackpack");
 
-        this.player.items.push(new Potion(potion,"hp",size));
+        this.player.potions.push(new Potion("Health I", potion,"hp",size));
    
         this.potionPos[0] = {x:0,y:0};
         }
@@ -94,18 +94,18 @@ export class ShopComponent implements OnInit {
   }
    buyStaminaPotion(size,$event: CdkDragEnd){
 
-    let items = document.getElementsByClassName('item') as HTMLCollectionOf<HTMLElement>;
-    items[1].style.cursor="grab";
+    let potions = document.getElementsByClassName('item') as HTMLCollectionOf<HTMLElement>;
+    potions[1].style.cursor="grab";
 
 
     if(this.checkIfBought("stamina",1)){
       if(this.player.gold>=10){
-        if(this.player.items.length<8){
+        if(this.player.potions.length<8){
         this.player.gold-=10;
         let potion = this.images.newStaminaPotion() as HTMLImageElement;
         potion.classList.toggle("potionInBackpack");
 
-        this.player.items.push(new Potion(potion,"stamina",size));
+        this.player.potions.push(new Potion("Stamina I",potion,"stamina",size));
     
         this.potionPos[1] = {x:0,y:0};
       }
@@ -117,17 +117,17 @@ export class ShopComponent implements OnInit {
   }
    buySpeedPotion(size,$event: CdkDragEnd){
 
-    let items = document.getElementsByClassName('item') as HTMLCollectionOf<HTMLElement>;
-    items[2].style.cursor="grab";
+    let potions = document.getElementsByClassName('item') as HTMLCollectionOf<HTMLElement>;
+    potions[2].style.cursor="grab";
 
     if(this.checkIfBought("speed",2)){
       if(this.player.gold>=5){
-        if(this.player.items.length<8){
+        if(this.player.potions.length<8){
         this.player.gold-=5;
         let potion = this.images.newSpeedPotion() as HTMLImageElement;
         potion.classList.toggle("potionInBackpack");
 
-        this.player.items.push(new Potion(potion,"speed",size));
+        this.player.potions.push(new Potion("Speed I",potion,"speed",size));
       
         this.potionPos[2] = {x:0,y:0};
         }
@@ -149,8 +149,28 @@ export class ShopComponent implements OnInit {
   }
 
   grab(i){
-    let items = document.getElementsByClassName('item') as HTMLCollectionOf<HTMLElement>;
-    items[i].style.cursor="grabbing";
+    let potions = document.getElementsByClassName('item') as HTMLCollectionOf<HTMLElement>;
+    potions[i].style.cursor="grabbing";
+  }
+
+
+  itemForInfo: any;
+  showInfoBubble = false;
+  bubblePos = {x:180,y:180};
+
+  showInfo(item){
+  
+      this.itemForInfo = item;
+      this.showInfoBubble=true;
+
+  }
+  changePosition($event: MouseEvent){
+     this.bubblePos.x = $event.clientX;
+     this.bubblePos.y = $event.clientY;
+  }
+
+  hideInfo(){
+    this.showInfoBubble=false;
   }
 
 }

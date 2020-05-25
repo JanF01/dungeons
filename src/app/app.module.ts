@@ -18,6 +18,7 @@ import { ImagesService } from './images.service';
 import { BackpackComponent } from './dungeons/backpack/backpack.component';
 import { LeftNavComponent } from './dungeons/left-nav/left-nav.component';
 import { PotionsComponent } from './dungeons/potions/potions.component';
+import { InfobubbleComponent } from './dungeons/infobubble/infobubble.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { PotionsComponent } from './dungeons/potions/potions.component';
     ShopComponent,
     BackpackComponent,
     LeftNavComponent,
-    PotionsComponent
+    PotionsComponent,
+    InfobubbleComponent
   ],
   imports: [
     BrowserModule,

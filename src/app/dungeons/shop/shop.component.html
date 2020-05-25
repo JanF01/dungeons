@@ -35,30 +35,10 @@
     <div class="backpack">
         <img src="assets/backpack.png">
         <div class="spaces">
-            <div class="spot">
-                <img *ngIf="player.items[0]!=undefined" src="{{player.items[0].graphic.src}}">
+            <div *ngFor="let i of [0,1,2,3,4,5,6,7,8]" class="spot" (mouseenter)="showInfo(player.potions[i])" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()">
+                <img *ngIf="player.potions[i]!=undefined" src="{{player.potions[i].graphic.src}}">
             </div>
-            <div class="spot">
-                <img *ngIf="player.items[1]!=undefined" src="{{player.items[1].graphic.src}}">
-            </div>
-            <div class="spot">
-                <img *ngIf="player.items[2]!=undefined" src="{{player.items[2].graphic.src}}">
-            </div>
-            <div class="spot">
-                <img *ngIf="player.items[3]!=undefined" src="{{player.items[3].graphic.src}}">
-            </div>
-            <div class="spot">
-                <img *ngIf="player.items[4]!=undefined" src="{{player.items[4].graphic.src}}">
-            </div>
-            <div class="spot">
-                <img *ngIf="player.items[5]!=undefined" src="{{player.items[5].graphic.src}}">
-            </div>
-            <div class="spot">
-                <img *ngIf="player.items[6]!=undefined" src="{{player.items[6].graphic.src}}">
-            </div>
-            <div class="spot">
-                <img *ngIf="player.items[7]!=undefined" src="{{player.items[7].graphic.src}}">
-            </div>
+          
         </div>
     </div>
 
@@ -67,3 +47,5 @@
     <img src="assets/background3d.jpg" class="bkg">
 
 </section>
+
+<app-infobubble [item]="itemForInfo" *ngIf="showInfoBubble" [ngStyle]="{left: ''+ bubblePos.x + 'px' ,top: ''+bubblePos.y + 'px'}"></app-infobubble>

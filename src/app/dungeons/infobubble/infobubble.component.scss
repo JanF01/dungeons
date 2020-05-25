@@ -1,0 +1,51 @@
+div{
+   min-width:12em;
+   height:auto;
+   font-family:"Abel",sans-serif;
+    img{
+        position:absolute;
+        top:-13em;
+        left:-2.7em;
+        width:12.4em;
+        opacity:0.8;
+       }
+}
+
+span{
+       position:absolute;
+       display:block;
+       color:rgb(231, 223, 186);
+   }
+.name{
+    top:-8em;
+    left:-1em;
+    font-size:1.5em;
+}
+.strength,.defence{
+    top:-7em;
+    left:-1em;
+    font-size:1.35em;
+}
+.status{
+    display:flex;
+    align-items:center;
+    top:-5.4em;
+    left:-1em;
+    font-size:1.35em;
+    div{
+        margin-left:0.2em;
+        margin-top:0.2em;
+        min-width:4.2em;
+        height:0.6em;
+        -webkit-border-radius:0.2em;
+        -moz-border-radius:0.2em;
+        -ms-border-radius:0.2em;
+        border-radius:0.2em;
+        border:solid 0.06em rgb(25, 193, 223);
+    }
+}
+.reliability{
+    top:-3.4em;
+    left:-1em;
+    font-size:1.35em;
+}
