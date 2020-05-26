@@ -55,7 +55,7 @@ export class DungeonsComponent implements OnInit {
       subdungeon: [0,0,0,0,0,0,0,0,0,0,0,0],
       goldInSack: 0,
       graphic: "assets/knight1.png",
-      weapon: new Weapon("legend","Dagger of Doom","assets/sword1.png","#00A9A","none",2,4,100),
+      weapon: new Weapon("legend","Dagger of Doom","assets/sword1.png","#00A9A","none",200,400,100),
       armor: new Armor("normal","Just an Armor","assets/armor2.png","#00B11","none",39,10,100),
       necklace: "assets/necklace.png",
       ring: "assets/ring2.png",

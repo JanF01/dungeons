@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { User } from '../models/user.model';
 import { ImagesService } from '../../images.service';
+import { Weapon } from '../models/items/weapon.model';
+import { Armor } from '../models/items/armor.model';
 
 @Component({
   selector: 'app-backpack',
@@ -24,12 +26,6 @@ export class BackpackComponent implements OnInit {
   backHome(){
     this.player.location="home";
 
-    for(let i=0;i<this.player.loot.length;i++){
-      if(this.player.items.length<27){
-          this.player.items.push(this.player.loot[i]);
-      }
-      this.player.loot.splice(i,1);
-    }
 
     setTimeout(()=>{
       document.getElementById("cont").style.opacity = "1";
@@ -89,6 +85,45 @@ draggedItem: HTMLElement;
     this.bubblePos.y = pos.y;
   }
 
+  dropItem(i){
+    let items = document.getElementsByClassName('spot') as HTMLCollectionOf<HTMLElement>;
+
+    var dropedPos = items[i].getBoundingClientRect();
+
+    if(this.player.items[i-9].damageLow!=undefined){
+      this.changeItems(this.player.items[i-9],dropedPos,i,"weapon");
+    }
+    else if(this.player.items[i-9].defence!=undefined){
+      this.changeItems(this.player.items[i-9],dropedPos,i,"armor");
+    }
+    else{
+      this.setDefault(i);
+    }
+  }
+
+
+  changeItems(item,pos,i,type){
+
+    let box = document.getElementById(type).getBoundingClientRect();
+    let w =  window.innerWidth;
+
+    if(pos.x>box.x-w/16 && pos.x<box.x+w/15 && pos.y>box.y-w/17 && pos.y<box.y+w/14){
+
+      if(type=="weapon"){
+        this.player.items[this.player.items.indexOf(item)] = this.player.weapon;
+        this.player.weapon = item;
+      }
+      else if(type=="armor"){
+        this.player.items[this.player.items.indexOf(item)] = this.player.armor;
+        this.player.armor = item;
+      }
+
+      
+      this.setDefault(i);
+    }else{
+    this.setDefault(i);
+    }
+  }
   setDefault(i){
     let items = document.getElementsByClassName('spot') as HTMLCollectionOf<HTMLElement>;
     for(let i=0;i<items.length;i++){

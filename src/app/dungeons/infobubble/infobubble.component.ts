@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { ImagesService } from '../../images.service';
 
 @Component({
   selector: 'app-infobubble',
@@ -10,7 +11,7 @@ export class InfobubbleComponent implements OnInit {
   @Input('item') item: any;
   @Input('user') player: any;
 
-  constructor() { }
+  constructor(private images: ImagesService) { }
 
   ngOnInit(): void {
   }
@@ -23,19 +24,19 @@ export class InfobubbleComponent implements OnInit {
 
     switch(this.item.type){
        case 'hp':
-            return "assets/healthPotionInfo.png";
+            return this.images.healthBubble.src;
           break;
        case 'stamina':
-            return "assets/staminaPotionInfo.png";
+            return this.images.staminaBubble.src;
           break;
        case 'speed':
-            return "assets/speedPotionInfo.png";
+            return this.images.speedBubble.src;
           break;
        case 'normal':
-            return "assets/itemInfo.png";
+            return this.images.normalBubble.src;
         break;
         case 'legend':
-            return "assets/legendItemInfo.png";
+            return this.images.legendBubble.src;
         break;
     }
   

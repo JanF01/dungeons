@@ -11,6 +11,12 @@ export class ImagesService {
   hpPotion = new Image(256,256);
   speedPotion = new Image(256,256);
   staminaPotion = new Image(256,256);
+  staminaBubble = new Image(343,377);
+  healthBubble = new Image(343,377);
+  speedBubble = new Image(343,377);
+  normalBubble = new Image(343,377);
+  legendBubble = new Image(343,377);
+
 
   constructor() {
      this.map.src = "assets/map.jpg";
@@ -31,6 +37,13 @@ export class ImagesService {
      this.hpPotion.classList.toggle("potion");
      this.staminaPotion.classList.toggle("potion");
      this.speedPotion.classList.toggle("potion");
+
+
+     this.staminaBubble.src = "assets/staminaPotionInfo.png";
+     this.healthBubble.src = "assets/healthPotionInfo.png";
+     this.speedBubble.src = "assets/speedPotionInfo.png";
+     this.normalBubble.src = "assets/itemInfo.png";
+     this.legendBubble.src = "assets/legendItemInfo.png";
  
    }
 

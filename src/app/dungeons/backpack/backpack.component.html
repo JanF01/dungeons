@@ -7,7 +7,7 @@
         <div class="potions">
         <img src="assets/backpack.png">
         <div class="spaces">
-            <div *ngFor="let i of [0,1,2,3,4,5,6,7,8]" class="spot" (mouseenter)="showInfo(player.potions[i])" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()" cdkDrag (cdkDragStarted)="grab(i)" (cdkDragEnded)="setDefault(i)" [cdkDragFreeDragPosition]="arrayItemsPos[i]">
+            <div *ngFor="let i of [0,1,2,3,4,5,6,7,8]" class="spot" (mouseenter)="showInfo(player.potions[i])" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()" cdkDrag (cdkDragStarted)="grab(i)" (cdkDragEnded)="dropItem(i)" [cdkDragFreeDragPosition]="arrayItemsPos[i]">
                 <div></div>
                 <img *ngIf="player.potions[i]!=undefined" src="{{player.potions[i].graphic.src}}">
             </div>
@@ -15,8 +15,8 @@
     </div>
     <div class="items">
         <div class="spaces">
-            <div *ngFor="let i of arrayForItems" class="spot" (mouseenter)="showInfo(player.items[i])" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()" cdkDrag (cdkDragStarted)="grab(i+9)" (cdkDragEnded)="setDefault(i+9)" [cdkDragFreeDragPosition]="arrayItemsPos[i+9]">
-                <div></div>
+            <div *ngFor="let i of arrayForItems" class="spot" (mouseenter)="showInfo(player.items[i])" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()" cdkDrag (cdkDragStarted)="grab(i+9)" (cdkDragEnded)="dropItem(i+9)" [cdkDragFreeDragPosition]="arrayItemsPos[i+9]">
+                <div class="{{player.items[i]==undefined?'normal':player.items[i].type}}"></div>
                 <img *ngIf="player.items[i]!=undefined" src="{{player.items[i].graphic}}">
             </div>
         </div>
@@ -25,8 +25,16 @@
 
     <img src="assets/background3d.jpg" class="bkg">
 
+    <div class="eq">
+        <img id="weapon" src="{{player.weapon.graphic}}" (mouseenter)="showInfo(player.weapon)" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()">
+        <img id="armor" src="{{player.armor.graphic}}" (mouseenter)="showInfo(player.armor)" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()">
+        <img src="{{player.graphic}}" class="user">
+        <img src="{{player.necklace}}">
+        <img src="{{player.ring}}">
+    </div>
+
 </section>
 
-<app-infobubble [ngClass]="{'on-drag':dragging}" [user]="player" [item]="itemForInfo" *ngIf="showInfoBubble" [ngStyle]="{left: ''+ bubblePos.x + 'px' ,top: ''+bubblePos.y + 'px'}"></app-infobubble>
+<app-infobubble [user]="player" [item]="itemForInfo" *ngIf="showInfoBubble" [ngStyle]="{left: ''+ bubblePos.x + 'px' ,top: ''+bubblePos.y + 'px'}"></app-infobubble>
     
 

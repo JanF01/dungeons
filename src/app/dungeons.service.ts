@@ -97,7 +97,7 @@ export class DungeonsService {
            size = "bigMoneyBag";
            if(coins==12){
              setTimeout(()=>{
-               var sword: Weapon = Object.assign({},this.weapons[0]);
+               var sword: Weapon = Object.assign({},this.weapons[1]);
                sword.offset = Math.random()*30-15;
                loot.push(sword);
              },10);

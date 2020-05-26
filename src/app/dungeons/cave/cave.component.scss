@@ -120,9 +120,11 @@ app-infobubble{
             width:6%;
             z-index:3;
         }
-        .normal{
-            top:37%;
-            width:6%;
+        .normal,.legend{
+            top:42%;
+        }
+        .legend{
+            width:5.2%;
         }
         .coin{
             top:55%;
@@ -152,7 +154,7 @@ app-infobubble{
 
 .backpack{
     position:absolute;
-    top:5%;
+    top:10%;
     width:40%;
     padding:2%;
     left:3%;
@@ -172,10 +174,10 @@ app-infobubble{
        .spot{
            height:6.9em;
            width: calc( 100% / 4 - 0.4em );
-           background:radial-gradient(circle,#00000000,#000000a1 70%, #000000c9 90%);
            border:solid rgba(0, 0, 0, 0.801) 0.2em;
            border-right:none;     
            @include flex();
+           background:radial-gradient(circle,#00000000,#ceb10a81 70%, #cfb108a6 90%);
            img{
                width:3.8em;
                height:3.8em;
@@ -192,10 +194,10 @@ app-infobubble{
 
 
 .normal{
-    background:radial-gradient(circle,#00000000,#00000038 70%, #0000005d 90%);
+    background:radial-gradient(circle,#00000000,#000000a1 70%, #000000c9 90%) !important;
 }
 .legend{
-    background:radial-gradient(circle,#00000000,#ceb10a81 70%, #cfb108a6 90%);
+    background:radial-gradient(circle,#00000000,#ceb10a81 70%, #cfb108a6 90%) !important;
 }
 
 @media (min-width: 1200px){

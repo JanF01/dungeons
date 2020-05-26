@@ -5,10 +5,11 @@
   
 <div class="backpack" *ngIf="showItemsLooted">
      <div class="spaces">
-         <div *ngFor="let i of [0,1,2,3,4,5,6,7]" class="spot" (mouseenter)="showInfo(player.loot[i])" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()">
-             <div></div>
+
+         <div *ngFor="let i of [0,1,2,3,4,5,6,7]" class="spot" (mouseenter)="showInfo(player.loot[i])" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()" [ngClass]="{'normal': player.loot[i]==undefined}" >
              <img *ngIf="player.loot[i]!=undefined" src="{{player.loot[i].graphic}}">
          </div>
+
  </div>
  </div>
 
