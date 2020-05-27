@@ -43,7 +43,26 @@ section{
     }
 
 
+   .sell{
+    position:absolute;
+    top:45%;
+    left:1%;
+    @include flex();
+    width:16%;
+    flex-direction:column;
+    img{
+        width:25%;
+        margin-top:2em;
+    }
+    span{
+       font-size:1.8em;
+       color:white;
+       font-family:'Abel',sans-serif;
+       font-weight:bold;
+       letter-spacing:0.05em;
 
+    }
+   }
 
 .backpack{
     position:absolute;
@@ -84,9 +103,10 @@ section{
        .spot{
            position:relative;
            min-height:100%;
-           width: calc( 100% / 9 - 0.4em );
+           width: calc( 100% / 9 );
            @include flex();
            div{
+            width: calc( 100% / 9 - 0.4em );
                width:100%;
                min-height:100%;
                position:absolute;
@@ -135,9 +155,15 @@ section{
 
 .normal{
     background:radial-gradient(circle,#00000000,#000000a1 70%, #000000c9 90%) !important;
+    border:solid rgba(0, 0, 0, 0.801) 0.2em !important;
 }
 .legend{
     background:radial-gradient(circle,#00000000,#a78f0aa1 70%, #a78f0ac9 90%) !important;
+    border:solid rgba(114, 107, 3, 0.801) 0.2em !important;
+}
+.artefact{
+    background:radial-gradient(circle,#00000000,#7a020298 70%, #7a0202be 90%) !important;
+    border:solid #63010181 0.2em !important;
 }
 
 
@@ -150,13 +176,18 @@ section{
     min-height:20vh;
     min-width:80%;
     @include flex();
-    img{
+    div{
+        padding:1%;
         width:6%;
-        margin-left:6%;
+        margin-left:3%;
+    img{
+        width: 100%;
     }
-    .user{
-        width:10%;
-    }
+  
+  }
+.user{
+    width:10%;
+}
 }
 
 

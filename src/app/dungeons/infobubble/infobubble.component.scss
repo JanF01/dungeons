@@ -15,18 +15,47 @@ span{
        position:absolute;
        display:block;
        color:rgb(231, 223, 186);
+       z-index:4;
    }
+.type{
+   top:-11.4em;
+   left:-1.2em;
+   font-size:1.25em;
+}
+.cost{
+    display:flex;
+    left:1.7em;
+    width:3.24em;
+    color:white;
+    background:rgba(0, 0, 0, 0.555);
+    padding:0.1em 0.5em 0.1em 1.4em;
+    border-radius:0.3em;
+    -ms-border-radius:0.3em;
+    -moz-border-radius:0.3em;
+    -webkit-border-radius:0.3em;
+    box-shadow:0em 0em 0.2em 0em rgba(0, 0, 0, 0.623);
+    top:-1em;
+    font-size:1.3em;
+    img{
+        width:0.9em;
+        position:absolute;
+        left:0.2em;
+        top:0.2em;
+       z-index:10;
+    }
+}
 .name{
     top:-8em;
     left:-1em;
     font-size:1.5em;
 }
-.strength,.defence{
+.strength,.defence,.critChance,.critMulti,.stamina{
     top:-7em;
     left:-1em;
     font-size:1.35em;
 }
-.status{
+
+.status,.critChance,.critMulti{
     display:flex;
     align-items:center;
     top:-5.4em;
@@ -44,8 +73,42 @@ span{
         border:solid 0.06em rgb(25, 193, 223);
     }
 }
+.critChance,.critMulti{
+    font-size:1.3em;
+  }
 .reliability{
-    top:-3.4em;
+    top:-3.7em;
     left:-1em;
     font-size:1.35em;
+}
+.fire,.darkness,.ice{
+    top:7.7em;
+    left:2.3em;
+    img{
+        width:2.9em;
+    }
+}
+.darkness{
+    left:4.6em;
+    box-shadow:0 0 0.2em -0.1em#FFF;
+}
+.ice{
+    left:6.7em;
+}
+
+
+.white{
+    color:white;
+}
+.red{
+    color:red;
+}
+.orange{
+    color:orange;
+}
+
+.white,.red,.orange{
+    text-shadow:0em 0em 0.5em #000;
+    letter-spacing:0.05em;
+    font-weight:bold;
 }

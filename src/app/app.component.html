@@ -13,3 +13,8 @@
     
 <app-coins *ngIf="mode==1"></app-coins>
 <app-dungeons *ngIf="mode==2"></app-dungeons>
+
+<app-settings [showSettings]="shSettings" (close)="closeSettings()"></app-settings>
+<div class="darken" *ngIf="shSettings"></div>
+
+<img class="gear" src="assets/settings.png" (click)="showSettings()">

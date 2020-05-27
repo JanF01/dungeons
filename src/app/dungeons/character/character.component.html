@@ -8,13 +8,13 @@
 <div class="user">
     <img class="weapon item" src="{{player.weapon.graphic}}" draggable="false" cdkDrag [cdkDragFreeDragPosition]="weaponPos" (cdkDragEnded)="weaponDrop($event)" (cdkDragStarted)="startDrag()">
     <img class="armor item" src="{{player.armor.graphic}}" draggable="false" cdkDrag [cdkDragFreeDragPosition]="armorPos" (cdkDragEnded)="armorDrop($event)" (cdkDragStarted)="startDrag()">
-    <img class="necklace item" src="{{player.necklace}}" draggable="false" cdkDrag [cdkDragFreeDragPosition]="necklacePos" (cdkDragEnded)="necklaceDrop($event)" (cdkDragStarted)="startDrag()">
-    <img class="ring item" src="{{player.ring}}" draggable="false" cdkDrag [cdkDragFreeDragPosition]="ringPos" (cdkDragEnded)="ringDrop($event)" (cdkDragStarted)="startDrag()">
+    <img class="necklace item" src="{{player.necklace.graphic}}" draggable="false" cdkDrag [cdkDragFreeDragPosition]="necklacePos" (cdkDragEnded)="necklaceDrop($event)" (cdkDragStarted)="startDrag()">
+    <img class="ring item" src="{{player.ring.graphic}}" draggable="false" cdkDrag [cdkDragFreeDragPosition]="ringPos" (cdkDragEnded)="ringDrop($event)" (cdkDragStarted)="startDrag()">
     <img src="{{this.player.graphic}}" draggable="false">
     <span>{{player.name}}</span>
     <div class="exp">
-        <div class="expBar" [ngStyle]="{background: 'linear-gradient(to right, rgb(86, 173, 3) '+ (((player.exp)/(player.level*(player.level*player.level*0.4)*1920))*100-2) +'% , #03EF6900 '+ ((player.exp)/(player.level*(player.level*player.level*0.4)*1920))*100 +'% )'}">
-            <span>LVL {{player.level}}</span><span>{{player.exp}} / {{player.level*(player.level*player.level*0.4)*1920}}</span>
+        <div class="expBar" [ngStyle]="{background: 'linear-gradient(to right, rgb(86, 173, 3) '+ (((player.exp)/(player.nextExp))*100-2) +'% , #03EF6900 '+ ((player.exp)/(player.nextExp))*100 +'% )'}">
+            <span>LVL {{player.level}}</span><span>{{player.exp}} / {{player.nextExp}}</span>
         </div>    
         
     </div>

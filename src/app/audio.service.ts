@@ -117,5 +117,33 @@ export class AudioService {
   }
 
 
+  changeVolumes(){
+    this.bckMusicOne.volume=0.008*this.globalVolume;
+
+    this.dungeonsBck.volume = 0.11*this.globalVolume;
+
+
+    this.fireball.volume=0.03*this.globalVolume;
+
+
+    this.swordThrow.volume=0.03*this.globalVolume;
+
+
+    this.enemyDmg.volume=0.015*this.globalVolume;
+
+    this.takeDmg.volume=0.015*this.globalVolume;
+
+    this.block.volume = 0.016*this.globalVolume;
+
+
+
+    this.dead.volume=0.03*this.globalVolume;
+
+
+    this.playerDead.volume=0.2*this.globalVolume;
+
+  }
+
+
 
 }

@@ -11,6 +11,8 @@ import { BackpackComponent } from './backpack/backpack.component';
 import { Item } from './models/item.model';
 import { Armor } from './models/items/armor.model';
 import { Weapon } from './models/items/weapon.model';
+import { Necklace } from './models/items/necklace.model';
+import { Ring } from './models/items/ring.model';
 
 @Component({
   selector: 'app-dungeons',
@@ -38,7 +40,8 @@ export class DungeonsComponent implements OnInit {
     this.player = {
       name: this.name,
       level: 1,
-      exp: 590,
+      exp: 0,
+      nextExp: 782,
       gold: 10,
       basePoints: [0,0,0,0,0],
       strength: 6,
@@ -55,15 +58,17 @@ export class DungeonsComponent implements OnInit {
       subdungeon: [0,0,0,0,0,0,0,0,0,0,0,0],
       goldInSack: 0,
       graphic: "assets/knight1.png",
-      weapon: new Weapon("legend","Dagger of Doom","assets/sword1.png","#00A9A","none",200,400,100),
-      armor: new Armor("normal","Just an Armor","assets/armor2.png","#00B11","none",39,10,100),
-      necklace: "assets/necklace.png",
-      ring: "assets/ring2.png",
+      weapon: new Weapon("legend","Dagger of Doom","assets/sword1.png","#00A9A","darkness",15,2,4,100),
+      armor: new Armor("normal","Feeble Armor","assets/armor1.png","#00B11","none",10,39,10,100),
+      necklace: new Necklace("normal","Rat's Collar","assets/necklace.png","#00C01","fire",21,15,0.06),
+      ring: new Ring("normal","Rat's Collar","assets/ring2.png","#00C01","none",33,10,0.4),
       potions: [new Potion("Health I",images.hpPotion,"hp",600)],
-      items: [new Weapon("legend","Dagger of Doom","assets/sword1.png","#00A9A","none",2,4,100),
-      new Armor("normal","Just an Armor","assets/armor2.png","#00B11","none",39,10,100)],
+      items: [new Weapon("artefact","Dev Dagger #EZ","assets/swordDev.png","#00A9A","fire",92441,2000,4000,100),
+      new Armor("legend","Invincible Armor","assets/armor2.png","#00B11","none",42032,120,60,100),
+      new Weapon("normal","Random Weapon","assets/sword5.png","#00C02","ice",63,7,11,100),],
       loot: []
     }
+    this.player.stamina+=this.player.necklace.stamina+this.player.ring.stamina;
 
     setTimeout(()=>{
       this.mainBck = this.images.bckMain;
@@ -131,6 +136,14 @@ export class DungeonsComponent implements OnInit {
   }
 
   backHome(){
+
+    while(this.player.loot[0]!=undefined){
+      if(this.player.items.length<27){
+          this.player.items.push(this.player.loot[0]);
+      }
+      this.player.loot.splice(0,1);
+    }
+    
     this.player.location='home'; 
     this.player.gold+=this.player.goldInSack; 
     this.player.goldInSack=0;

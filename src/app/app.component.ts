@@ -8,8 +8,10 @@ import { Component } from '@angular/core';
 })
 
 export class AppComponent {
+
   title = 'dungeons';
   mode: number = 2;
+  shSettings = false;
   
 
   startCoins(){
@@ -18,5 +20,12 @@ export class AppComponent {
 
   startDungeons(){
     this.mode=2;
+  }
+
+  showSettings(){
+     this.shSettings=true;
+  }
+  closeSettings(){
+    this.shSettings=false;
   }
 }

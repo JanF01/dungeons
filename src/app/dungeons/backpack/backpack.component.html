@@ -2,6 +2,8 @@
 
 <app-left-nav [gold]="player.gold" (click)="backHome()"></app-left-nav>
 
+<div id="sell" class="sell"><span>SELL</span><img src="assets/coinsDrop.png"></div>
+
 
     <div class="backpack">
         <div class="potions">
@@ -26,11 +28,21 @@
     <img src="assets/background3d.jpg" class="bkg">
 
     <div class="eq">
-        <img id="weapon" src="{{player.weapon.graphic}}" (mouseenter)="showInfo(player.weapon)" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()">
+        <div id="weapon" class="{{player.weapon.type}}">
+        <img src="{{player.weapon.graphic}}" (mouseenter)="showInfo(player.weapon)" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()">
+        </div>
+        <div id="armor" class="{{player.armor.type}}">
         <img id="armor" src="{{player.armor.graphic}}" (mouseenter)="showInfo(player.armor)" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()">
-        <img src="{{player.graphic}}" class="user">
-        <img src="{{player.necklace}}">
-        <img src="{{player.ring}}">
+        </div>
+        <div class="user" >
+        <img src="{{player.graphic}}">
+        </div>
+        <div id="necklace" class="{{player.necklace.type}}">
+        <img id="necklace" src="{{player.necklace.graphic}}" (mouseenter)="showInfo(player.necklace)" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()">
+        </div>
+        <div id="ring" class="{{player.ring.type}}">
+        <img id="ring" src="{{player.ring.graphic}}" (mouseenter)="showInfo(player.ring)" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()">
+        </div>
     </div>
 
 </section>

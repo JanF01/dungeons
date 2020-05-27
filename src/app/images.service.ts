@@ -16,6 +16,7 @@ export class ImagesService {
   speedBubble = new Image(343,377);
   normalBubble = new Image(343,377);
   legendBubble = new Image(343,377);
+  artefactBubble = new Image(343,377);
 
 
   constructor() {
@@ -44,7 +45,7 @@ export class ImagesService {
      this.speedBubble.src = "assets/speedPotionInfo.png";
      this.normalBubble.src = "assets/itemInfo.png";
      this.legendBubble.src = "assets/legendItemInfo.png";
- 
+     this.artefactBubble.src = "assets/artefactItemInfo.png";
    }
 
 

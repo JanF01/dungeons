@@ -31,7 +31,7 @@ export class CaveComponent {
 
   @Input('user') player: User;
 
-  speed: number = 0.6;
+  speed: number = 0.5;
 
   fighting: boolean = true; 
 
@@ -54,6 +54,7 @@ export class CaveComponent {
     speed: 0
   };
   DI = 1;
+  healing: any;
 
   monstersInCave: number = 0;
 
@@ -125,8 +126,14 @@ export class CaveComponent {
     this.enemyState = "die";
     this.showLoot = true;
     this.audio.enemyDead();
+    this.player.exp+=(this.player.dungeon+1)*(this.player.subdungeon[this.player.dungeon]+1)*28;
 
-
+    if(this.player.exp>=this.player.nextExp){
+      this.player.level++;
+      this.player.nextExp = Math.round(this.player.level*(this.player.level*0.4)*1920);
+      this.player.exp = 0;
+    }
+  
    }
 
 
@@ -169,7 +176,9 @@ nextFight(lvl){
   fight(lvl){
 
       this.showItemsLooted=false;
-    
+
+      clearInterval(this.healing);
+
       this.DI=1;
       this.potions.hp=0;
       this.potions.stamina=0;
@@ -211,7 +220,7 @@ nextFight(lvl){
     setTimeout(()=>{
     this.playerAnimation = "playerTurn";
 
-    Math.random()<0.1?this.critical=1.8:this.critical=1;
+    Math.random()<this.player.necklace.critical?this.critical=1+this.player.ring.critM:this.critical=1;
     dmg = Math.round(this.player.strength*(this.player.weapon.damageLow+Math.random()*(this.player.weapon.damageHigh-this.player.weapon.damageLow))*this.critical);
        
   
@@ -227,12 +236,21 @@ nextFight(lvl){
 
   
   block = 0;
-
+  blocked = false;
+  
   enemyTurn(){
     this.enemyFireball();
-
+    
+    this.blocked=false;
+    let dmg = 0;
     this.block = Math.random()*100;
-    let dmg = this.block<this.player.armor.chance?this.enemy.damage-this.player.armor.defence:this.enemy.damage;
+    if(this.block<this.player.armor.chance){
+      dmg = this.enemy.damage-this.player.armor.defence;
+      this.blocked=true;
+    }else{
+    dmg = this.enemy.damage;
+    }
+
     if(dmg<0) dmg=0;
 
 
@@ -257,7 +275,12 @@ nextFight(lvl){
   
 
   
-  showCoins(bag: MoneyBag){
+  showCoins(bag: any){
+
+
+    if(bag.perks!=undefined){
+      this.showInfo(bag);
+    }
 
    if(bag.coins!=undefined){
 
@@ -303,6 +326,8 @@ nextFight(lvl){
   }
 
   collectItem(item: Weapon){
+
+      this.hideInfo();
 
       if(item.code!=undefined){
 
@@ -374,6 +399,7 @@ nextFight(lvl){
     this.audio.playerIsDead();
     this.playerIsDead = true;
     this.player.goldInSack=0;
+
     this.player.subdungeon[this.player.dungeon]=0;
 
     this.player.loot = [];
@@ -381,7 +407,14 @@ nextFight(lvl){
     setTimeout(()=>{
     this.backHome();
     this.player.health = 0;
-    this.player.gold+=10;
+    this.healing = setInterval(()=>{
+      if(this.player.health>this.player.hitPoints/2 || this.player.location=="dfight"){
+        clearInterval(this.healing);
+      }     
+          this.player.health++;
+          if(this.player.health>this.player.hitPoints) this.player.health=this.player.hitPoints;
+    },400);
+
     this.dungeons.reFillDungeon(this.player.dungeon);
     },1500);
 
@@ -428,6 +461,9 @@ nextFight(lvl){
   enemyHitAnimation(dmg){
     this.enemyState = "back";
     if(dmg!=0){
+      if(this.blocked){
+        this.audio.playBlock();  
+      }
       this.audio.takeDamage();  
       this.enemyHit=true;
     }
@@ -435,11 +471,38 @@ nextFight(lvl){
       this.audio.playBlock();  
     }
     this.player.health-=Math.round(dmg*this.DI);
+    if(this.player.health<0) this.player.health=0;
+
+    if(this.player.weapon.perks=="fire" || this.player.weapon.perks=="darkness" || this.player.weapon.perks=="ice"){
+      this.player.health-=Math.round(dmg*this.DI*0.1);
+    if(this.player.health<0) this.player.health=0;
+      }
   }
 
   enemyHurt(dmg){
     this.enemyState = "back";
-    this.enemyDamage.push([Math.round(dmg*this.DI),false]);
+    this.enemyDamage.push([Math.round(dmg*this.DI),false,"normal"]);
+
+    setTimeout(()=>{
+    if(this.player.weapon.perks=="fire"){
+    this.enemyDamage.push([Math.round(dmg*this.DI*0.1),false,"fire"]);
+    }
+    else if(this.player.weapon.perks=="darkness"){
+    this.enemyDamage.push([Math.round(dmg*this.DI*0.1),false,"darkness"]);
+    }
+    else if(this.player.weapon.perks=="ice"){
+      this.enemyDamage.push([Math.round(dmg*this.DI*0.1),false,"ice"]);
+      }
+
+      setTimeout(()=>{ 
+        this.enemyDamage[this.enemyDamage.length-1][1] = true; 
+      },10*this.speed);
+
+      setTimeout(()=>{
+        this.enemyDamage.shift();
+      },2549);
+  
+    },500*this.speed);
 
     setTimeout(()=>{ 
       this.enemyDamage[this.enemyDamage.length-1][1] = true; 

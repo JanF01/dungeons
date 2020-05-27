@@ -20,10 +20,12 @@ export class ShopComponent implements OnInit {
   ];
   posspeed = {x:0,y:0};
   posstamina = {x:0,y:0};
+  healthPrice = 10;
+  staminaPrice = 10;
+  speedPrice = 10;
 
 
   constructor( private images:ImagesService){ 
-   
 
   }
 
@@ -76,11 +78,12 @@ export class ShopComponent implements OnInit {
     potions[0].style.cursor="grab";
 
     if(this.checkIfBought("hp",0)){
-      if(this.player.gold>=10){
-        if(this.player.potions.length<8){
-        this.player.gold-=10;
+      if(this.player.gold>=this.healthPrice){
+        if(this.player.potions.length<9){
+        this.player.gold-=this.healthPrice;
         let potion = this.images.newHpPotion() as HTMLImageElement;
         potion.classList.toggle("potionInBackpack");
+        this.healthPrice+=2;
 
         this.player.potions.push(new Potion("Health I", potion,"hp",size));
    
@@ -125,11 +128,12 @@ export class ShopComponent implements OnInit {
     potions[2].style.cursor="grab";
 
     if(this.checkIfBought("speed",2)){
-      if(this.player.gold>=5){
-        if(this.player.potions.length<8){
-        this.player.gold-=5;
+      if(this.player.gold>=this.speedPrice){
+        if(this.player.potions.length<9){
+        this.player.gold-=this.speedPrice;
         let potion = this.images.newSpeedPotion() as HTMLImageElement;
         potion.classList.toggle("potionInBackpack");
+        this.speedPrice+=2;
 
         this.player.potions.push(new Potion("Speed I",potion,"speed",size));
       
@@ -150,6 +154,9 @@ export class ShopComponent implements OnInit {
     setTimeout(()=>{
       document.getElementById('shop').style.opacity="1";
      },40);
+     this.healthPrice = 10+this.player.level*2;
+     this.staminaPrice = 10+this.player.level*2;
+     this.speedPrice = 10+this.player.level*2;
   }
 
   grab(i){

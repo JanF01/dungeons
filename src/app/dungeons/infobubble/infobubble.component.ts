@@ -38,8 +38,16 @@ export class InfobubbleComponent implements OnInit {
         case 'legend':
             return this.images.legendBubble.src;
         break;
+        case 'artefact':
+            return this.images.artefactBubble.src;
+        break;
     }
   
+  }
+
+  getType(){
+    let type = this.item.type[0].toUpperCase() + this.item.type.slice(1,this.item.type.length);
+    return type;
   }
 
 }

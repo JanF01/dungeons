@@ -85,20 +85,44 @@ draggedItem: HTMLElement;
     this.bubblePos.y = pos.y;
   }
 
+
+  
+
   dropItem(i){
     let items = document.getElementsByClassName('spot') as HTMLCollectionOf<HTMLElement>;
 
     var dropedPos = items[i].getBoundingClientRect();
 
+     this.checkIfSold(this.player.items[i-9],dropedPos,i-9);
+
+    if(this.player.items[i-9]==undefined){
+      this.setDefault(i);
+    }
     if(this.player.items[i-9].damageLow!=undefined){
       this.changeItems(this.player.items[i-9],dropedPos,i,"weapon");
     }
     else if(this.player.items[i-9].defence!=undefined){
       this.changeItems(this.player.items[i-9],dropedPos,i,"armor");
     }
+    else if(this.player.items[i-9].critical!=undefined){
+      this.changeItems(this.player.items[i-9],dropedPos,i,"necklace");
+    }
+    else if(this.player.items[i-9].critM!=undefined){
+      this.changeItems(this.player.items[i-9],dropedPos,i,"ring");
+    }
     else{
       this.setDefault(i);
     }
+  }
+
+  checkIfSold(item,pos,i){
+      let box = document.getElementById('sell').getBoundingClientRect();
+      let w =  window.innerWidth;
+      if(pos.x>box.x-w/25 && pos.x<box.x+w/14 && pos.y>box.y-w/17 && pos.y<box.y+w/14){
+         this.player.items.splice(i,1);
+         this.player.gold+=item.cost;
+         this.hideInfo();
+      }
   }
 
 
@@ -116,6 +140,14 @@ draggedItem: HTMLElement;
       else if(type=="armor"){
         this.player.items[this.player.items.indexOf(item)] = this.player.armor;
         this.player.armor = item;
+      }
+      else if(type=="necklace"){
+        this.player.necklace[this.player.items.indexOf(item)] = this.player.necklace;
+        this.player.ring = item;
+      }
+      else if(type=="ring"){
+        this.player.items[this.player.items.indexOf(item)] = this.player.ring;
+        this.player.ring = item;
       }
 
       

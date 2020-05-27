@@ -19,6 +19,7 @@ import { BackpackComponent } from './dungeons/backpack/backpack.component';
 import { LeftNavComponent } from './dungeons/left-nav/left-nav.component';
 import { PotionsComponent } from './dungeons/potions/potions.component';
 import { InfobubbleComponent } from './dungeons/infobubble/infobubble.component';
+import { SettingsComponent } from './settings/settings.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { InfobubbleComponent } from './dungeons/infobubble/infobubble.component'
     BackpackComponent,
     LeftNavComponent,
     PotionsComponent,
-    InfobubbleComponent
+    InfobubbleComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
