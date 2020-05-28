@@ -4,6 +4,9 @@ import { Enemy } from './dungeons/models/enemy.model';
 import { MoneyBag } from './dungeons/models/moneyBag.model';
 import { Weapon } from './dungeons/models/items/weapon.model';
 import { Armor } from './dungeons/models/items/armor.model';
+import { ImagesService } from './images.service';
+import { Necklace } from './dungeons/models/items/necklace.model';
+import { Ring } from './dungeons/models/items/ring.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +16,7 @@ export class DungeonsService {
   dungeons: Array<Dungeon> = [];
 
 
-  constructor() { 
+  constructor(private images: ImagesService) { 
 
     this.dungeons.push(
       new Dungeon("assets/dungeon1.png",this.fillDungeon(1),0,true));
@@ -99,7 +102,7 @@ export class DungeonsService {
     }
     
     let itemChance = Math.random();
-    if(itemChance<0.18){
+    if(itemChance<0.20){
     loot.push(this.itemDrop(itemChance,dungeon,subdungeon,level));
     }
 
@@ -113,24 +116,49 @@ itemDrop(IC,d,s,lvl){
   var item;
 
   let r = Math.round(Math.random()*lvl/2)+1+d;
+  let w = "longsword";
+  let a = "armor_s_";
 
-  if(IC>0.10){
-  item = new Weapon("normal","A Fricking Sword","assets/sword1.png","#00A11","none",Math.round(lvl*lvl*0.6),(Math.round(lvl*10)/10)+r,(Math.round(lvl*10)/10)+r+Math.round(lvl/4.5),100,Math.random()*30-15,"normal");
+  if(d==1 || d==3){
+     w="sword";
+     a = "armor";
+  }
+
+  if(IC>0.12){
+  item = new Weapon("normal","A Fricking Sword","assets/"+w+"1.png","#00A11","none",Math.round(lvl*lvl*0.6),(Math.round(lvl*10)/10)+r,(Math.round(lvl*10)/10)+r+Math.round(lvl/4.5),100,Math.random()*30-15,"normal");
+  }
+  else if(IC>0.07){
+    item = new Armor("normal","Shield Yourself","assets/"+a+"1.png","#00B12","none",Math.round(lvl*lvl*0.6),Math.round(lvl*lvl/2)+r+30,5+Math.round(Math.random()*5),100,Math.random()*30-15,"normal");
   }
   else if(IC>0.05){
-    item = new Armor("normal","Shield Yourself","assets/armor1.png","#00B12","none",Math.round(lvl*lvl*0.6),Math.round(lvl*lvl/2)+r+30,5+Math.round(Math.random()*5),100,Math.random()*30-15,"normal");
+  item = new Weapon("legend","Holy Sword","assets/"+w+"5.png","#00A42","fire",Math.round(lvl*lvl)+40,(Math.round(lvl*1.1*10)/10)+r,(Math.round(lvl*1.1*10)/10)+r+Math.round(lvl/3),100,Math.random()*30-15,"legend");
   }
   else if(IC>0.03){
-  item = new Weapon("legend","Holy Sword","assets/sword5.png","#00A42","fire",Math.round(lvl*lvl)+40,(Math.round(lvl*1.1*10)/10)+r,(Math.round(lvl*1.1*10)/10)+r+Math.round(lvl/3),100,Math.random()*30-15,"legend");
+    item = new Armor("legend","Holy Armor","assets/"+a+"2.png","#00B43","none",Math.round(lvl*lvl),Math.round(lvl*lvl/1.4)+r+50,10+Math.round(Math.random()*10),100,Math.random()*30-15,"legend");
   }
-  else if(IC>0.01){
-    item = new Armor("legend","Holy Armor","assets/armor2.png","#00B43","none",Math.round(lvl*lvl),Math.round(lvl*lvl/1.4)+r+50,10+Math.round(Math.random()*10),100,Math.random()*30-15,"legend");
+  else if(IC>0.025){
+    item = new Weapon("artefact","Lucky Needle","assets/"+w+"3.png","#00A02","darkness",Math.round(lvl*lvl*1.3),(Math.round(lvl*1.2*10)/10)+r,(Math.round(lvl*1.2*10)/10)+r+Math.round(lvl/3)+lvl,100,Math.random()*30-15,"artefact");
   }
-  else if(IC>0.005){
-    item = new Weapon("artefact","Lucky Needle","assets/sword3.png","#00A02","darkness",Math.round(lvl*lvl*1.3),(Math.round(lvl*1.2*10)/10)+r,(Math.round(lvl*1.2*10)/10)+r+Math.round(lvl/3)+lvl,100,Math.random()*30-15,"artefact");
+  else if(IC>0.02){
+    item = new Armor("artefact","Foreknowing Armor AI","assets/"+a+"3.png","#00B01","none",Math.round(lvl*lvl*1.3),Math.round(lvl*lvl)+r+70,10+Math.round(Math.random()*20),100,Math.random()*30-15,"artefact");
   }
-  else if(IC<=0.005){
-    item = new Weapon("artefact","Foreknowing Armor AI","assets/armor3.png","#00B01","none",Math.round(lvl*lvl*1.3),Math.round(lvl*lvl)+r+70,10+Math.round(Math.random()*20),100,Math.random()*30-15,"artefact");
+  else if(IC>0.013){
+    item = new Necklace("normal","Necklace of Wisdom","assets/necklace.png","#00C01","none",Math.round(lvl*lvl*1.3),lvl*4,(Math.round(Math.random()*8)+2)/100,Math.random()*30-15,"normal");
+  }
+  else if(IC>0.006){
+    item = new Ring("normal","Ring of Wisdom","assets/ring2.png","#00D01","none",Math.round(lvl*lvl*1.3),lvl*4,(Math.round(Math.random()*35)+25)/100,Math.random()*30-15,"normal");
+  }
+  else if(IC>0.004){
+    item = new Necklace("legend","Necklace on Fire","assets/necklace.png","#00C02","fire",Math.round(lvl*lvl*1.5),lvl*6,(Math.round(Math.random()*8)+8)/100,Math.random()*30-15,"legend");
+  }
+  else if(IC>0.002){
+    item = new Ring("legend","Ring of Darkness","assets/ring2.png","#00D02","darkness",Math.round(lvl*lvl*1.5),lvl*6,(Math.round(Math.random()*50)+50)/100,Math.random()*30-15,"legend");
+  }
+  else if(IC>0.001){
+    item = new Ring("artefact","Necklace 1/1000","assets/necklace.png","#00C03","fire",Math.round(lvl*lvl*2),lvl*9,(Math.round(Math.random()*10)+10)/100,Math.random()*30-15,"artefact");
+  }
+  else if(IC<=0.001){
+    item = new Ring("artefact","Ring 1/1000","assets/ring2.png","#00D03","darkness",Math.round(lvl*lvl*2),lvl*9,(Math.round(Math.random()*100)+75)/100,Math.random()*30-15,"artefact");
   }
 
   return item;

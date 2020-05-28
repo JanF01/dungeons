@@ -42,9 +42,9 @@
 
     <div *ngFor="let damage of enemyDamage">
       <div class="damage" @showUp [@showDamage]="{value: damage[1]}" [ngClass]="{'fire': damage[2]=='fire','darkness': damage[2]=='darkness','ice': damage[2]=='ice'}">
-        <span *ngIf="damage[2]=='darkness'"><img src="assets/darkness.png"></span>
-        <span *ngIf="damage[2]=='fire'"><img src="assets/firePerk.png"></span>
-        <span *ngIf="damage[2]=='ice'"><img src="assets/snow.png"></span>
+        <span *ngIf="damage[2]=='darkness'"><img src="{{getDarkness()}}"></span>
+        <span *ngIf="damage[2]=='fire'"><img src="{{getFire()}}"></span>
+        <span *ngIf="damage[2]=='ice'"><img src="{{getIce()}}"></span>
         {{damage[0]}}
       </div>
     </div>

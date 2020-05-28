@@ -142,8 +142,8 @@ draggedItem: HTMLElement;
         this.player.armor = item;
       }
       else if(type=="necklace"){
-        this.player.necklace[this.player.items.indexOf(item)] = this.player.necklace;
-        this.player.ring = item;
+        this.player.items[this.player.items.indexOf(item)] = this.player.necklace;
+        this.player.necklace = item;
       }
       else if(type=="ring"){
         this.player.items[this.player.items.indexOf(item)] = this.player.ring;

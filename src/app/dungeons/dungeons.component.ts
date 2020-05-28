@@ -61,7 +61,7 @@ export class DungeonsComponent implements OnInit {
       weapon: new Weapon("legend","Dagger of Doom","assets/sword1.png","#00A9A","darkness",15,2,4,100),
       armor: new Armor("normal","Feeble Armor","assets/armor1.png","#00B11","none",10,39,10,100),
       necklace: new Necklace("normal","Rat's Collar","assets/necklace.png","#00C01","fire",21,15,0.06),
-      ring: new Ring("normal","Rat's Collar","assets/ring2.png","#00C01","none",33,10,0.4),
+      ring: new Ring("normal","Rat's Collar","assets/ring2.png","#00C01","none",33,10,0.3),
       potions: [new Potion("Health I",images.hpPotion,"hp",600)],
       items: [new Weapon("artefact","Dev Dagger #EZ","assets/swordDev.png","#00A9A","fire",92441,2000,4000,100),
       new Armor("legend","Invincible Armor","assets/armor2.png","#00B11","none",42032,120,60,100),

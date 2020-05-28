@@ -17,6 +17,11 @@ export class ImagesService {
   normalBubble = new Image(343,377);
   legendBubble = new Image(343,377);
   artefactBubble = new Image(343,377);
+  darkness = new Image(64,64);
+  fire = new Image(64,64);
+  ice = new Image(64,64);
+  
+
 
 
   constructor() {
@@ -46,6 +51,10 @@ export class ImagesService {
      this.normalBubble.src = "assets/itemInfo.png";
      this.legendBubble.src = "assets/legendItemInfo.png";
      this.artefactBubble.src = "assets/artefactItemInfo.png";
+
+     this.darkness.src = "assets/darkness.png";
+     this.fire.src = "assets/firePerk.png";
+     this.ice.src = "assets/snow.png";
    }
 
 
