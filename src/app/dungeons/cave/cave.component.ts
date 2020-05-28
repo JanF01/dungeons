@@ -126,7 +126,7 @@ export class CaveComponent {
     this.enemyState = "die";
     this.showLoot = true;
     this.audio.enemyDead();
-    this.player.exp+=(this.player.dungeon+1)*(this.player.subdungeon[this.player.dungeon]+1)*28;
+    this.player.exp+=(this.player.dungeon+1)*(this.player.subdungeon[this.player.dungeon]+1)*34;
 
     if(this.player.exp>=this.player.nextExp){
       this.player.level++;

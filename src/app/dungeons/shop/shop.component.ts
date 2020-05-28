@@ -83,8 +83,8 @@ export class ShopComponent implements OnInit {
         this.player.gold-=this.healthPrice;
         let potion = this.images.newHpPotion() as HTMLImageElement;
         potion.classList.toggle("potionInBackpack");
-        this.healthPrice+=2;
 
+        
         this.player.potions.push(new Potion("Health I", potion,"hp",size));
    
         this.potionPos[0] = {x:0,y:0};
