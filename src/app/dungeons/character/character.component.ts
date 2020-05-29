@@ -76,12 +76,13 @@ export class CharacterComponent implements OnInit {
   }
   addHealth(){
     if(this.player.gold>=this.hpCost){
-    this.player.hitPoints*=1.08;
+    this.player.hitPoints+=55;
+    this.player.hitPoints*=1.065;
     this.player.hitPoints = Math.round(this.player.hitPoints);
     this.player.basePoints[3]++;
 
     this.player.gold-=this.hpCost;
-    this.hpCost = Math.round((this.player.basePoints[3]+5)*((this.player.basePoints[3]+1)/2)*1.04);
+    this.hpCost = Math.round((this.player.basePoints[3]+5)*((this.player.basePoints[3]+1)/1.5)*1.15);
     }
   }
   addLuck(){
@@ -114,7 +115,7 @@ export class CharacterComponent implements OnInit {
 
     this.speedCost = Math.round((this.player.basePoints[2]+5)*((this.player.basePoints[2]+1)/2)*1.10);
 
-    this.hpCost = Math.round((this.player.basePoints[3]+5)*((this.player.basePoints[3]+1)/2)*1.04);
+    this.hpCost = Math.round((this.player.basePoints[3]+5)*((this.player.basePoints[3]+1)/2)*1.15);
 
     this.luckCost = Math.round((this.player.basePoints[4]+5)*((this.player.basePoints[4]+1))*1.15);
   }

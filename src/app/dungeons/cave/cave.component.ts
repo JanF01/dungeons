@@ -155,7 +155,7 @@ export class CaveComponent {
 
   this.playerTurn();
 
-   if(Math.random()*100<=(100-this.player.speed*2)){
+   if(Math.random()*100<=(100-this.player.speed*2+this.enemy.level)){
     setTimeout(()=>{ (this.enemy.health>0) ? this.enemyTurn() : this.enemyDead(); }, 1111*this.speed);
   }
   else{
@@ -367,6 +367,9 @@ nextFight(lvl){
   }
 
   nextDungeon(){
+    
+    this.hideInfo();
+
     this.fighting=false;
     if(this.player.subdungeon[this.player.dungeon]<this.dungeons.dungeons[this.player.dungeon].monsters.length-1){
     this.player.subdungeon[this.player.dungeon]++;
@@ -445,6 +448,9 @@ nextFight(lvl){
     this.enemyState = "takeDamage";
 
     this.enemy.health-=Math.round(dmg*this.DI);
+    if(this.player.weapon.perks=="fire" || this.player.weapon.perks=="darkness" || this.player.weapon.perks=="ice"){
+      this.enemy.health-=Math.round(dmg*this.DI*this.weaponMulti);
+      }
     if(this.enemy.health<0) this.enemy.health=0;
   }
 
@@ -481,13 +487,13 @@ nextFight(lvl){
     else{
       this.audio.playBlock();  
     }
-    this.player.health-=Math.round(dmg*this.DI);
-    if(this.player.health<0) this.player.health=0;
 
-    if(this.player.weapon.perks=="fire" || this.player.weapon.perks=="darkness" || this.player.weapon.perks=="ice"){
-      this.player.health-=Math.round(dmg*this.DI*this.weaponMulti);
-      if(this.player.health<0) this.player.health=0;
-      }
+    this.player.health-=Math.round(dmg*this.DI);
+
+    if(this.player.health<0){
+      this.player.health=0;
+    }
+
   }
 
   enemyHurt(dmg){
@@ -495,16 +501,9 @@ nextFight(lvl){
     this.enemyDamage.push([Math.round(dmg*this.DI),false,"normal"]);
 
     setTimeout(()=>{
-    if(this.player.weapon.perks=="fire"){
-    this.enemyDamage.push([Math.round(dmg*this.DI*this.weaponMulti),false,"fire"]);
-    }
-    else if(this.player.weapon.perks=="darkness"){
-    this.enemyDamage.push([Math.round(dmg*this.DI*this.weaponMulti),false,"darkness"]);
-    }
-    else if(this.player.weapon.perks=="ice"){
-      this.enemyDamage.push([Math.round(dmg*this.DI*this.weaponMulti),false,"ice"]);
-      }
-
+    if(this.player.weapon.perks=="fire" || this.player.weapon.perks=="darkness" || this.player.weapon.perks=="ice"){
+    this.enemyDamage.push([Math.round(dmg*this.DI*this.weaponMulti),false,this.player.weapon.perks]);
+  
       setTimeout(()=>{ 
         this.enemyDamage[this.enemyDamage.length-1][1] = true; 
       },10*this.speed);
@@ -512,6 +511,7 @@ nextFight(lvl){
       setTimeout(()=>{
         this.enemyDamage.shift();
       },2549);
+    }
   
     },500*this.speed);
 

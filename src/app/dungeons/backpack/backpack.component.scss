@@ -156,14 +156,17 @@ section{
 .normal{
     background:radial-gradient(circle,#00000000,#000000a1 70%, #000000c9 90%) !important;
     border:solid rgba(0, 0, 0, 0.801) 0.2em !important;
+    border-right:none !important;
 }
 .legend{
     background:radial-gradient(circle,#00000000,#a78f0aa1 70%, #a78f0ac9 90%) !important;
     border:solid rgba(114, 107, 3, 0.801) 0.2em !important;
+    border-right:none !important;
 }
 .artefact{
     background:radial-gradient(circle,#00000000,#7a020298 70%, #7a0202be 90%) !important;
     border:solid #63010181 0.2em !important;
+    border-right:none !important;
 }
 
 

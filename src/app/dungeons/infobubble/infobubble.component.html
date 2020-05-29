@@ -12,8 +12,8 @@
 <span class="status" *ngIf="this.item.state!=undefined">Status: <div [ngStyle]="{background: 'linear-gradient(to right,rgb(25, 193, 223) '+ (this.item.state-2) +'%, #30F17000 '+this.item.state+'%)'}"></div></span>
 <span class="reliability" *ngIf="this.item.chance!=undefined">Reliability: {{item.chance}}%</span>
 <span class="stamina" *ngIf="this.item.stamina!=undefined">Stamina: +{{item.stamina}}</span>
-<span class="critChance" *ngIf="this.item.critical!=undefined">Crit Chance: {{item.critical*100}}%</span>
-<span class="critMulti" *ngIf="this.item.critM!=undefined">Critical DMG: +{{item.critM*100}}%</span>
+<span class="critChance" *ngIf="this.item.critical!=undefined">Crit Chance: {{getCritical()}}%</span>
+<span class="critMulti" *ngIf="this.item.critM!=undefined">Critical DMG: +{{getCriticalMulti()}}%</span>
 <span class="fire" *ngIf="this.item.perks=='fire'"><img src="assets/firePerk.png"></span>
 <span class="darkness" *ngIf="this.item.perks=='darkness'"><img src="assets/darkness.png"></span>
 <span class="ice" *ngIf="this.item.perks=='ice'"><img src="assets/snow.png"></span>
