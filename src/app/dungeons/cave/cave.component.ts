@@ -20,10 +20,12 @@ import { Weapon } from '../models/items/weapon.model';
     PlayerAnimations.momentum,
     PlayerAnimations.swordMomentum,
     PlayerAnimations.takeDamage,
+    PlayerAnimations.levelUp,
     EnemyAnimations.enemyAnimation,
     EnemyAnimations.enemyAttack,
     AdditionAnimations.showDamage,
-    AdditionAnimations.grabGold
+    AdditionAnimations.grabGold,
+    AdditionAnimations.showLevelUp
   ]
 })
 export class CaveComponent {
@@ -43,6 +45,7 @@ export class CaveComponent {
   showDamage: boolean = false;
   enemyDamage: Array<any> = [];
   playerDamage: Array<any> = [];
+  playerLevelUp: boolean = false;
   enemyHit: boolean = false;
   showLoot: boolean = false;
   showItemsLooted: boolean = false;
@@ -135,12 +138,26 @@ export class CaveComponent {
     this.enemyState = "die";
     this.showLoot = true;
     this.audio.enemyDead();
-    this.player.exp+=(this.player.dungeon+1)*(this.player.subdungeon[this.player.dungeon]+1)*63;
+    let add = (this.player.dungeon+2)*(this.enemy.level)*Math.round(Math.random()*9+50);
+    this.player.exp+=add;
 
     if(this.player.exp>=this.player.nextExp){
       this.player.level++;
+      setTimeout(()=>{
+      this.playerDamage.push(['LEVEL '+this.player.level,false,'lvl']);
+      setTimeout(()=>{this.playerDamage.shift(); },2700);
+      setTimeout(()=>{
+      this.levelUp();
+      this.audio.levelUp();
+      },20);
+      },30);
       this.player.nextExp = Math.round(this.player.level*(this.player.level*0.4)*928);
       this.player.exp = 0;
+    }
+    else{
+      this.playerDamage.push(['+ '+add+'EXP',false,'exp']);
+
+    this.showPlayerDamage();
     }
   
    }
@@ -248,6 +265,8 @@ nextFight(lvl){
   
   block = 0;
   blocked = false;
+
+  enemyDouble = false
   
   enemyTurn(){
     this.enemyFireball();
@@ -275,7 +294,17 @@ nextFight(lvl){
 
       setTimeout(()=>{ 
 
-        if(this.checkIfAlive()) this.tour();
+        if(this.checkIfAlive()){
+          if(Math.random()<(this.enemy.level/this.player.level)/10 && !this.enemyDouble){
+            setTimeout(()=>{
+            this.enemyTurn();
+            },233*this.speed);
+            this.enemyDouble=true;
+          }else{
+        this.tour();
+        this.enemyDouble=false;
+          }
+        }
         
       },200*this.speed);
 
@@ -297,15 +326,15 @@ nextFight(lvl){
 
      for(let i=bag.coins+Math.random()*this.player.luck;i>0;){
       if(i>=30){
-        this.coins.push([30,'assets/game_coin3.png',Math.random()*12-6+bag.offset,"static"]);
+        this.coins.push([30,'assets/coin/30.png',Math.random()*12-6+bag.offset,"static"]);
         i-=30;
        }
-     else if(i>=10){
-      this.coins.push([10,'assets/game_coin2.png',Math.random()*12-6+bag.offset,"static"]);
-      i-=10;
+     else if(i>=5){
+      this.coins.push([5,'assets/coin/5.png',Math.random()*12-6+bag.offset,"static"]);
+      i-=5;
      }
      else{
-      this.coins.push([1,'assets/game_coin.png',Math.random()*12-6+bag.offset,"static"]);
+      this.coins.push([1,'assets/coin/1.png',Math.random()*12-6+bag.offset,"static"]);
       i-=1;
      }
       let index = this.coins.length-1;
@@ -382,11 +411,14 @@ nextFight(lvl){
         this.dungeons.dungeons[this.player.dungeon].completed++;
         this.player.subdungeon[this.player.dungeon+1]=0;
         this.dungeons.dungeons[this.player.dungeon+1].open=true;
+        this.dungeons.dungeons[this.player.dungeon].completed = 0;
+      
         }
   
       this.player.subdungeon[this.player.dungeon]=0;
       this.player.dungeon++;
       this.enemy = this.dungeons.dungeons[this.player.dungeon].monsters[this.player.subdungeon[this.player.dungeon]];
+      this.audio.win();
       this.goBackToMap();
     }
     if(this.player.subdungeon[this.player.dungeon]>this.dungeons.dungeons[this.player.dungeon].completed){
@@ -397,9 +429,18 @@ nextFight(lvl){
 
   //Status check
 
-  checkIfAlive = () => { return this.player.health>0 ? true: this.playerDead() };
+  checkIfAlive = () => { return this.player.health>0 ? true: this.playerDead() }
 
+  levelUp = () => { this.playerLevelUp=true; setTimeout(()=>{ this.playerLevelUp = false; },3000*this.speed); }
 
+  showPlayerDamage(){
+    setTimeout(()=>{ this.playerDamage[this.playerDamage.length-1][1] = true; },10*this.speed);
+    setTimeout(()=>{this.playerDamage.shift(); },2350);
+  }
+  showEnemyDamage(){
+    setTimeout(()=>{ this.enemyDamage[this.enemyDamage.length-1][1] = true; },10*this.speed);
+    setTimeout(()=>{this.enemyDamage.shift(); },2350);
+  }
 
 
 
@@ -452,20 +493,17 @@ nextFight(lvl){
       this.enemy.health-=Math.round(dmg*this.DI*this.weaponMulti);
       }
     if(this.enemy.health<0) this.enemy.health=0;
+
   }
 
   playerHurt(dmg){
 
     this.enemyHit=false;
-    this.playerDamage.push([Math.round(dmg*this.DI),false]);
-    setTimeout(()=>{
 
-      this.playerDamage[this.playerDamage.length-1][1] = true;
-      },10*this.speed);
+    this.playerDamage.push([Math.round(dmg*this.DI),false,'dmg']);
 
-      setTimeout(()=>{
-        this.playerDamage.shift();
-      },2350);
+    this.showPlayerDamage();
+
   }
 
 //Enemy Animations
@@ -501,31 +539,19 @@ nextFight(lvl){
     this.enemyDamage.push([Math.round(dmg*this.DI),false,"normal"]);
 
     setTimeout(()=>{
+
     if(this.player.weapon.perks=="fire" || this.player.weapon.perks=="darkness" || this.player.weapon.perks=="ice"){
     this.enemyDamage.push([Math.round(dmg*this.DI*this.weaponMulti),false,this.player.weapon.perks]);
-  
-      setTimeout(()=>{ 
-        this.enemyDamage[this.enemyDamage.length-1][1] = true; 
-      },10*this.speed);
-
-      setTimeout(()=>{
-        this.enemyDamage.shift();
-      },2549);
+      this.showEnemyDamage();
     }
   
     },500*this.speed);
 
-    setTimeout(()=>{ 
-      this.enemyDamage[this.enemyDamage.length-1][1] = true; 
-    },10*this.speed);
-
-    setTimeout(()=>{
-      this.enemyDamage.shift();
-    },2449);
+    this.showEnemyDamage();
 
   }
 
-
+ 
 
 
   //bubble

@@ -25,10 +25,10 @@ export class ImagesService {
 
 
   constructor() {
-     this.map.src = "assets/map.jpg";
+     this.map.src = "assets/background/map.jpg";
      this.map.classList.toggle("map");
 
-     this.bckMain.src = "assets/bckMain.jpg";
+     this.bckMain.src = "assets/background/main.jpg";
      this.bckMain.classList.toggle("map");
      this.bckMain.classList.toggle("mainBck");
      this.bckMain.id="mainBck";
@@ -36,25 +36,25 @@ export class ImagesService {
      this.gold.src="assets/coins.png";
      this.gold.classList.toggle("coins");
 
-     this.hpPotion.src="assets/hpPotion.png";
-     this.staminaPotion.src="assets/staminaPotion.png";
-     this.speedPotion.src="assets/speedPotion.png";
+     this.hpPotion.src="assets/potion/hp.png";
+     this.staminaPotion.src="assets/potion/stamina.png";
+     this.speedPotion.src="assets/potion/speed.png";
  
      this.hpPotion.classList.toggle("potion");
      this.staminaPotion.classList.toggle("potion");
      this.speedPotion.classList.toggle("potion");
 
 
-     this.staminaBubble.src = "assets/staminaPotionInfo.png";
-     this.healthBubble.src = "assets/healthPotionInfo.png";
-     this.speedBubble.src = "assets/speedPotionInfo.png";
-     this.normalBubble.src = "assets/itemInfo.png";
-     this.legendBubble.src = "assets/legendItemInfo.png";
-     this.artefactBubble.src = "assets/artefactItemInfo.png";
+     this.staminaBubble.src = "assets/info/stamina.png";
+     this.healthBubble.src = "assets/info/health.png";
+     this.speedBubble.src = "assets/info/speed.png";
+     this.normalBubble.src = "assets/info/item.png";
+     this.legendBubble.src = "assets/info/legend.png";
+     this.artefactBubble.src = "assets/info/artefact.png";
 
-     this.darkness.src = "assets/darkness.png";
-     this.fire.src = "assets/firePerk.png";
-     this.ice.src = "assets/snow.png";
+     this.darkness.src = "assets/perk/darkness.png";
+     this.fire.src = "assets/perk/fire.png";
+     this.ice.src = "assets/perk/ice.png";
    }
 
 

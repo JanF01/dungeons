@@ -55,6 +55,6 @@ export class InfobubbleComponent implements OnInit {
     return Math.round(this.item.critical*100);
   }
   getCriticalMulti(){
-    return Math.round(this.item.critiM*100);
+    return Math.round(this.item.critM*100);
   }
 }

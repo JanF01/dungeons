@@ -77,8 +77,8 @@
     <main>
       <div *ngFor="let dungeon of this.getDungeons(); let i = index" [ngClass]="{applyFilter: !dungeon.open}">
         <img id="{{i+1}}" src="{{dungeon.img}}" (click)="goCave(i+1)">
-        <div class="bar" [ngStyle]="{background: 'linear-gradient(to right, rgb(9, 120, 163) '+ ((dungeon.completed/13)*100-1) +'%, rgba(9, 120, 163,0) '+ (dungeon.completed/13)*100 +'% )'}">
-          {{dungeon.completed}}/13
+        <div class="bar" [ngStyle]="{background: 'linear-gradient(to right, rgb(9, 120, 163) '+ ((dungeon.completed/dungeon.amount)*100-1) +'%, rgba(9, 120, 163,0) '+ (dungeon.completed/dungeon.amount)*100 +'% )'}">
+          {{dungeon.completed}}/{{dungeon.amount}}
         </div>
       </div>
     </main>

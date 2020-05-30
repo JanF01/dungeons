@@ -7,13 +7,15 @@ export class Dungeon {
    monsters: Array<Enemy>;
    completed: number = 0;
    open: boolean;
+   amount: number;
    
 
-   constructor(src,enemys,comp=0,open=false){
+   constructor(src,enemys,comp=0,open=false,sum){
      this.img = src;
      this.monsters = enemys;
      this.completed = comp;
      this.open = open;
+     this.amount = sum;
    }
 
 

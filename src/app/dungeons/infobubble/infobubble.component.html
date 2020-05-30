@@ -4,7 +4,7 @@
 <div *ngIf="this.item!=undefined">
     
 <span class="type" [ngClass]="{'red':this.item.type=='artefact','orange':this.item.type=='legend','white':this.item.type=='normal'}">{{this.getType()}}</span>
-<span class="cost" *ngIf="this.item.cost!=undefined"><img src="assets/game_coin.png">{{this.item.cost}}</span>
+<span class="cost" *ngIf="this.item.cost!=undefined"><img src="assets/coin/1.png">{{this.item.cost}}</span>
 <span class="name">{{item.name}}</span>
 <span class="strength" *ngIf="this.item.power!=undefined">Power: {{this.getPower(item.power)}}</span>
 <span class="defence" *ngIf="this.item.defence!=undefined">Defence: {{item.defence}}</span>
@@ -14,7 +14,7 @@
 <span class="stamina" *ngIf="this.item.stamina!=undefined">Stamina: +{{item.stamina}}</span>
 <span class="critChance" *ngIf="this.item.critical!=undefined">Crit Chance: {{getCritical()}}%</span>
 <span class="critMulti" *ngIf="this.item.critM!=undefined">Critical DMG: +{{getCriticalMulti()}}%</span>
-<span class="fire" *ngIf="this.item.perks=='fire'"><img src="assets/firePerk.png"></span>
-<span class="darkness" *ngIf="this.item.perks=='darkness'"><img src="assets/darkness.png"></span>
-<span class="ice" *ngIf="this.item.perks=='ice'"><img src="assets/snow.png"></span>
+<span class="fire" *ngIf="this.item.perks=='fire'"><img src="assets/perk/fire.png"></span>
+<span class="darkness" *ngIf="this.item.perks=='darkness'"><img src="assets/perk/darkness.png"></span>
+<span class="ice" *ngIf="this.item.perks=='ice'"><img src="assets/perk/ice.png"></span>
 </div>

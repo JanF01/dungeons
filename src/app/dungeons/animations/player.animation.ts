@@ -39,6 +39,17 @@ export const PlayerAnimations = {
       transition('true=>false',[
         animate(200*0.5)
     ])
-   ])
+   ]),
+     levelUp: trigger('levelUp',[
+       state('false',style({filter: "brightness(100%)"})),
+       state('true',style({top:'19%', filter: "brightness(400%)"})),
+
+       transition('false=>true',[
+        animate(2600*0.5)
+      ]),
+    transition('true=>false',[
+      animate(1200*0.5)
+     ])
+     ])
 
 }

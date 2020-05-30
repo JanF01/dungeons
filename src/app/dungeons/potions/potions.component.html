@@ -1,14 +1,14 @@
 <div class="potions" [ngClass]="{'character': this.character}">
     <div class="hp">
-        <img src="assets/hpPotion.png" (click)="drinkPotion(0)">
+        <img src="assets/potion/hp.png" (click)="drinkPotion(0)">
         <span>{{potions.hp}}x</span>
     </div>
     <div class="stamina">
-        <img src="assets/staminaPotion.png" (click)="drinkPotion(1)">
+        <img src="assets/potion/stamina.png" (click)="drinkPotion(1)">
         <span>{{potions.stamina}}x</span>
     </div>
     <div class="speed" *ngIf="!character">
-        <img src="assets/speedPotion.png" (click)="drinkPotion(2)">
+        <img src="assets/potion/speed.png" (click)="drinkPotion(2)">
         <span>{{potions.speed}}x</span>
     </div>
   </div>

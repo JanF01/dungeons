@@ -6,10 +6,20 @@ export const AdditionAnimations = {
         state('false',style({fontSize:"2.0em", opacity:1, top:'47%'})),
         state('true',style({fontSize:"3.9em", opacity:0, top: "-6%"})),
         transition('false => true', [
-          animate(1600)
+          animate(1900)
         ]),
         transition('true => false', [
           animate(1)
+        ])
+      ]),
+      showLevelUp: trigger('showLevelUp',[
+        state('false',style({fontSize:"2.4em", opacity:0, top:'47%'})),
+        state('true',style({fontSize:"3.9em", opacity:1, top: "-10%"})),
+        transition('false => true', [
+          animate(2400)
+        ]),
+        transition('true => false', [
+          animate(600)
         ])
       ]),
 

@@ -15,11 +15,11 @@
 
 <div class="tile" *ngIf="!showItemsLooted">
 
-    <img src="{{this.player.graphic}}" @showUp [@momentum]="{value: playerAnimation}" [@takeDamage]="enemyHit" draggable="false">
+    <img src="{{this.player.graphic}}" @showUp [@levelUp]="{value: playerLevelUp}" [@momentum]="{value: playerAnimation}" [@takeDamage]="enemyHit" draggable="false">
     <img src="{{this.player.weapon.graphic}}" class="sword" @showUp [@swordMomentum]="{value: swordAnimation}" draggable="false">
 
     <div *ngFor="let damage of playerDamage">
-      <div class="playerDamage" [ngStyle]="{color: damage[0]==0?'#60A0FF':'#da0a0a'}" @showUp [@showDamage]="{value: damage[1]}">{{damage[0]}}</div>
+      <div class="playerDamage" [ngStyle]="{color: damage[0]==0?'#60A0FF':(damage[2]=='exp'?'#5deb05':'#da0a0a')}" [ngClass]="{exp: damage[2]=='exp',lvl:damage[2]=='lvl'}" @showUp [@showLevelUp]="{value: playerLevelUp}" [@showDamage]="{value: damage[1]}">{{damage[0]}}</div>
     </div>
 
     <div class="hp">
@@ -31,7 +31,7 @@
     </div>
 
     <span class="goldInSack">{{player.goldInSack}}</span>
-    <img src="assets/game_coin.png" class="coin" style="left:14.6%;top:17.1em" draggable="false">
+    <img src="assets/coin/1.png" class="coin" style="left:14.6%;top:17.1em" draggable="false" >
 
   </div>
 
