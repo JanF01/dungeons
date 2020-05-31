@@ -31,6 +31,7 @@ export class User {
    ring: Ring;
    potions: Array<any>;
    items: Array<any>;
+   itemsOnHold: Array<any>;
    loot: Array<Item>;
 
 

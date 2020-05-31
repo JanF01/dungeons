@@ -1,13 +1,17 @@
 div{
-   min-width:12em;
+   min-width:14em;
    height:auto;
    font-family:"Abel",sans-serif;
     img{
         position:absolute;
-        top:-13em;
-        left:-2.7em;
-        width:12.4em;
+        top:-16em;
+        left:-3.4em;
+     
         opacity:0.8;
+       }
+       .bubble{
+           height:17em;
+        width:14.4em;
        }
 }
 
@@ -18,13 +22,13 @@ span{
        z-index:4;
    }
 .type{
-   top:-11.4em;
-   left:-1.2em;
+   top:-13.6em;
+   left:-1.9em;
    font-size:1.25em;
 }
 .cost{
     display:flex;
-    left:1.7em;
+    left:1.2em;
     width:3.24em;
     color:white;
     background:rgba(0, 0, 0, 0.555);
@@ -45,22 +49,22 @@ span{
     }
 }
 .name{
-    top:-8em;
-    left:-1em;
-    font-size:1.5em;
+    top:-10.5em;
+    left:-1.5em;
+    font-size:1.42em;
 }
 .strength,.defence,.critChance,.critMulti,.stamina{
-    top:-7em;
-    left:-1em;
-    font-size:1.35em;
+    top:-9.5em;
+    left:-1.2em;
+    font-size:1.3em;
 }
 
 .status,.critChance,.critMulti{
     display:flex;
     align-items:center;
-    top:-5.4em;
-    left:-1em;
-    font-size:1.35em;
+    top:-7.9em;
+    left:-1.2em;
+    font-size:1.3em;
     div{
         margin-left:0.2em;
         margin-top:0.1em;
@@ -77,23 +81,37 @@ span{
     font-size:1.3em;
   }
 .reliability{
-    top:-3.7em;
-    left:-1em;
-    font-size:1.35em;
+    top:-6.2em;
+    left:-1.2em;
+    font-size:1.3em;
 }
 .fire,.darkness,.ice{
-    top:7.7em;
-    left:2.3em;
+    top:8.4em;
+    left:2.2em;
     img{
-        width:2.9em;
+        width:3.1em;
     }
 }
 .darkness{
-    left:4.6em;
+    left:5.3em;
     box-shadow:0 0 0.2em -0.1em#FFF;
 }
 .ice{
-    left:6.7em;
+    left:7.9em;
+}
+
+.gem{
+    top:12em;
+    left:1.2em;
+    img{
+        width:1.8em;
+    }
+}
+.gemPerk{
+    top:-3.23em;
+    left:0.3em;
+    font-size:1.15em;
+    color:rgb(29, 255, 244);
 }
 
 

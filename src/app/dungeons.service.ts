@@ -7,6 +7,7 @@ import { Armor } from './dungeons/models/items/armor.model';
 import { ImagesService } from './images.service';
 import { Necklace } from './dungeons/models/items/necklace.model';
 import { Ring } from './dungeons/models/items/ring.model';
+import { Crystal } from './dungeons/models/items/crystal.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ import { Ring } from './dungeons/models/items/ring.model';
 export class DungeonsService {
 
   dungeons: Array<Dungeon> = [];
+  chance: number = 1;
 
 
   constructor(private images: ImagesService) { 
@@ -108,7 +110,7 @@ export class DungeonsService {
     }
     
     let itemChance = Math.random();
-    if(itemChance<0.22){
+    if(itemChance<0.29*this.chance){
     loot.push(this.itemDrop(itemChance,dungeon,subdungeon,level));
     }
 
@@ -130,40 +132,76 @@ itemDrop(IC,d,s,lvl){
      a = "1_";
   }
 
-  if(IC>0.14){
+  if(IC>0.288*this.chance){
+    item = new Crystal("artefact","Sonic's Crystal","assets/crystal/artefact_speed.png","#00E81","none",Math.round(lvl*lvl*0.6),'speed',Math.round(lvl/2),Math.random()*30-15,"artefact");
+  }
+  else if(IC>0.286*this.chance){
+    item = new Crystal("artefact","Rain of Experience","assets/crystal/artefact_exp.png","#00E82","none",Math.round(lvl*lvl*0.6),'exp',Math.round((Math.random()*40+40))/100,Math.random()*30-15,"artefact");
+  }
+  else if(IC>0.284*this.chance){
+    item = new Crystal("artefact","Crystal of Destruction","assets/crystal/artefact_dmg.png","#00E83","none",Math.round(lvl*lvl*0.6),'dmg',Math.round(Math.random()*20+25)/100,Math.random()*30-15,"artefact");
+  }
+  else if(IC>0.282*this.chance){
+    item = new Crystal("artefact","Life's Crystal","assets/crystal/artefact_hp.png","#00E84","none",Math.round(lvl*lvl*0.6),'hp',Math.round((Math.random()*20+25))/100,Math.random()*30-15,"artefact");
+  }
+  else if(IC>0.278*this.chance){
+    item = new Crystal("legend","Velocity Crystal","assets/crystal/legend_speed.png","#00E61","none",Math.round(lvl*lvl*0.4),'speed',Math.round(lvl/2.6),Math.random()*30-15,"legend");
+  }
+  else if(IC>0.274*this.chance){
+    item = new Crystal("legend","Experience Multiplier","assets/crystal/legend_exp.png","#00E62","none",Math.round(lvl*lvl*0.4),'exp',Math.round((Math.random()*30+20))/100,Math.random()*30-15,"legend");
+  }
+  else if(IC>0.27*this.chance){
+    item = new Crystal("legend","Power Crystal","assets/crystal/legend_dmg.png","#00E63","none",Math.round(lvl*lvl*0.4),'dmg',Math.round((Math.random()*15+15))/100,Math.random()*30-15,"legend");
+  }
+  else if(IC>0.266*this.chance){
+    item = new Crystal("legend","Health Stream","assets/crystal/legend_hp.png","#00E64","none",Math.round(lvl*lvl*0.4),'hp',Math.round((Math.random()*15+15))/100,Math.random()*30-15,"legend");
+  }
+  else if(IC>0.259*this.chance){
+    item = new Crystal("normal","Speed Gem","assets/crystal/normal_speed.png","#00E11","none",Math.round(lvl*lvl*0.2),'speed',Math.round(lvl/3),Math.random()*30-15,"normal");
+  }
+  else if(IC>0.252*this.chance){
+    item = new Crystal("normal","Crystal Of Experience","assets/crystal/normal_exp.png","#00E12","none",Math.round(lvl*lvl*0.2),'exp',Math.round(Math.random()*20+5)/100,Math.random()*30-15,"normal");
+  }
+  else if(IC>0.245*this.chance){
+    item = new Crystal("normal","Damage Crystal","assets/crystal/normal_dmg.png","#00E13","none",Math.round(lvl*lvl*0.2),'dmg',Math.round((Math.random()*10+8))/100,Math.random()*30-15,"normal");
+  }
+  else if(IC>0.238*this.chance){
+    item = new Crystal("normal","Endurance Gem","assets/crystal/normal_hp.png","#00E14","none",Math.round(lvl*lvl*0.2),'hp',Math.round((Math.random()*10+8))/100,Math.random()*30-15,"normal");
+  }
+  else if(IC>0.14*this.chance){
   item = new Weapon("normal","A Fricking Sword","assets/weapon/"+w+"1.png","#00A11","none",Math.round(lvl*lvl*0.4),(Math.round(lvl*12)/10)+r,(Math.round(lvl*12)/10)+r+Math.round(lvl/4.5),100,Math.random()*30-15,"normal");
   }
-  else if(IC>0.09){
+  else if(IC>0.09*this.chance){
     item = new Armor("normal","Shield Yourself","assets/armor/"+a+"1.png","#00B12","none",Math.round(lvl*lvl*0.4),Math.round(lvl*lvl/2)+r+30,5+Math.round(Math.random()*5),100,Math.random()*30-15,"normal");
   }
-  else if(IC>0.07){
+  else if(IC>0.07*this.chance){
   item = new Weapon("legend","Holy Sword","assets/weapon/"+w+"2.png","#00A42","fire",Math.round(lvl*lvl*0.7)+40,(Math.round(lvl*14)/10)+r,(Math.round(lvl*14)/10)+r+Math.round(lvl/3),100,Math.random()*30-15,"legend");
   }
-  else if(IC>0.05){
+  else if(IC>0.05*this.chance){
     item = new Armor("legend","Holy Armor","assets/armor/"+a+"2.png","#00B43","none",Math.round(lvl*lvl*0.7),Math.round(lvl*lvl/1.4)+r+50,10+Math.round(Math.random()*10),100,Math.random()*30-15,"legend");
   }
-  else if(IC>0.045){
+  else if(IC>0.045*this.chance){
     item = new Weapon("artefact","Lucky Needle","assets/weapon/"+w+"3.png","#00A02","darkness",Math.round(lvl*lvl),(Math.round(lvl*16)/10)+r,(Math.round(lvl*16)/10)+r+Math.round(lvl/2.5)+lvl,100,Math.random()*30-15,"artefact");
   }
-  else if(IC>0.04){
+  else if(IC>0.04*this.chance){
     item = new Armor("artefact","Foreknowing Armor AI","assets/armor/"+a+"3.png","#00B01","none",Math.round(lvl*lvl),Math.round(lvl*lvl)+r+70,10+Math.round(Math.random()*20),100,Math.random()*30-15,"artefact");
   }
-  else if(IC>0.027){
+  else if(IC>0.027*this.chance){
     item = new Necklace("normal","Necklace of Wisdom","assets/necklace/1_1.png","#00C01","none",Math.round(lvl*lvl),lvl*4,Math.round(Math.random()*8+2)/100,Math.random()*30-15,"normal");
   }
-  else if(IC>0.014){
+  else if(IC>0.014*this.chance){
     item = new Ring("normal","Ring of Wisdom","assets/ring/1_1.png","#00D01","none",Math.round(lvl*lvl),lvl*4,Math.round(Math.random()*35+25)/100,Math.random()*30-15,"normal");
   }
-  else if(IC>0.009){
+  else if(IC>0.009*this.chance){
     item = new Necklace("legend","Necklace on Fire","assets/necklace/1_2.png","#00C02","fire",Math.round(lvl*lvl*1.2),lvl*6,Math.round(Math.random()*8+8)/100,Math.random()*30-15,"legend");
   }
-  else if(IC>0.004){
+  else if(IC>0.004*this.chance){
     item = new Ring("legend","Ring of Darkness","assets/ring/1_2.png","#00D02","darkness",Math.round(lvl*lvl*1.2),lvl*6,Math.round(Math.random()*50+50)/100,Math.random()*30-15,"legend");
   }
-  else if(IC>0.002){
+  else if(IC>0.002*this.chance){
     item = new Necklace("artefact","Necklace 1/500","assets/necklace/1_2.png","#00C03","fire",Math.round(lvl*lvl*1.3),lvl*9,Math.round(Math.random()*10+10)/100,Math.random()*30-15,"artefact");
   }
-  else if(IC<=0.002){
+  else if(IC<=0.002*this.chance){
     item = new Ring("artefact","Ring 1/500","assets/ring/1_2.png","#00D03","darkness",Math.round(lvl*lvl*1.3),lvl*9,Math.round(Math.random()*100+75)/100,Math.random()*30-15,"artefact");
   }
 

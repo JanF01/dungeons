@@ -58,7 +58,8 @@
     </div>
 
     <div class="loot" *ngIf="showLoot">
-      <img *ngFor="let item of enemy.loot" [src]="item.graphic" class="{{item.clas}}" [ngStyle]="{left: (70+item.offset)+'%' }" (mouseleave)="hideInfo()" (mousemove)="changePosition($event)" (mouseenter)="showCoins(item)" (click)="collectItem(item)" draggable="false">
+      <img *ngFor="let item of enemy.loot" [src]="item.graphic" class="{{item.clas}}" [ngClass]="{'smallCrystal':item.amp!=undefined && item.type=='normal', 'bigCrystal':item.amp!=undefined && item.type=='legend'}"
+       [ngStyle]="{left: (70+item.offset)+'%' }" (mouseleave)="hideInfo()" (mousemove)="changePosition($event)" (mouseenter)="showCoins(item)" (click)="collectItem(item)" draggable="false">
       <img *ngFor="let coin of coins" [src]="coin[1]" class="coin" [ngStyle]="{left: (70+coin[2])+'%',top: 55+coin[2]-7.5+'%' }" @showUp [@grabGold]="{value: coin[3]}" draggable="false">
     </div>
 

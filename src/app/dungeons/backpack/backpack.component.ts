@@ -14,6 +14,9 @@ export class BackpackComponent implements OnInit {
   @Input('user') player: User;
   arrayForItems: Array<number> = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26];
   arrayItemsPos = [];
+
+  backpack = "backpack";
+  
   constructor(private images: ImagesService) { 
        for(let i=0;i<=35;i++){
          this.arrayItemsPos.push({x:0,y:0});
@@ -44,10 +47,14 @@ export class BackpackComponent implements OnInit {
     document.getElementById('backpack').style.opacity="1";
   }
 
+  preventRightClick($event: MouseEvent){
+    $event.preventDefault();
+  }
 
   itemForInfo: any;
   showInfoBubble = false;
   bubblePos = {x:180,y:180};
+
 
   showInfo(item){
   

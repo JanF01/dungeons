@@ -33,8 +33,8 @@
       </div>
     </mat-grid-tile>
     <mat-grid-tile (click)="goToShop()">
-      <div class="col"><span>Shop</span>
-        <div class="add"><img src="assets/shop.png" draggable="false"></div>
+      <div class="col"><span>Potions</span>
+        <div class="add"><img src="assets/potions.png" draggable="false"></div>
       </div>
     </mat-grid-tile>
     <mat-grid-tile></mat-grid-tile>
@@ -44,7 +44,7 @@
       </div>
     </mat-grid-tile>
     <mat-grid-tile></mat-grid-tile>
-    <mat-grid-tile>
+    <mat-grid-tile (click)="goToVillage()">
       <div class="col"><span>Village</span>
         <div class="add"><img src="assets/village.png" draggable="false"></div>
       </div>
@@ -90,6 +90,7 @@
   <app-character #character [user]="this.player" *ngIf="player.location=='character'"></app-character>
   <app-shop #shop [user]="this.player" *ngIf="player.location=='shop'"></app-shop>
   <app-backpack #backpack [user]="this.player" *ngIf="player.location=='backpack'"></app-backpack>
+  <app-village #village [user]="this.player" *ngIf="player.location=='village'" id="village" draggable="false"></app-village>
 
  
 </div>

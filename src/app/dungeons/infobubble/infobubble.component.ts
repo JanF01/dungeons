@@ -57,4 +57,48 @@ export class InfobubbleComponent implements OnInit {
   getCriticalMulti(){
     return Math.round(this.item.critM*100);
   }
+  getCrystal(c){
+      switch(c){
+        case 'dmg':
+            return 'Damage';
+          case 'hp':
+            return 'Health';
+            case 'speed':
+              return 'Speed';
+              case 'exp':
+                return 'Experience';
+      }
+  }
+  getGemPerk(){
+    let string: string = '';
+    let power = this.item.gem.power*100;
+    switch(this.item.gem.amp){
+      case 'speed':
+        string = "Speed +"+this.item.gem.power;
+        break;
+        case 'hp':
+          string = "Health +"+power+"%";
+          break;
+          case 'exp':
+            string = "Experience +"+power+"%";
+            break;
+            case 'dmg':
+              string = "Damage +"+power+"%";
+            break;
+    }
+    return string;
+  }
+
+  getBoost(){
+    switch(this.item.amp){
+      case 'dmg':
+        case 'hp':
+          case 'exp':
+          return Math.round(this.item.power*100)+'%';
+          break;
+          case 'speed':
+            return this.item.power;
+            break;
+    }
+  }
 }

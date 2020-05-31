@@ -4,13 +4,15 @@ export class Potion {
     name: string;
     graphic: any;
     type: string;
-    power: string;
+    refill: string;
+    label: string;
     
-    constructor(name,src,type,power){
+    constructor(name,src,type,refill,label){
           this.name = name;
           this.graphic = src;
           this.type = type;
-          this.power = power;
+          this.refill = refill;
+          this.label = label;
     }
 
 

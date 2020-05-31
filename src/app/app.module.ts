@@ -20,6 +20,9 @@ import { LeftNavComponent } from './dungeons/left-nav/left-nav.component';
 import { PotionsComponent } from './dungeons/potions/potions.component';
 import { InfobubbleComponent } from './dungeons/infobubble/infobubble.component';
 import { SettingsComponent } from './settings/settings.component';
+import { VillageComponent } from './dungeons/village/village.component';
+import { BlacksmithComponent } from './dungeons/village/blacksmith/blacksmith.component';
+import { ArmoryComponent } from './dungeons/village/armory/armory.component';
 
 
 @NgModule({
@@ -34,7 +37,10 @@ import { SettingsComponent } from './settings/settings.component';
     LeftNavComponent,
     PotionsComponent,
     InfobubbleComponent,
-    SettingsComponent
+    SettingsComponent,
+    VillageComponent,
+    BlacksmithComponent,
+    ArmoryComponent
   ],
   imports: [
     BrowserModule,

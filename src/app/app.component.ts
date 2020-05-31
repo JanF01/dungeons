@@ -28,4 +28,8 @@ export class AppComponent {
   closeSettings(){
     this.shSettings=false;
   }
+
+  preventRightClick($event: MouseEvent){
+    $event.preventDefault();
+  }
 }

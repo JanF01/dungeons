@@ -13,6 +13,8 @@ import { Armor } from './models/items/armor.model';
 import { Weapon } from './models/items/weapon.model';
 import { Necklace } from './models/items/necklace.model';
 import { Ring } from './models/items/ring.model';
+import { VillageComponent } from './village/village.component';
+import { Crystal } from './models/items/crystal.model';
 
 @Component({
   selector: 'app-dungeons',
@@ -27,6 +29,7 @@ export class DungeonsComponent implements OnInit {
   @ViewChild(ShopComponent) shop: ShopComponent;
   @ViewChild(CharacterComponent) character: CharacterComponent;
   @ViewChild(BackpackComponent) backpack: BackpackComponent;
+  @ViewChild(VillageComponent) village: VillageComponent;
 
   player: User = new User();
   mainBck:any;
@@ -62,15 +65,15 @@ export class DungeonsComponent implements OnInit {
       armor: new Armor("normal","Feeble Armor","assets/armor/1_1.png","#00B11","none",10,39,10,100),
       necklace: new Necklace("normal","Rat's Collar","assets/necklace/1_1.png","#00C01","fire",21,15,0.06),
       ring: new Ring("normal","Rat's Collar","assets/ring/1_1.png","#00C01","none",33,10,0.3),
-      potions: [new Potion("Health I",images.hpPotion,"hp",600)],
+      potions: [new Potion("Health I",images.hpPotion,"hp",600,"HP Potion")],
       items: [new Weapon("artefact","Dev Dagger #EZ","assets/weapon/swordDev.png","#00A9A","fire",92441,2000,4000,100),
-      new Weapon("artefact","Dev Dagger #EZ","assets/weapon/swordDev.png","#00A9A","none",92441,2,4,100),
-      new Weapon("artefact","Dev Dagger #EZ","assets/weapon/swordDev.png","#00A9A","fire",92441,2000,4000,100),
-      new Weapon("artefact","Dev Dagger #EZ","assets/weapon/swordDev.png","#00A9A","fire",92441,2000,4000,100),
-      new Armor("legend","Invincible Armor","assets/armor/1_2.png","#00B11","none",42032,120,60,100),
-      new Armor("legend","Invincible Armor","assets/armor/1_2.png","#00B11","none",42032,120,60,100),
-      new Armor("legend","Invincible Armor","assets/armor/1_2.png","#00B11","none",42032,120,60,100),
-      new Weapon("normal","Random Weapon","assets/weapon/1_4.png","#00C02","ice",63,7,11,100),],
+      new Armor("legend","Invincible Armor","assets/armor/1_2.png","#00B11","none",42032,12000,60,100),
+      new Weapon("normal","Random Weapon","assets/weapon/1_4.png","#00C02","ice",63,7,11,100),
+      new Crystal("artefact","Crystal of Destruction","assets/crystal/artefact_dmg.png","#00E92","none",121,"dmg",0.25),
+      new Crystal("normal","Small Speed Crystal","assets/crystal/normal_speed.png","#00E03","none",12,"speed",2),
+      new Crystal("legend","Glowing HP Crystal","assets/crystal/legend_hp.png","#00E18","none",68,"hp",0.12),
+      new Crystal("legend","Big Crystal of Exp","assets/crystal/legend_exp.png","#00E13","none",87,"exp",0.11)],
+      itemsOnHold:[],
       loot: []
     }
     this.player.stamina+=this.player.necklace.stamina+this.player.ring.stamina;
@@ -114,6 +117,17 @@ export class DungeonsComponent implements OnInit {
 
   getDungeons(){
     return this.dungeons.dungeons;
+  }
+
+  goToVillage(){
+    document.getElementById('mainBck').style.opacity='0';
+    this.player.location = "village";
+    setTimeout(()=>{
+      document.getElementById('village').style.opacity="1";
+      document.getElementById('village').appendChild(this.images.village);
+     document.getElementById('mainBck').style.opacity='0';
+     this.images.village.style.display='block';
+      },50);
   }
 
   

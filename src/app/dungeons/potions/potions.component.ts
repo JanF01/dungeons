@@ -25,7 +25,7 @@ export class PotionsComponent implements OnInit {
          var l = this.player.potions.length-1;
         for(let i=l;i>=0;i--){
           if(this.player.potions[i].type=="hp"){
-           this.player.health+=Math.round(this.player.potions[i].power+this.player.hitPoints*0.09);
+           this.player.health+=Math.round(this.player.potions[i].refill+this.player.hitPoints*0.09);
            if(this.player.health>this.player.hitPoints){
              this.player.health=this.player.hitPoints;
            }
@@ -43,7 +43,7 @@ export class PotionsComponent implements OnInit {
            var l = this.player.potions.length-1;
           for(let i=l;i>=0;i--){
             if(this.player.potions[i].type=="stamina"){
-             this.player.stamina+=this.player.potions[i].power;
+             this.player.stamina+=this.player.potions[i].refill;
               this.player.potions.splice(i,1);
               this.potions.stamina--;
   
@@ -57,10 +57,10 @@ export class PotionsComponent implements OnInit {
              var l = this.player.potions.length-1;
             for(let i=l;i>=0;i--){
               if(this.player.potions[i].type=="speed"){
-                let power = this.player.potions[i].power;
+                let refill = this.player.potions[i].refill;
                 if(this.player.speed<80){
-               this.player.speed+=power;
-               this.player.speedBuildUp+=power;
+               this.player.speed+=refill;
+               this.player.speedBuildUp+=refill;
                 }
                 this.player.potions.splice(i,1);
                 this.potions.speed--;

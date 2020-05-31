@@ -47,7 +47,7 @@ export class AudioService {
     this.takeDmg.src="assets/sound/takeDamage.mp3";
 
     this.lvlUp = new Audio();
-    this.lvlUp.volume=0.25*this.globalVolume;
+    this.lvlUp.volume=0.19*this.globalVolume;
     this.lvlUp.src="assets/sound/levelUp.wav";
 
     this.block = new Audio();

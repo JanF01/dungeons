@@ -1,14 +1,13 @@
 mat-grid-list.nav{
-    position:absolute;
-    left:0;
-    top:-3%;
     width:17%;
     min-height:50vh;
     mat-grid-tile{
+        position:relative;
+        bottom:30vh;
         .col{
             span{
                 display:block;
-                margin-left:0.4em;
+                margin-left:0.5em;
             }
         }
         .add{
@@ -19,7 +18,7 @@ mat-grid-list.nav{
             text-align:center;
             font-size:1.3em;
             img{
-                width:2.4em;
+                width:2.6em;
                 margin-top:0;
                 transition:0.9s all;
             }
@@ -36,9 +35,6 @@ mat-grid-list.nav{
 }
 
 .assets{
-    position:absolute;
-    left:0;
-    top:30%;
     width:17%;
     color:white;
     display:flex;
@@ -48,4 +44,51 @@ mat-grid-list.nav{
     img{
         width:2.4em;
     }
+}
+
+.toLeft{
+    position:absolute;
+    width:9% !important; 
+    top:35% !important;
+    mat-grid-tile{
+        margin-left:10%;
+        align-items:flex-end !important;
+        .col{
+            span{
+                font-size:1.15em;
+                margin-left:0.13em !important;
+                margin-bottom:0.5em !important;
+                bottom:0 !important;
+            }
+        }
+        .add{
+            margin-top:0em !important;
+            img{
+                margin-left:0em;
+                width:2.1em !important; 
+                top:0 !important;
+            }
+        }
+        &:hover{
+             .col > .add > img{
+                 width:2.9em !important; ;
+             }
+         }
+    }
+    font-size:1.7em;
+    img{
+        margin-left:1em;
+        width:2em;
+        position:relative;
+        bottom:4em !important;
+    }
+    span{
+        position:relative;
+        bottom:4em !important;
+    }
+}
+.normal{
+    position:absolute;
+    left:0;
+    top:30%;
 }

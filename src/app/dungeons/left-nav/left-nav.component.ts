@@ -8,6 +8,7 @@ import { Component, OnInit,Input } from '@angular/core';
 export class LeftNavComponent implements OnInit {
 
   @Input() gold:number;
+  @Input('place') place:string;
 
   constructor() { }
 

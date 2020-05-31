@@ -90,6 +90,16 @@ img{
     min-width:100%;
     opacity:0.1;
     z-index:-1;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;  
+  }
+  .village{
+    max-width:100% !important;
+    opacity:0.2;
   }
   .mainBck{
     opacity:0.3;
@@ -99,7 +109,7 @@ img{
     height:1.7em;
     margin-right:0.2em;
   }
-  .potion{
+  .potion,.weapon,.armor{
     position:relative;
     width:2.9em;
     height:2.9em;
@@ -107,6 +117,11 @@ img{
     &:hover{
         transform:scale(1.16);
     }
+  }
+  .weapon,.armor{
+  &:hover{
+    transform:scale(1);
+}
   }
 
 

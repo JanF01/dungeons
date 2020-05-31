@@ -1,9 +1,9 @@
-<mat-grid-list class="nav" cols="1">
+<mat-grid-list class="nav" cols="1" [ngClass]="{'normal': this.place!='village','toLeft': this.place=='village'}">
     <mat-grid-tile>
 <div class="col"><span>Home</span>
-    <div class="add"><img src="assets/home.png" draggable="false"></div>
+    <div class="add"><img src="assets/home.png" draggable="false" ></div>
 </div>
 </mat-grid-tile>
 </mat-grid-list>
 
-<div class="assets" ><img src="assets/coins.png" draggable="false">{{gold}}</div>
+<div class="assets" [ngClass]="{'normal': this.place!='village','toLeft': this.place=='village'}"><img src="assets/coins.png" draggable="false"><span>{{gold}}</span></div>

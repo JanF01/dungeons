@@ -1,12 +1,18 @@
 <div *ngIf="this.item!=undefined">
-<img src="{{this.getSrc()}}" [ngStyle]="{opacity: this.item.type=='normal'?'0.95':'0.8'}">
+<img class="bubble" src="{{this.getSrc()}}" [ngStyle]="{opacity: this.item.type=='normal'?'0.95':'0.8'}">
 </div>
 <div *ngIf="this.item!=undefined">
     
-<span class="type" [ngClass]="{'red':this.item.type=='artefact','orange':this.item.type=='legend','white':this.item.type=='normal'}">{{this.getType()}}</span>
+<span class="type" *ngIf='this.item.label==undefined' [ngClass]="{'red':this.item.type=='artefact','orange':this.item.type=='legend','white':this.item.type=='normal'}">{{this.getType()}}</span>
+<span class="type" *ngIf='this.item.label!=undefined'>{{this.item.label}}</span>
 <span class="cost" *ngIf="this.item.cost!=undefined"><img src="assets/coin/1.png">{{this.item.cost}}</span>
 <span class="name">{{item.name}}</span>
-<span class="strength" *ngIf="this.item.power!=undefined">Power: {{this.getPower(item.power)}}</span>
+<span class="strength" *ngIf="this.item.refill!=undefined">Power: {{this.getPower(item.refill)}}</span>
+<span class="strength" *ngIf="this.item.amp!=undefined">Type: {{this.getCrystal(this.item.amp)}}</span>
+<span class="critChance" *ngIf="this.item.power!=undefined">Boost: {{this.getBoost()}}</span>
+<span class="gem" *ngIf="this.item.gem!=undefined"><img src="{{this.item.gem.graphic}}"></span>
+<span class="gemPerk" *ngIf="this.item.gem!=undefined">{{getGemPerk()}}</span>
+
 <span class="defence" *ngIf="this.item.defence!=undefined">Defence: {{item.defence}}</span>
 <span class="strength" *ngIf="this.item.damageLow!=undefined">DMG: {{item.damageLow}} - {{item.damageHigh}}</span>
 <span class="status" *ngIf="this.item.state!=undefined">Status: <div [ngStyle]="{background: 'linear-gradient(to right,rgb(25, 193, 223) '+ (this.item.state-2) +'%, #30F17000 '+this.item.state+'%)'}"></div></span>

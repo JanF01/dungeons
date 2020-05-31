@@ -23,8 +23,10 @@ export class ShopComponent implements OnInit {
   healthPrice = 10;
   staminaPrice = 10;
   speedPrice = 10;
-
-
+  shop = "shop";
+  hp = new Potion('Health I', 'none','hp',600,'HP Potion');
+  sp = new Potion("Speed I",'none',"speed",2,"Speed Potion")
+  st = new Potion("Stamina I",'none',"stamina",10,"Stamina Potion");
   constructor( private images:ImagesService){ 
 
   }
@@ -85,7 +87,7 @@ export class ShopComponent implements OnInit {
         potion.classList.toggle("potionInBackpack");
 
         
-        this.player.potions.push(new Potion("Health I", potion,"hp",size));
+        this.player.potions.push(new Potion("Health I", potion,"hp",size,"HP Potion"));
    
         this.potionPos[0] = {x:0,y:0};
         }
@@ -135,7 +137,7 @@ export class ShopComponent implements OnInit {
         potion.classList.toggle("potionInBackpack");
         this.speedPrice+=2;
 
-        this.player.potions.push(new Potion("Speed I",potion,"speed",size));
+        this.player.potions.push(new Potion("Speed I",potion,"speed",size,"Speed Potion"));
       
         this.potionPos[2] = {x:0,y:0};
         }
