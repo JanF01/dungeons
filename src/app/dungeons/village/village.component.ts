@@ -3,6 +3,8 @@ import { User } from '../models/user.model';
 import { ImagesService } from 'src/app/images.service';
 import { BlacksmithComponent } from './blacksmith/blacksmith.component';
 import { ArmoryComponent } from './armory/armory.component';
+import { Armor } from '../models/items/armor.model';
+import { Weapon } from '../models/items/weapon.model';
 
 @Component({
   selector: 'app-village',
@@ -12,7 +14,7 @@ import { ArmoryComponent } from './armory/armory.component';
 export class VillageComponent implements OnInit {
 
   @Input('user') player: User;
-  @ViewChild(ArmoryComponent) blacksmith: ArmoryComponent;
+  @ViewChild(ArmoryComponent) armory: ArmoryComponent;
 
   village = 'village';
 
@@ -49,6 +51,8 @@ export class VillageComponent implements OnInit {
     
     setTimeout(()=>{
 
+      this.armory.newAsortament();
+
     document.getElementById('inner').style.opacity='1';
     document.getElementById('inner').appendChild(this.images.blacksmith);
     this.images.village.style.display='none';
@@ -58,7 +62,8 @@ export class VillageComponent implements OnInit {
     }
 
     goToBlacksmith(){
-   
+
+
       this.villageLocation = "blacksmith";
       
       setTimeout(()=>{
@@ -67,9 +72,12 @@ export class VillageComponent implements OnInit {
       document.getElementById('inner').appendChild(this.images.blacksmith);
       this.images.village.style.display='none';
       },50);
-  
-  
-      }
+
+
+
+       
+    
+    }
 
     backToVillage(){
 

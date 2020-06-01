@@ -1,4 +1,5 @@
 import { Item } from "../item.model";
+import { Crystal } from './crystal.model';
 
 
 export class Necklace extends Item {
@@ -7,7 +8,7 @@ export class Necklace extends Item {
     critical: number;
 
     
-    constructor(type,name,src,code,perks,cs,stamina,crit,public offset?: number,public clas?: string){
+    constructor(type,name,src,code,perks,cs,stamina,crit,public offset?: number,public clas?: string,public gem?: Crystal){
         super(type,name,src,code,perks,cs);
 
         this.stamina = stamina;

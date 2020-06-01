@@ -26,7 +26,7 @@
     <div *ngIf="this.upgradedItem.sum==2" class="item" id="end">
         <img src="assets/placeForItem.png">
     </div>
-    <div *ngIf="this.upgradedItem.sum!=2" class='{{getClass(upgradedItem)}}' class="item " id="end" (mouseenter)="showInfo(upgradedItem)" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()">
+    <div *ngIf="this.upgradedItem.sum!=2" class='{{getClass(upgradedItem)}}' class="item " id="end" (mouseenter)="showInfo(upgradedItem)" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()" cdkDrag (cdkDragStarted)="grabUpgraded()" (cdkDragEnded)="dropToBackpack()" [cdkDragFreeDragPosition]="upgradedItemPos">
         <img src="{{itemForUpgrade.graphic}}">
     </div>
     </div>

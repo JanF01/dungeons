@@ -20,6 +20,7 @@ export class BlacksmithComponent implements OnInit {
 
   arrayForItems: Array<number> = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26];
   arrayItemsPos = [];
+  upgradedItemPos = {x:0,y:0};
   
   constructor(private images: ImagesService) { }
 
@@ -68,6 +69,17 @@ draggedItem: HTMLElement;
     this.bubblePos.x = pos.x+window.innerWidth/15;
     this.bubblePos.y = pos.y;
   }
+  grabUpgraded(){
+
+    let item = document.getElementById('end');
+    item.style.cursor="grabbing";
+    this.dragging=true;
+    let pos = item.getBoundingClientRect();
+    this.draggedItem = item;
+    this.bubblePos.x = pos.x+window.innerWidth/15;
+    this.bubblePos.y = pos.y;
+   
+  }
 
   getClass(item){
       if(item!=undefined){
@@ -77,9 +89,34 @@ draggedItem: HTMLElement;
       }
   }
 
-  checkIfUpgraded(){
-    return this.upgradedItem.sum!=2;
-  }
+ 
+  dropToBackpack(){
+
+       let upgraded = document.getElementById("end").getBoundingClientRect();
+
+       let backpack = document.getElementsByClassName('backpack') as HTMLCollectionOf<HTMLElement>;
+
+       let pos = backpack[0].getBoundingClientRect();
+
+       let w = window.innerWidth;
+       let h = window.innerHeight;
+
+       if(upgraded.x>pos.x-w/14 && upgraded.x<pos.x+w/1.4 && upgraded.y>pos.y-w/25 && upgraded.y<pos.y+h/2.7){
+         if(this.upgradedItem.sum!=2){
+            this.player.items.splice(this.player.items.indexOf(this.gemForUpgrade),1);
+            this.player.items[this.player.items.indexOf(this.itemForUpgrade)] = this.upgradedItem;
+            this.upgradedItem = {sum:2};
+            this.itemForUpgrade = undefined;
+            this.gemForUpgrade = undefined;
+            this.hideInfo();
+            this.bubblePos = {x:0,y:0};
+            this.dragging=false;
+         }
+       }
+       else{
+         this.upgradedItemPos = {x:0,y:0};
+       }
+    }
    
   dropItem(i){
     let items = document.getElementsByClassName('spot') as HTMLCollectionOf<HTMLElement>;

@@ -85,6 +85,7 @@ section{
     }
     .spaces{
        min-width:86%;
+       max-width:86%;
        display:flex;
        min-height:6.8em;
        &::before{

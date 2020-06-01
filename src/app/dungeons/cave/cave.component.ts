@@ -138,7 +138,7 @@ export class CaveComponent {
     this.enemyState = "die";
     this.showLoot = true;
     this.audio.enemyDead();
-    let add = (this.player.dungeon+2)*(this.enemy.level)*Math.round(Math.random()*9+50);
+    let add = Math.round((this.player.dungeon+2)*(this.enemy.level)*Math.round(Math.random()*9+50)*this.player.expMulti);
     this.player.exp+=add;
 
     if(this.player.exp>=this.player.nextExp){
@@ -403,21 +403,23 @@ nextFight(lvl){
     if(this.player.subdungeon[this.player.dungeon]<this.dungeons.dungeons[this.player.dungeon].monsters.length-1){
     this.player.subdungeon[this.player.dungeon]++;
      this.enemy = this.dungeons.dungeons[this.player.dungeon].monsters[this.player.subdungeon[this.player.dungeon]];
+     console.log("not completed");
     }
     else{
 
       this.dungeons.reFillDungeon(this.player.dungeon);
       if(this.player.subdungeon[this.player.dungeon]==this.dungeons.dungeons[this.player.dungeon].completed){
         this.dungeons.dungeons[this.player.dungeon].completed++;
+        if(!this.dungeons.dungeons[this.player.dungeon+1].open){
         this.player.subdungeon[this.player.dungeon+1]=0;
         this.dungeons.dungeons[this.player.dungeon+1].open=true;
+        }
         this.dungeons.dungeons[this.player.dungeon].completed = 0;
       
         }
   
       this.player.subdungeon[this.player.dungeon]=0;
       this.player.dungeon++;
-      this.enemy = this.dungeons.dungeons[this.player.dungeon].monsters[this.player.subdungeon[this.player.dungeon]];
       this.audio.win();
       this.goBackToMap();
     }

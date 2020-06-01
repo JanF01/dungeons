@@ -105,7 +105,7 @@ draggedItem: HTMLElement;
     if(this.player.items[i-9]==undefined){
       this.setDefault(i);
     }
-    if(this.player.items[i-9].damageLow!=undefined){
+    else if(this.player.items[i-9].damageLow!=undefined){
       this.changeItems(this.player.items[i-9],dropedPos,i,"weapon");
     }
     else if(this.player.items[i-9].defence!=undefined){
@@ -141,20 +141,87 @@ draggedItem: HTMLElement;
     if(pos.x>box.x-w/16 && pos.x<box.x+w/15 && pos.y>box.y-w/17 && pos.y<box.y+w/14){
 
       if(type=="weapon"){
+
+        if(this.player.weapon.gem!=undefined){
+          let gem = this.player.weapon.gem;
+          if(gem.amp=='speed'){
+            this.player.speed-=gem.power;
+          }
+        }
+
         this.player.items[this.player.items.indexOf(item)] = this.player.weapon;
         this.player.weapon = item;
+
+        if(this.player.weapon.gem!=undefined){
+          let gem = this.player.weapon.gem;
+          if(gem.amp=='speed'){
+            this.player.speed+=gem.power;
+          }
+        }
       }
       else if(type=="armor"){
+
+        if(this.player.armor.gem!=undefined){
+          let gem = this.player.armor.gem;
+          if(gem.amp=='speed'){
+            this.player.speed-=gem.power;
+          }
+          else if(gem.amp=='hp'){
+            this.player.hitPoints-=Math.ceil((this.player.hitPoints-(this.player.hitPoints*gem.power))*gem.power*(1+gem.power));
+          }
+        }
+
         this.player.items[this.player.items.indexOf(item)] = this.player.armor;
         this.player.armor = item;
+
+        if(this.player.armor.gem!=undefined){
+          let gem = this.player.armor.gem;
+          if(gem.amp=='speed'){
+            this.player.speed+=gem.power;
+          }
+          else if(gem.amp=='hp'){
+            this.player.hitPoints+=Math.ceil((this.player.hitPoints)*gem.power);
+          }
+        }
       }
       else if(type=="necklace"){
+
+        if(this.player.necklace.gem!=undefined){
+          let gem = this.player.necklace.gem;
+          if(gem.amp=='exp'){
+            this.player.expMulti-=gem.power;
+          }
+        }
+
         this.player.items[this.player.items.indexOf(item)] = this.player.necklace;
         this.player.necklace = item;
+
+        if(this.player.necklace.gem!=undefined){
+          let gem = this.player.necklace.gem;
+          if(gem.amp=='exp'){
+            this.player.expMulti+=gem.power;
+          }
+        }
+
       }
       else if(type=="ring"){
+
+        if(this.player.ring.gem!=undefined){
+          let gem = this.player.ring.gem;
+          if(gem.amp=='exp'){
+            this.player.expMulti-=gem.power;
+          }
+        }
+
         this.player.items[this.player.items.indexOf(item)] = this.player.ring;
         this.player.ring = item;
+
+        if(this.player.ring.gem!=undefined){
+          let gem = this.player.ring.gem;
+          if(gem.amp=='exp'){
+            this.player.expMulti+=gem.power;
+          }
+        }
       }
 
       

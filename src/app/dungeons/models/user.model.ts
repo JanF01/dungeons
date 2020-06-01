@@ -8,6 +8,7 @@ export class User {
    name: string;
    level: number;
    exp: number;
+   expMulti:number;
    nextExp: number;
    gold: number;
    basePoints: Array<number>;
@@ -33,6 +34,8 @@ export class User {
    items: Array<any>;
    itemsOnHold: Array<any>;
    loot: Array<Item>;
+   weaponsInShop: Array<Weapon>;
+   armorsInShop: Array<Armor>;
 
 
 }
