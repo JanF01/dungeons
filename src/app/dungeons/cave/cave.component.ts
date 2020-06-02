@@ -403,7 +403,9 @@ nextFight(lvl){
     if(this.player.subdungeon[this.player.dungeon]<this.dungeons.dungeons[this.player.dungeon].monsters.length-1){
     this.player.subdungeon[this.player.dungeon]++;
      this.enemy = this.dungeons.dungeons[this.player.dungeon].monsters[this.player.subdungeon[this.player.dungeon]];
-     console.log("not completed");
+     if(this.player.subdungeon[this.player.dungeon]>this.dungeons.dungeons[this.player.dungeon].completed){
+      this.dungeons.dungeons[this.player.dungeon].completed++;
+      }
     }
     else{
 
@@ -415,7 +417,6 @@ nextFight(lvl){
         this.dungeons.dungeons[this.player.dungeon+1].open=true;
         }
         this.dungeons.dungeons[this.player.dungeon].completed = 0;
-      
         }
   
       this.player.subdungeon[this.player.dungeon]=0;
@@ -423,9 +424,6 @@ nextFight(lvl){
       this.audio.win();
       this.goBackToMap();
     }
-    if(this.player.subdungeon[this.player.dungeon]>this.dungeons.dungeons[this.player.dungeon].completed){
-      this.dungeons.dungeons[this.player.dungeon].completed++;
-      }
   }
 
 

@@ -17,7 +17,7 @@ export class InfobubbleComponent implements OnInit {
   }
 
   getPower(p){
-     return Math.round(p+this.player.hitPoints*0.09);
+     return this.item.type=="hp"?Math.round(p+this.player.hitPoints*0.09):p;
   }
 
   getSrc(){
@@ -74,16 +74,16 @@ export class InfobubbleComponent implements OnInit {
     let power = this.item.gem.power*100;
     switch(this.item.gem.amp){
       case 'speed':
-        string = "Speed +"+this.item.gem.power;
+        string = "Speed +"+Math.round(this.item.gem.power);
         break;
         case 'hp':
-          string = "Health +"+power+"%";
+          string = "Health +"+Math.round(power)+"%";
           break;
           case 'exp':
-            string = "Experience +"+power+"%";
+            string = "Experience +"+Math.round(power)+"%";
             break;
             case 'dmg':
-              string = "Damage +"+power+"%";
+              string = "Damage +"+Math.round(power)+"%";
             break;
     }
     return string;

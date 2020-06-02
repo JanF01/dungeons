@@ -26,7 +26,7 @@ export class ShopComponent implements OnInit {
   shop = "shop";
   hp = new Potion('Health I', 'none','hp',600,'HP Potion');
   sp = new Potion("Speed I",'none',"speed",2,"Speed Potion")
-  st = new Potion("Stamina I",'none',"stamina",10,"Stamina Potion");
+  st = new Potion("Stamina I",'none',"stamina",4,"Stamina Potion");
   constructor( private images:ImagesService){ 
 
   }
@@ -103,7 +103,6 @@ export class ShopComponent implements OnInit {
     potions[1].style.cursor="grab";
     this.potionPos[1] = {x:0,y:0};
  
-    /*
     if(this.checkIfBought("stamina",1)){
       if(this.player.gold>=10){
         if(this.player.potions.length<8){
@@ -111,7 +110,7 @@ export class ShopComponent implements OnInit {
         let potion = this.images.newStaminaPotion() as HTMLImageElement;
         potion.classList.toggle("potionInBackpack");
 
-        this.player.potions.push(new Potion("Stamina I",potion,"stamina",size));
+        this.player.potions.push(new Potion("Stamina I",potion,"stamina",size,"Stamina Potion"));
     
         this.potionPos[1] = {x:0,y:0};
       }
@@ -120,7 +119,6 @@ export class ShopComponent implements OnInit {
        }
       }
     }
-    */
 
 
   }

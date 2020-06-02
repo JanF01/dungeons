@@ -67,7 +67,7 @@ export class DungeonsComponent implements OnInit {
       necklace: new Necklace("normal","Rat's Collar","assets/necklace/1_1.png","#00C01","fire",21,15,0.06),
       ring: new Ring("normal","Rat's Collar","assets/ring/1_1.png","#00C01","none",33,10,0.3),
       potions: [new Potion("Health I",images.hpPotion,"hp",600,"HP Potion")],
-      items: [],
+      items: [new Weapon("artefact","Dagger","assets/weapon/swordDev.png","#00A54","fire",15,3500,4500,100)],
       itemsOnHold:[],
       loot: [],
       weaponsInShop: [new Weapon("normal","A Fricking Sword","assets/weapon/1_2.png","#00A11","none",Math.round(2*2*0.8),(Math.round(2*12)/10)+2,(Math.round(2*12)/10)+2+Math.round(2/4.5),100,Math.random()*30-15,"normal"),
@@ -77,7 +77,10 @@ export class DungeonsComponent implements OnInit {
       new Armor("normal","Shield Yourself","assets/armor/1_1.png","#00B12","none",Math.round(2*2),Math.round(2*2/2)+2+30,5+Math.round(Math.random()*5),100,Math.random()*30-15,"normal"),
       new Armor("normal","Shield Yourself","assets/armor/1_1.png","#00B12","none",Math.round(2*2),Math.round(2*2/2)+2+30,5+Math.round(Math.random()*5),100,Math.random()*30-15,"normal")]
     }
+
     this.player.stamina+=this.player.necklace.stamina+this.player.ring.stamina;
+
+    this.player.staminaLeft+=this.player.necklace.stamina+this.player.ring.stamina;
 
     setTimeout(()=>{
       this.mainBck = this.images.bckMain;
@@ -185,12 +188,15 @@ export class DungeonsComponent implements OnInit {
   // DUNGEONS
 
   goCave(lvl){
+    if(this.player.staminaLeft>=lvl*lvl+2){
+      this.player.staminaLeft-=lvl*lvl+2;
     if(this.dungeons.dungeons[lvl-1].open){
      this.player.location="dfight";
      setTimeout(()=>{
      this.cave.fight(lvl);
      },100);
     }
+   }
   }
 
   goToDungeon(){

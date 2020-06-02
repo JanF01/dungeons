@@ -43,9 +43,11 @@ export class PotionsComponent implements OnInit {
            var l = this.player.potions.length-1;
           for(let i=l;i>=0;i--){
             if(this.player.potions[i].type=="stamina"){
-             this.player.stamina+=this.player.potions[i].refill;
+              if(this.player.staminaLeft+this.player.potions[i].refill<=this.player.stamina){
+             this.player.staminaLeft+=this.player.potions[i].refill;
               this.player.potions.splice(i,1);
               this.potions.stamina--;
+              }
   
               break;
             }

@@ -18,7 +18,7 @@
               </div>
            </mat-grid-tile>
            <mat-grid-tile (mouseenter)="showInfo(st)" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()">
-               <div id="stamina" class="item" cdkDrag (cdkDragStarted)="grab(1)" [cdkDragFreeDragPosition]="potionPos[1]" (cdkDragEnded)="buyStaminaPotion(10,$event)" (mouseenter)="showCost('Stamina')" (mouseleave)="hideCost('Stamina')">
+               <div id="stamina" class="item" cdkDrag (cdkDragStarted)="grab(1)" [cdkDragFreeDragPosition]="potionPos[1]" (cdkDragEnded)="buyStaminaPotion(4,$event)" (mouseenter)="showCost('Stamina')" (mouseleave)="hideCost('Stamina')">
                 
                 <div id="costStamina"><img src="assets/coin/1.png"><span>{{staminaPrice}}</span></div>
                </div>

@@ -81,6 +81,8 @@
           {{dungeon.completed}}/{{dungeon.amount}}
         </div>
       </div>
+      
+      <div class="stamina"><span>Stamina</span><div class="bars" [ngStyle]="{background: 'linear-gradient(to right,rgba(2, 117, 36,255) ' + ((player.staminaLeft/player.stamina)*100-1) + '%,rgba(2, 117, 36,0) ' + (player.staminaLeft/player.stamina)*100 + '% )'}" >{{this.player.staminaLeft}}/{{this.player.stamina}}</div></div>
     </main>
   </section>
 

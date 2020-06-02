@@ -193,8 +193,15 @@ draggedItem: HTMLElement;
           }
         }
 
+        this.player.stamina-=this.player.items[this.player.items.indexOf(item)].stamina;
+        this.player.staminaLeft-=this.player.items[this.player.items.indexOf(item)].stamina;
+
+
         this.player.items[this.player.items.indexOf(item)] = this.player.necklace;
         this.player.necklace = item;
+
+        this.player.stamina+=item.stamina;
+        this.player.staminaLeft+=item.stamina;
 
         if(this.player.necklace.gem!=undefined){
           let gem = this.player.necklace.gem;
@@ -213,9 +220,14 @@ draggedItem: HTMLElement;
           }
         }
 
+        this.player.stamina-=this.player.items[this.player.items.indexOf(item)].stamina;
+
         this.player.items[this.player.items.indexOf(item)] = this.player.ring;
         this.player.ring = item;
 
+        this.player.stamina+=item.stamina;
+        this.player.staminaLeft+=item.stamina;
+        
         if(this.player.ring.gem!=undefined){
           let gem = this.player.ring.gem;
           if(gem.amp=='exp'){
