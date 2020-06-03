@@ -26,7 +26,7 @@ export class ShopComponent implements OnInit {
   shop = "shop";
   hp = new Potion('Health I', 'none','hp',600,'HP Potion');
   sp = new Potion("Speed I",'none',"speed",2,"Speed Potion")
-  st = new Potion("Stamina I",'none',"stamina",4,"Stamina Potion");
+  st = new Potion("Stamina I",'none',"stamina",5,"Stamina Potion");
   constructor( private images:ImagesService){ 
 
   }
@@ -105,7 +105,7 @@ export class ShopComponent implements OnInit {
  
     if(this.checkIfBought("stamina",1)){
       if(this.player.gold>=10){
-        if(this.player.potions.length<8){
+        if(this.player.potions.length<9){
         this.player.gold-=10;
         let potion = this.images.newStaminaPotion() as HTMLImageElement;
         potion.classList.toggle("potionInBackpack");

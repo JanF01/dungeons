@@ -67,22 +67,41 @@
             <div class="add"><img src="assets/home.png" draggable="false"></div>
           </div>
         </mat-grid-tile>
-        <mat-grid-tile>
-          <div class="col"><span>Loot</span>
-            <div class="add"><img src="assets/loot.png" draggable="false"></div>
+        <mat-grid-tile *ngIf="dungeonMode=='normal'" (click)="goElites()">
+          <div class="col"><span>Elites</span>
+            <div class="add elite"><img src="assets/elite/oneeyedMouse.png" draggable="false"></div>
+          </div>
+        </mat-grid-tile>
+        <mat-grid-tile *ngIf="dungeonMode=='elites'" (click)="goElites()">
+          <div class="col"><span>Dungeons</span>
+            <div class="add elite"><img src="assets/dungeon.png" draggable="false"></div>
           </div>
         </mat-grid-tile>
       </mat-grid-list>
     </nav>
-    <main>
+
+    
+    <main [ngClass]="{'of':dungeonMode=='elites'}">
       <div *ngFor="let dungeon of this.getDungeons(); let i = index" [ngClass]="{applyFilter: !dungeon.open}">
-        <img id="{{i+1}}" src="{{dungeon.img}}" (click)="goCave(i+1)">
+        <div class="staminan" *ngIf="isOpen(i) && i<12">{{(i+1)*(i+1)+2}}</div>
+        <img *ngIf="i<12" id="{{i+1}}" src="{{dungeon.img}}" (click)="goCave(i+1)">
+        <div *ngIf="i<12" class="bar" [ngStyle]="{background: 'linear-gradient(to right, rgb(9, 120, 163) '+ ((dungeon.completed/dungeon.amount)*100-1) +'%, rgba(9, 120, 163,0) '+ (dungeon.completed/dungeon.amount)*100 +'% )'}">
+          {{dungeon.completed}}/{{dungeon.amount}}
+        </div>
+      </div>
+      
+      <div class="stamina"><span>Stamina</span><div class="bars" [ngStyle]="{background: 'linear-gradient(to right,rgba(2, 92, 28,255) ' + ((player.staminaLeft/player.stamina)*100-1) + '%,rgba(2,  92, 28,0) ' + (player.staminaLeft/player.stamina)*100 + '% )'}" [ngClass]="{'red':player.staminaLeft<player.level}" >{{this.player.staminaLeft}}/{{this.player.stamina}}</div></div>
+    </main>
+    <main class="elit" [ngClass]="{'on':dungeonMode=='elites'}">
+      <div *ngFor="let dungeon of this.getElites(); let i = index" [ngClass]="{applyFilterTwo: !dungeon.open}">
+        <div class="staminan" *ngIf="isOpen(i+12)">{{(i+13)*(i+13)+2-160}}</div>
+        <img id="{{i+1}}" src="{{dungeon.img}}" (click)="goCave(i+13,true)">
         <div class="bar" [ngStyle]="{background: 'linear-gradient(to right, rgb(9, 120, 163) '+ ((dungeon.completed/dungeon.amount)*100-1) +'%, rgba(9, 120, 163,0) '+ (dungeon.completed/dungeon.amount)*100 +'% )'}">
           {{dungeon.completed}}/{{dungeon.amount}}
         </div>
       </div>
       
-      <div class="stamina"><span>Stamina</span><div class="bars" [ngStyle]="{background: 'linear-gradient(to right,rgba(2, 117, 36,255) ' + ((player.staminaLeft/player.stamina)*100-1) + '%,rgba(2, 117, 36,0) ' + (player.staminaLeft/player.stamina)*100 + '% )'}" >{{this.player.staminaLeft}}/{{this.player.stamina}}</div></div>
+      <div class="stamina"><span>Stamina</span><div class="bars" [ngStyle]="{background: 'linear-gradient(to right,rgba(2, 92, 28,255) ' + ((player.staminaLeft/player.stamina)*100-1) + '%,rgba(2,  92, 28,0) ' + (player.staminaLeft/player.stamina)*100 + '% )'}" [ngClass]="{'red':player.staminaLeft<player.level}" >{{this.player.staminaLeft}}/{{this.player.stamina}}</div></div>
     </main>
   </section>
 

@@ -193,8 +193,8 @@ draggedItem: HTMLElement;
           }
         }
 
-        this.player.stamina-=this.player.items[this.player.items.indexOf(item)].stamina;
-        this.player.staminaLeft-=this.player.items[this.player.items.indexOf(item)].stamina;
+        this.player.stamina-=this.player.necklace.stamina;
+        this.player.staminaLeft-=this.player.necklace.stamina;
 
 
         this.player.items[this.player.items.indexOf(item)] = this.player.necklace;
@@ -220,7 +220,8 @@ draggedItem: HTMLElement;
           }
         }
 
-        this.player.stamina-=this.player.items[this.player.items.indexOf(item)].stamina;
+        this.player.stamina-=this.player.ring.stamina;
+        this.player.staminaLeft-=this.player.ring.stamina;
 
         this.player.items[this.player.items.indexOf(item)] = this.player.ring;
         this.player.ring = item;

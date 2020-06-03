@@ -15,6 +15,7 @@ import { Crystal } from './dungeons/models/items/crystal.model';
 export class DungeonsService {
 
   dungeons: Array<Dungeon> = [];
+  elites: Array<Dungeon> = [];
   chance: number = 1;
 
 
@@ -46,6 +47,54 @@ export class DungeonsService {
       new Dungeon("assets/dungeon/11.png",this.fillDungeon(11),0,true,0));
     this.dungeons.push(
       new Dungeon("assets/dungeon/12.png",this.fillDungeon(12),0,true,0));
+      this.dungeons.push(
+        new Dungeon("assets/elite/cyclope.png",[new Enemy("assets/elite/cyclope.png",
+        3451,
+        "Cyclope",
+        this.getDamage(2,9),
+        10,
+        this.createLoot(2,14,12,true))],0,true,1), 
+      );
+      this.dungeons.push(
+       new Dungeon("assets/elite/giant_icon.png",[new Enemy("assets/elite/giant.png",
+       11834,
+       "Giant",
+       this.getDamage(3,19),
+       18,
+       this.createLoot(3,21,25,true))],0,false,1), 
+     );
+     this.dungeons.push(
+      new Dungeon("assets/elite/giant2_icon.png",[new Enemy("assets/elite/giant2.png",
+      26834,
+      "Giant",
+      this.getDamage(4,21),
+      25,
+      this.createLoot(4,21,34,true))],0,false,1), 
+    );
+    this.dungeons.push(
+      new Dungeon("assets/elite/cerberus_icon.png",[new Enemy("assets/elite/cerberus.png",
+      33834,
+      "Cerberus",
+      this.getDamage(5,17),
+      29,
+      this.createLoot(5,11,39,true))],0,false,1), 
+    );
+    this.dungeons.push(
+      new Dungeon("assets/elite/snake_icon.png",[new Enemy("assets/elite/snake.png",
+      49834,
+      "Severus Snake",
+      this.getDamage(6,11),
+      33,
+      this.createLoot(6,13,44,true))],0,false,1), 
+    );
+    this.dungeons.push(
+      new Dungeon("assets/elite/dragon_icon.png",[new Enemy("assets/elite/dragon.png",
+      68834,
+      "Dragonito Reclito",
+      this.getDamage(6,23),
+      41,
+      this.createLoot(7,19,56,true))],0,false,1), 
+    );
 
      for(let i=0;i<12;i++){
       this.dungeons[i].amount = this.dungeons[i].monsters.length;
@@ -74,7 +123,7 @@ export class DungeonsService {
  }
 
 
- createLoot(dungeon: number, subdungeon: number, level: number){
+ createLoot(dungeon: number, subdungeon: number, level: number, elite: boolean = false){
 
 
      let amount = Math.round(Math.random()*subdungeon*dungeon)+1;
@@ -110,9 +159,14 @@ export class DungeonsService {
     }
     
     let itemChance = Math.random();
+    
+    elite?this.chance=3:this.chance=1;
+
     if(itemChance<0.29*this.chance){
     loot.push(this.itemDrop(itemChance,dungeon,subdungeon,level));
     }
+
+    this.chance=1; 
 
      return loot;
  
@@ -455,6 +509,67 @@ itemDrop(IC,d,s,lvl){
     this.dungeons[dungeon].monsters = this.fillDungeon(dungeon+1);
 
     this.dungeons[dungeon].amount = this.dungeons[dungeon].monsters.length;
+
+
+  }
+
+  reFillElite(elite){
+
+    switch(elite){
+      case 0:
+     this.dungeons[elite+12].monsters =[new Enemy("assets/elite/cyclope.png",
+     3451,
+     "Cyclope",
+     this.getDamage(2,9),
+     10,
+     this.createLoot(2,14,12,true))];
+     break;
+     case 1:
+     this.dungeons[elite+12].monsters =[new Enemy("assets/elite/giant.png",
+     11834,
+     "Giant",
+     this.getDamage(3,21),
+     19,
+     this.createLoot(3,21,25,true))];
+     break;
+     case 2:
+      this.dungeons[elite+12].monsters = [new Enemy("assets/elite/giant2.png",
+        29834,
+        "Giant",
+        this.getDamage(4,18),
+        25,
+        this.createLoot(4,21,25,true))];
+     break;  
+     case 3:
+     this.dungeons[elite+12].monsters = [new Enemy("assets/elite/cerberus.png",
+      39834,
+      "Cerberus",
+      this.getDamage(5,7),
+      29,
+      this.createLoot(5,11,25,true))];
+    break;
+    case 4:
+    this.dungeons[elite+12].monsters = [new Enemy("assets/elite/snake.png",
+      53834,
+      "Severus Snake",
+      this.getDamage(5,21),
+      33,
+      this.createLoot(6,13,25,true))];
+    break;
+    case 5:
+    this.dungeons[elite+12].monsters = [new Enemy("assets/elite/dragon.png",
+      68834,
+      "Dragonito Reclito",
+      this.getDamage(6,19),
+      41,
+      this.createLoot(7,19,25,true))];
+    break;
+
+    }
+
+    if(this.dungeons[elite+13]){
+      this.dungeons[elite+13].open = true;
+    }
 
   }
 

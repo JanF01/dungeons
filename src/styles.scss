@@ -84,6 +84,9 @@ img{
 
 .map{
     position:absolute;
+    transition:0.5s opacity;
+    transition:0.5s filter;
+    transition:0.5s transform;
     top:0;
     left:0;
     height:100%;
@@ -127,6 +130,11 @@ img{
 
   .cdk-drag{
    z-index:100 !important;
+  }
+
+  .elites{
+    transform:scale(1.6);
+      filter: hue-rotate(190deg) brightness(70%);
   }
 
   .cdk-drag-dragging{

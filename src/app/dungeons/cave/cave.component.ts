@@ -59,6 +59,7 @@ export class CaveComponent {
   DI = 1;
   healing: any;
   weaponMulti: number;
+  elite:boolean = false;
 
   monstersInCave: number = 0;
 
@@ -199,7 +200,10 @@ nextFight(lvl){
 }
 
 
-  fight(lvl){
+  fight(lvl,elite){
+
+      this.elite = elite;
+      
 
       this.showItemsLooted=false;
 
@@ -213,7 +217,6 @@ nextFight(lvl){
       this.potions.speed=0;
       this.player.dungeon=lvl-1;
 
-      this.monstersInCave = this.dungeons.dungeons[this.player.dungeon].monsters.length-1;
 
 
       this.enemy = this.dungeons.dungeons[this.player.dungeon].monsters[this.player.subdungeon[this.player.dungeon]];
@@ -398,8 +401,17 @@ nextFight(lvl){
   nextDungeon(){
     
     this.hideInfo();
-
     this.fighting=false;
+
+    if(this.elite){
+
+      this.dungeons.reFillElite(this.player.dungeon-12);
+      this.dungeons.dungeons[this.player.dungeon].completed=1;
+      this.player.subdungeon[this.player.dungeon]=0;
+      this.audio.win();
+      this.goBackToMap();
+    }else{
+
     if(this.player.subdungeon[this.player.dungeon]<this.dungeons.dungeons[this.player.dungeon].monsters.length-1){
     this.player.subdungeon[this.player.dungeon]++;
      this.enemy = this.dungeons.dungeons[this.player.dungeon].monsters[this.player.subdungeon[this.player.dungeon]];
@@ -408,7 +420,7 @@ nextFight(lvl){
       }
     }
     else{
-
+      
       this.dungeons.reFillDungeon(this.player.dungeon);
       if(this.player.subdungeon[this.player.dungeon]==this.dungeons.dungeons[this.player.dungeon].completed){
         this.dungeons.dungeons[this.player.dungeon].completed++;
@@ -424,6 +436,8 @@ nextFight(lvl){
       this.audio.win();
       this.goBackToMap();
     }
+
+  }
   }
 
 

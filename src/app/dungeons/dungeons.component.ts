@@ -15,6 +15,7 @@ import { Necklace } from './models/items/necklace.model';
 import { Ring } from './models/items/ring.model';
 import { VillageComponent } from './village/village.component';
 import { Crystal } from './models/items/crystal.model';
+import { NONE_TYPE, splitClasses } from '@angular/compiler';
 
 @Component({
   selector: 'app-dungeons',
@@ -34,6 +35,8 @@ export class DungeonsComponent implements OnInit {
   player: User = new User();
   mainBck:any;
 
+  dungeonMode = "normal";
+
     
   ngOnInit(){
     this.start();
@@ -52,14 +55,14 @@ export class DungeonsComponent implements OnInit {
       damage: 21,
       hitPoints: 956,
       health: 956,
-      stamina: 20,
-      staminaLeft: 20,
+      stamina: 2000,
+      staminaLeft: 2000,
       speed:3,
       speedBuildUp:0,
       luck: 0,
       location: "home",
       dungeon: 0,
-      subdungeon: [0,0,0,0,0,0,0,0,0,0,0,0],
+      subdungeon: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
       goldInSack: 0,
       graphic: "assets/knight1.png",
       weapon: new Weapon("normal","Dagger","assets/weapon/1_1.png","#00A9A","none",15,3.5,4.5,100),
@@ -122,6 +125,16 @@ export class DungeonsComponent implements OnInit {
   getDungeons(){
     return this.dungeons.dungeons;
   }
+  getElites(){
+    let elites = new Array();
+    elites.push(this.dungeons.dungeons[12]);
+    elites.push(this.dungeons.dungeons[13]);
+    elites.push(this.dungeons.dungeons[14]);
+    elites.push(this.dungeons.dungeons[15]);
+    elites.push(this.dungeons.dungeons[16]);
+    elites.push(this.dungeons.dungeons[17]);
+    return elites;
+  }
 
   goToVillage(){
     document.getElementById('mainBck').style.opacity='0';
@@ -149,6 +162,8 @@ export class DungeonsComponent implements OnInit {
        return true;
      }
   }
+
+  isOpen = (i) => { return this.dungeons.dungeons[i].open }
 
 
   start(){
@@ -187,16 +202,47 @@ export class DungeonsComponent implements OnInit {
 
   // DUNGEONS
 
-  goCave(lvl){
-    if(this.player.staminaLeft>=lvl*lvl+2){
-      this.player.staminaLeft-=lvl*lvl+2;
+  goCave(lvl,elite=false){
+
+    let staminaRequired = lvl*lvl+2;
+
+    if(elite) staminaRequired-=160;
+ 
+
     if(this.dungeons.dungeons[lvl-1].open){
+      if(this.player.staminaLeft>=staminaRequired){
+        this.player.staminaLeft-=staminaRequired;
      this.player.location="dfight";
      setTimeout(()=>{
-     this.cave.fight(lvl);
+     this.cave.fight(lvl,elite);
      },100);
     }
    }
+
+  }
+
+  goElites(){
+    var mains = document.getElementsByTagName('main') as HTMLCollectionOf<HTMLElement>;
+
+    if(this.dungeonMode=="elites"){
+     mains[1].style.opacity="0";
+      setTimeout(()=>{
+        this.dungeonMode = "normal";
+        mains[0].style.opacity="1";
+      },500);
+
+    }else{
+
+      mains[0].style.opacity="0";
+      setTimeout(()=>{
+        this.dungeonMode = "elites";
+    mains[1].style.opacity="1";
+    mains[1].style.display="block";
+    },500);
+
+    }
+     
+    this.images.map.classList.toggle('elites');
   }
 
   goToDungeon(){
