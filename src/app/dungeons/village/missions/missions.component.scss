@@ -1,0 +1,410 @@
+@mixin flex() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin radius($r) {
+  -ms-border-radius: $r;
+  -webkit-border-radius: $r;
+  -moz-border-radius: $r;
+  border-radius: $r;
+}
+
+app-infobubble {
+  min-width: 8em;
+  min-height: 10em;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 150;
+}
+
+
+
+app-alert {
+  position: absolute;
+  left: 0;
+  top: 0;
+  min-width: 100%;
+  min-height: 100vh;
+  z-index: 160;
+  background: rgba(0, 0, 0, 0.6);
+  filter: hue-rotate(50deg);
+}
+
+
+
+button {
+  position: absolute;
+  left: 6.5%;
+  width: 25%;
+  top: 78%;
+  height: 12%;
+
+  font-family: 'Abel', sans-serif;
+  @include flex();
+  font-size: 1.5em;
+  background: url("../../../../assets/woodenBramka.jpg");
+
+  border: none;
+  @include radius(0.25em);
+  color: white;
+
+  box-shadow: 0 0em 0.4em 0.1em black !important;
+  transition: 0.2s all;
+  outline: none;
+
+  &:focus {
+    outline: #e26600 solid 0.1em !important;
+  }
+
+  &:hover {
+    transform: scale(0.9);
+    cursor: pointer;
+  }
+
+  //background:rgb(145, 72, 12);
+}
+
+.off {
+  filter: grayscale(100%) !important;
+}
+
+.turn {
+  left: 37.5%;
+}
+
+
+.missions {
+  margin-left: 10%;
+  @include flex();
+  flex-wrap: wrap;
+  font-size: 1em;
+
+  div {
+    position: relative;
+
+    h2 {
+      font-family: 'Abel', sans-serif;
+      font-size: 1.8em;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+
+
+      color: rgb(241, 241, 241);
+      position: absolute;
+      left: 23%;
+      top: 10%;
+      z-index: 15;
+    }
+
+    .mission {
+      position: absolute;
+      width: 60%;
+      font-size: 1.5em;
+      letter-spacing: 0.04em;
+      line-height: 1.7em;
+      text-align: center;
+      left: 20%;
+      top: 34%;
+      color: rgb(241, 241, 241);
+      z-index: 15;
+      opacity: 1;
+
+      .time {
+        margin-top: -2em;
+      }
+
+
+    }
+
+    .exp {
+      position: absolute;
+      left: 67%;
+      top: 78%;
+      color: rgb(32, 228, 107);
+      font-size: 1.26em;
+    }
+
+    .fulfilled {
+      position: absolute;
+      left: 40%;
+      top: 63%;
+      color: white;
+      font-size: 1.8em;
+      width: 20%;
+      text-align: center;
+      display: block;
+    }
+
+
+    width:28%;
+    opacity:1;
+    margin:6% 6% 0 6%;
+    padding-bottom:-0.5em;
+
+    &:nth-child(1) {
+
+      img,
+      button {
+        filter: hue-rotate(60deg) grayscale(25%);
+        box-shadow: 0em 0em 2.8em -0.4em rgb(214, 115, 2);
+      }
+
+    }
+
+    &:nth-child(2) {
+
+      img,
+      button {
+        filter: hue-rotate(140deg) grayscale(25%);
+        box-shadow: 0em 0.5em 2.8em -0.4em rgb(214, 115, 2);
+      }
+
+    }
+
+    &:nth-child(3) {
+
+      img,
+      button {
+        filter: hue-rotate(200deg) grayscale(25%);
+        box-shadow: 0em 0.5em 2.8em -0.4em rgb(214, 115, 2);
+
+      }
+    }
+
+    &:nth-child(4) {
+
+      img,
+      button {
+        filter: hue-rotate(240deg) grayscale(25%);
+        box-shadow: 0em 0.5em 2.4em -0.4em rgb(214, 115, 2);
+      }
+
+    }
+
+    img {
+      width: 100%;
+    }
+
+  }
+}
+
+.onMission {
+  width: 50%;
+  position: absolute;
+  left: 28%;
+  top: 10%;
+  opacity: 0.75;
+  @include flex();
+  flex-direction: column;
+
+  img {
+    width: 100%;
+  }
+
+  .timeLeft {
+    margin-top: 1em;
+    font-size: 2.3em;
+    color: white;
+  }
+
+  .timeBar {
+    min-width: 90%;
+    min-height: 2em;
+    @include radius(0.5em);
+    margin-top: 2em;
+  }
+}
+
+.loot {
+  position: absolute;
+  top: 40%;
+  left: 30%;
+
+  img {
+    position: absolute;
+    top: 49.5%;
+    width: 5.4em;
+    z-index: 2;
+  }
+
+  .bigMoneyBag {
+    top: 45.2%;
+    width: 5.9em;
+    z-index: 1;
+  }
+
+  .hugeMoneyBag {
+    top: 47.7%;
+    width: 6.5em;
+    z-index: 3;
+  }
+
+  .normal,
+  .legend {
+    top: 42%;
+  }
+
+  .legend {
+    width: 7.2em;
+  }
+
+  .coin {
+    top: 55%;
+    width: 2em;
+
+  }
+}
+
+.afterMission {
+  button {
+    width: 14%;
+    height: 3em;
+    top: 51%;
+    left: 43%;
+  }
+
+  span {
+    position: absolute;
+    top: 45%;
+    left: 43%;
+    display: block;
+    width: 14%;
+    @include flex();
+    font-size: 1.8em;
+    color: white;
+
+    img {
+      width: 0.9em;
+      margin-left: 0.35em;
+    }
+  }
+
+  .expEnd {
+    top: 41.5%;
+    color: rgb(12, 245, 101);
+  }
+}
+
+.green {
+  filter: hue-rotate(60deg) grayscale(25%);
+}
+
+
+.lblue {
+  filter: hue-rotate(140deg) grayscale(25%);
+}
+
+.dblue {
+  filter: hue-rotate(200deg) grayscale(25%);
+}
+
+.purple {
+  filter: hue-rotate(240deg) grayscale(25%);
+}
+
+.normal {
+  background: radial-gradient(circle, #00000000, #000000a1 70%, #000000c9 90%) !important;
+  border: solid rgba(0, 0, 0, 0.801) 0.2em !important;
+}
+
+.legend {
+  background: radial-gradient(circle, #00000000, #ceb10a81 70%, #cfb108a6 90%) !important;
+  border: solid rgba(114, 107, 3, 0.801) 0.2em !important;
+}
+
+.artefact {
+  background: radial-gradient(circle, #00000000, #ce0a0a81 70%, #cf0808a6 90%) !important;
+  border: solid #63010181 0.2em !important;
+}
+
+.smallCrystal {
+  width: 3em !important;
+  height: 3em !important;
+  padding: 1em !important;
+}
+
+.bigCrystal {
+  width: 3.5em !important;
+  height: 3.5em !important;
+  padding: 1em !important;
+}
+
+.todayBar {
+  position: absolute;
+  left: 54.2%;
+  top: 30%;
+  z-index: 17;
+  min-height: 45vh;
+  min-width: 2.4em;
+  @include flex();
+  flex-direction: column;
+
+  span {
+    position: absolute;
+    top: -12%;
+    left: -100%;
+    color: white;
+    text-align: center;
+    width: 6em;
+    font-size: 1.2em;
+    color: rgb(159, 243, 24);
+  }
+
+  .chance {
+    background: radial-gradient(circle, rgb(173, 5, 112), rgba(153, 0, 102, 0.2));
+    box-shadow: 0em 0.2em 0.8em -0.2em rgb(146, 11, 128);
+    font-size: 0.9em;
+    display: block;
+    @include flex();
+    margin-top: 0.5em;
+    flex: 1;
+    width: 100%;
+    color: white;
+
+    &:nth-child(2) {
+      border-top-right-radius: 1em;
+      -ms-border-top-right-radius: 1em;
+      -webkit-border-top-right-radius: 1em;
+      -moz-border-top-right-radius: 1em;
+      border-top-left-radius: 1em;
+      -ms-border-top-left-radius: 1em;
+      -webkit-border-top-left-radius: 1em;
+      -moz-border-top-left-radius: 1em;
+    }
+
+    &:last-child {
+      border-bottom-right-radius: 1em;
+      -ms-border-bottom-right-radius: 1em;
+      -webkit-border-bottom-right-radius: 1em;
+      -moz-border-bottom-right-radius: 1em;
+      border-bottom-left-radius: 1em;
+      -ms-border-bottom-left-radius: 1em;
+      -webkit-border-bottom-left-radius: 1em;
+      -moz-border-bottom-left-radius: 1em;
+    }
+  }
+}
+
+@media only screen and (min-width:0px) {
+
+  .missions,
+  .onMission,
+  .loot,
+  .afterMission {
+    font-size: 0.85em;
+  }
+}
+
+@media only screen and (min-width:1700px) {
+
+  .missions,
+  .onMission,
+  .loot,
+  .afterMission {
+    font-size: 1em;
+  }
+}

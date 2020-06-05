@@ -1,15 +1,17 @@
-<app-left-nav (click)="backHome()" [gold]="player.gold" [place]='village' *ngIf="villageLocation=='village'"></app-left-nav>
+<app-left-nav (click)="backHome()" [gold]="player.gold" [place]='village' *ngIf="villageLocation=='village'">
+</app-left-nav>
 
 
 <mat-grid-list class="nav" cols="1" *ngIf="villageLocation!='village'" (click)='backToVillage()'>
-   <mat-grid-tile>
-<div class="col"><span>Village</span>
-   <div class="add"><img src="assets/village.png" draggable="false" ></div>
-</div>
-</mat-grid-tile>
+  <mat-grid-tile>
+    <div class="col"><span>Village</span>
+      <div class="add"><img src="assets/village.png" draggable="false"></div>
+    </div>
+  </mat-grid-tile>
 </mat-grid-list>
 
-<div class="assets" *ngIf="villageLocation!='village'"><img src="assets/coins.png" draggable="false">{{player.gold}}</div>
+<div class="assets" *ngIf="villageLocation!='village'"><img src="assets/coins.png" draggable="false">{{player.gold}}
+</div>
 
 
 
@@ -17,38 +19,39 @@
 <section *ngIf="villageLocation=='village'">
 
 
-<div class="blacksmith" (click)="goToBlacksmith()">
+  <div class="blacksmith" (click)="goToBlacksmith()">
 
-   <span>Blacksmith</span>
-   <img src="assets/anvil.png">
-</div>
+    <span>Blacksmith</span>
+    <img src="assets/anvil.png">
+  </div>
 
-<div class="field">
+  <div class="field">
 
     <span>Training Field</span>
     <img src="assets/field.png">
- </div>
+  </div>
 
- 
-<div class="missions">
+
+  <div class="missions" (click)="goToMissions()">
 
     <span>Missions</span>
     <img src="assets/missions.png">
- </div>
+  </div>
 
-  
-<div class="armory" (click)="goToArmory()">
+
+  <div class="armory" (click)="goToArmory()">
 
     <span>Armory</span>
     <img src="assets/shop.png">
- </div>
+  </div>
 
-<div class="tavern">
+  <div class="tavern">
 
     <span>Tavern</span>
     <img src="assets/tavern.png">
- </div>
+  </div>
 </section>
 
 <app-armory #armory id='inner' [user]="player" *ngIf="villageLocation=='armory'"></app-armory>
 <app-blacksmith #blacksmith id='inner' [user]="player" *ngIf="villageLocation=='blacksmith'"></app-blacksmith>
+<app-missions #mission id='inner' [user]="player" *ngIf="villageLocation=='missions'"></app-missions>

@@ -1,0 +1,65 @@
+<section id="inner">
+
+  <div class="missions" *ngIf="player.missionTime==-3">
+
+    <div class="board" *ngFor="let i of [0,1,2,3]">
+      <h2>Mission</h2>
+      <span class="mission">{{getMissionDesc(i)}}<br>{{getMissionsAdd(i)}}<span class="time"
+          *ngIf="getType(i)>1">{{getMissionTime(i)}}</span></span>
+      <img src="assets/missionboard2.png">
+      <span *ngIf="player.missionOn[i] && i<2" class="fulfilled">{{getMissionStatus(i)}}</span>
+      <button type="button" class="btn btn-dark" (click)="undertakeMission(i)"
+        *ngIf="!player.missionOn[i]">Undertake</button>
+      <button *ngIf="player.missionOn[i] && i<2" type="button" class="btn btn-dark turn" (click)="turnMissionBack(i)"
+        [ngClass]="{'off': !missionDone(i)}">Finish</button>
+      <span class="exp">+{{getMissionExp(i)}} EXP</span>
+
+    </div>
+
+  </div>
+
+
+  <div class="onMission" *ngIf="player.missionTime>0">
+    <img src="assets/background/mission.png">
+    <span class="timeLeft">{{getMissionTime(0,player.missionTime)}}</span>
+    <div class="timeBar"
+      [ngStyle]="{background: 'radial-gradient(circle, rgb(30,110,255) '+ (player.missionTime/player.missionStart*100 - 1) + '%,rgba(30,110,255,0.3) '+ player.missionTime/player.missionStart*100 +'% )'}">
+    </div>
+  </div>
+
+  <div class="loot" *ngIf="player.missionTime==0 || player.missionTime==-1">
+    <img *ngFor="let item of getLoot()" [src]="item.graphic" class="{{item.clas}}"
+      [ngClass]="{'smallCrystal':item.amp!=undefined && item.type=='normal', 'bigCrystal':item.amp!=undefined && item.type=='legend'}"
+      [ngStyle]="{left: (20+item.offset*2)+'em' }" (mouseleave)="hideInfo()" (mousemove)="changePosition($event)"
+      (mouseenter)="showCoins(item)" (click)="collectItem(item)" draggable="false">
+    <img *ngFor="let coin of coins" [src]="coin[1]" class="coin"
+      [ngStyle]="{left: (20+coin[2]*2)+'em',top: 10+coin[2]*2-7.5+'em' }" @showUp [@grabGoldUp]="{value: coin[3]}"
+      draggable="false">
+
+
+
+  </div>
+
+  <div class="afterMission" *ngIf="afterMission">
+    <span class="expEnd">+ {{this.getMissionExp(player.missionNumber)}}EXP</span>
+    <span>+ {{this.sumGold}}<img src="assets/coin/1.png"></span>
+    <button
+      [ngClass]="{'purple':player.missionNumber==3,'dblue':player.missionNumber==2,'lblue':player.missionNumber==1,'green':player.missionNumber==0}"
+      (click)="endMission()">Go
+      back</button>
+  </div>
+
+  <div class="todayBar" *ngIf="player.missionTime==-3">
+    <span [ngStyle]="{'color': player.missions==0?'#AAA':'rgb(159, 243, 24)'}">Today's Missions</span>
+    <div class="chance" *ngFor="let i of amount" [ngStyle]="{'opacity': i<=player.missions?'1':'0'}">{{i}}</div>
+  </div>
+
+
+
+
+</section>
+
+<app-infobubble [user]="player" [item]="itemForInfo" *ngIf="showInfoBubble"
+  [ngStyle]="{left: ''+ bubblePos.x + 'px' ,top: ''+bubblePos.y + 'px'}"></app-infobubble>
+
+<app-alert [input]="alertInput" *ngIf="showAlert" (close)="alertOff()"></app-alert>

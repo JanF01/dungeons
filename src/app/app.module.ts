@@ -23,6 +23,8 @@ import { SettingsComponent } from './settings/settings.component';
 import { VillageComponent } from './dungeons/village/village.component';
 import { BlacksmithComponent } from './dungeons/village/blacksmith/blacksmith.component';
 import { ArmoryComponent } from './dungeons/village/armory/armory.component';
+import { MissionsComponent } from './dungeons/village/missions/missions.component';
+import { AlertComponent } from './dungeons/alert/alert.component';
 
 
 @NgModule({
@@ -40,7 +42,9 @@ import { ArmoryComponent } from './dungeons/village/armory/armory.component';
     SettingsComponent,
     VillageComponent,
     BlacksmithComponent,
-    ArmoryComponent
+    ArmoryComponent,
+    MissionsComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,

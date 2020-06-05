@@ -1,78 +1,97 @@
 <section id="inner">
 
-    <div class="category weapons">
-        <img src="assets/deska.png" class="label">
-       <span> Weapons </span>
-        <mat-grid-list cols="3" rowHeight="1:1">
-            <mat-grid-tile>
+  <div class="category weapons">
+    <img src="assets/deska.png" class="label">
+    <span> Weapons </span>
+    <mat-grid-list cols="3" rowHeight="1:1">
+      <mat-grid-tile>
 
-                <div *ngIf="player.weaponsInShop[0]!=undefined" id="w1" class="item" cdkDrag (mouseenter)="showInfo(player.weaponsInShop[0])" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()" (cdkDragStarted)="grab(0)" [cdkDragFreeDragPosition]="weaponPos[0]" (cdkDragEnded)="buyItem(player.weaponsInShop[0],0,'w1',this.weaponPos)">
-                <img src="{{player.weaponsInShop[0].graphic}}" class="weapon {{player.weaponsInShop[0].type}}" >
-                <div id="costHp"><img src="assets/coin/1.png"><span>123</span></div>
-              </div>
-
-           </mat-grid-tile>
-           <mat-grid-tile>
-
-               <div *ngIf="player.weaponsInShop[1]!=undefined" id="w2" class="item" cdkDrag (cdkDragStarted)="grab(1)" [cdkDragFreeDragPosition]="weaponPos[1]" (mouseenter)="showInfo(player.weaponsInShop[1])" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()" (cdkDragEnded)="buyItem(player.weaponsInShop[1],1,'w2',this.weaponPos)">
-                <img src="{{player.weaponsInShop[1].graphic}}" class="weapon {{player.weaponsInShop[1].type}}">
-                <div id="costStamina"><img src="assets/coin/1.png"><span>192</span></div>
-               </div>
-
-          </mat-grid-tile>
-          <mat-grid-tile >
-
-              <div *ngIf="player.weaponsInShop[2]!=undefined" id="w3" class="item" cdkDrag (cdkDragStarted)="grab(2)" [cdkDragFreeDragPosition]="weaponPos[2]" (mouseenter)="showInfo(player.weaponsInShop[2])" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()" (cdkDragEnded)="buyItem(player.weaponsInShop[2],2,'w3',this.weaponPos)">
-                <img src="{{player.weaponsInShop[2].graphic}}" class="weapon {{player.weaponsInShop[1].type}}">
-                <div id="costSpeed"><img src="assets/coin/1.png"><span>157</span></div>
-              </div>
-
-          </mat-grid-tile>
-    </mat-grid-list>
-    </div>
-
-    <div class="category armors">
-        <img src="assets/deska.png" class="label">
-       <span> Armor </span>
-        <mat-grid-list cols="3" rowHeight="1:1">
-            <mat-grid-tile>
-
-                <div id="a1" class="item" cdkDrag  (cdkDragStarted)="grab(0)" [cdkDragFreeDragPosition]="armorPos[0]" (mouseenter)="showInfo(player.armorsInShop[0])" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()" (cdkDragEnded)="buyItem(player.armorsInShop[0],0,'a1',this.armorPos)">
-                <img src="{{player.armorsInShop[0].graphic}}" class="armor {{player.armorsInShop[0].type}}" >
-                <div id="costHp"><img src="assets/coin/1.png"><span>123</span></div>
-
-              </div>
-           </mat-grid-tile>
-           <mat-grid-tile>
-
-               <div id="a2" class="item" cdkDrag (cdkDragStarted)="grab(1)" [cdkDragFreeDragPosition]="armorPos[1]" (mouseenter)="showInfo(player.armorsInShop[1])" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()" (cdkDragEnded)="buyItem(player.armorsInShop[1],1,'a2',this.armorPos)">
-                <img src="{{player.armorsInShop[1].graphic}}" class="armor {{player.armorsInShop[1].type}}">
-                <div id="costStamina"><img src="assets/coin/1.png"><span>192</span></div>
-               </div>
-
-          </mat-grid-tile>
-          <mat-grid-tile>
-
-              <div id="a3" class="item" cdkDrag (cdkDragStarted)="grab(2)" [cdkDragFreeDragPosition]="armorPos[2]" (mouseenter)="showInfo(player.armorsInShop[2])" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()" (cdkDragEnded)="buyItem(player.armorsInShop[2],2,'a3',this.armorPos)">
-                <img src="{{player.armorsInShop[2].graphic}}" class="armor {{player.armorsInShop[2].type}}">
-                <div id="costSpeed"><img src="assets/coin/1.png"><span>157</span></div>
-              </div>
-
-          </mat-grid-tile>
-    </mat-grid-list>
-    </div>
-
-
-    <div class="backpack">
-        <img src="assets/backpack.png">
-        <div class="spaces">
-            <div *ngFor="let i of [0,1,2,3,4,5,6,7,8]" class="spot" (mouseenter)="showInfo(player.itemsOnHold[i])" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()">
-                <img *ngIf="player.itemsOnHold[i]!=undefined" src="{{player.itemsOnHold[i].graphic}}">
-            </div>
-          
+        <div *ngIf="player.weaponsInShop[0]!=undefined" id="w1" class="item" cdkDrag
+          (mouseenter)="showInfo(player.weaponsInShop[0])" (mousemove)="changePosition($event)"
+          (mouseleave)="hideInfo()" (cdkDragStarted)="grab(0)" [cdkDragFreeDragPosition]="weaponPos[0]"
+          (cdkDragEnded)="buyItem(player.weaponsInShop[0],0,'w1',this.weaponPos)">
+          <img src="{{player.weaponsInShop[0].graphic}}" class="weapon {{player.weaponsInShop[0].type}}">
+          <div id="costHp"><img src="assets/coin/1.png"><span>123</span></div>
         </div>
+
+      </mat-grid-tile>
+      <mat-grid-tile>
+
+        <div *ngIf="player.weaponsInShop[1]!=undefined" id="w2" class="item" cdkDrag (cdkDragStarted)="grab(1)"
+          [cdkDragFreeDragPosition]="weaponPos[1]" (mouseenter)="showInfo(player.weaponsInShop[1])"
+          (mousemove)="changePosition($event)" (mouseleave)="hideInfo()"
+          (cdkDragEnded)="buyItem(player.weaponsInShop[1],1,'w2',this.weaponPos)">
+          <img src="{{player.weaponsInShop[1].graphic}}" class="weapon {{player.weaponsInShop[1].type}}">
+          <div id="costStamina"><img src="assets/coin/1.png"><span>192</span></div>
+        </div>
+
+      </mat-grid-tile>
+      <mat-grid-tile>
+
+        <div *ngIf="player.weaponsInShop[2]!=undefined" id="w3" class="item" cdkDrag (cdkDragStarted)="grab(2)"
+          [cdkDragFreeDragPosition]="weaponPos[2]" (mouseenter)="showInfo(player.weaponsInShop[2])"
+          (mousemove)="changePosition($event)" (mouseleave)="hideInfo()"
+          (cdkDragEnded)="buyItem(player.weaponsInShop[2],2,'w3',this.weaponPos)">
+          <img src="{{player.weaponsInShop[2].graphic}}" class="weapon {{player.weaponsInShop[1].type}}">
+          <div id="costSpeed"><img src="assets/coin/1.png"><span>157</span></div>
+        </div>
+
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+
+  <div class="category armors">
+    <img src="assets/deska.png" class="label">
+    <span> Armor </span>
+    <mat-grid-list cols="3" rowHeight="1:1">
+      <mat-grid-tile>
+
+        <div id="a1" class="item" cdkDrag (cdkDragStarted)="grab(0)" [cdkDragFreeDragPosition]="armorPos[0]"
+          (mouseenter)="showInfo(player.armorsInShop[0])" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()"
+          (cdkDragEnded)="buyItem(player.armorsInShop[0],0,'a1',this.armorPos)">
+          <img src="{{player.armorsInShop[0].graphic}}" class="armor {{player.armorsInShop[0].type}}">
+          <div id="costHp"><img src="assets/coin/1.png"><span>123</span></div>
+
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+
+        <div id="a2" class="item" cdkDrag (cdkDragStarted)="grab(1)" [cdkDragFreeDragPosition]="armorPos[1]"
+          (mouseenter)="showInfo(player.armorsInShop[1])" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()"
+          (cdkDragEnded)="buyItem(player.armorsInShop[1],1,'a2',this.armorPos)">
+          <img src="{{player.armorsInShop[1].graphic}}" class="armor {{player.armorsInShop[1].type}}">
+          <div id="costStamina"><img src="assets/coin/1.png"><span>192</span></div>
+        </div>
+
+      </mat-grid-tile>
+      <mat-grid-tile>
+
+        <div id="a3" class="item" cdkDrag (cdkDragStarted)="grab(2)" [cdkDragFreeDragPosition]="armorPos[2]"
+          (mouseenter)="showInfo(player.armorsInShop[2])" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()"
+          (cdkDragEnded)="buyItem(player.armorsInShop[2],2,'a3',this.armorPos)">
+          <img src="{{player.armorsInShop[2].graphic}}" class="armor {{player.armorsInShop[2].type}}">
+          <div id="costSpeed"><img src="assets/coin/1.png"><span>157</span></div>
+        </div>
+
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+
+
+  <div class="backpack">
+    <img src="assets/backpack.png">
+    <div class="spaces">
+      <div *ngFor="let i of [0,1,2,3,4,5,6,7,8]" class="spot" (mouseenter)="showInfo(player.itemsOnHold[i])"
+        (mousemove)="changePosition($event)" (mouseleave)="hideInfo()">
+        <img *ngIf="player.itemsOnHold[i]!=undefined" src="{{player.itemsOnHold[i].graphic}}">
+      </div>
+
     </div>
+  </div>
 
 
-    <app-infobubble [user]="player" [item]="itemForInfo" *ngIf="showInfoBubble" [ngStyle]="{left: ''+ bubblePos.x + 'px' ,top: ''+bubblePos.y + 'px'}"></app-infobubble>
+  <app-infobubble [user]="player" [item]="itemForInfo" *ngIf="showInfoBubble"
+    [ngStyle]="{left: ''+ bubblePos.x + 'px' ,top: ''+bubblePos.y + 'px'}"></app-infobubble>
 </section>
+
+<app-alert [input]="alertInput" *ngIf="showAlert" (close)="alertOff()"></app-alert>

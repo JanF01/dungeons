@@ -17,20 +17,27 @@ export class AudioService {
   lvlUp: any;
   globalVolume: number = 1;
   dungeonsBck: any;
+  villageBck: any;
 
 
   constructor() { 
     this.bckMusicOne = new Audio();
     this.bckMusicOne.src = "assets/soundtrack/main.mp3";
-    this.bckMusicOne.volume=0.008*this.globalVolume;
+    this.bckMusicOne.volume=0.01*this.globalVolume;
     this.bckMusicOne.load();
     this.bckMusicOne.loop = true;
 
     this.dungeonsBck = new Audio();
     this.dungeonsBck.src = "assets/soundtrack/dungeons.wav";
-    this.dungeonsBck.volume = 0.11;
+    this.dungeonsBck.volume = 0.09*this.globalVolume;
     this.dungeonsBck.load();
     this.dungeonsBck.loop = true;
+
+    this.villageBck = new Audio();
+    this.villageBck.src = "assets/soundtrack/village.wav";
+    this.villageBck.volume = 0.02*this.globalVolume;
+    this.villageBck.load();
+    this.villageBck.loop = true;
 
     this.fireball = new Audio();
     this.fireball.src="assets/sound/fireball.mp3";
@@ -71,12 +78,17 @@ export class AudioService {
   }
 
   playBackgroundOne(){
-    setTimeout(()=>{
     this.bckMusicOne.play();
-    },600);
   }
   stopMusicBck(){
     this.bckMusicOne.pause();
+  }
+
+  playVillageMusic(){
+    this.villageBck.play();
+  }
+  stopVillageMusic(){
+    this.villageBck.pause();
   }
 
   throwFireball(){
@@ -136,6 +148,8 @@ export class AudioService {
     this.bckMusicOne.volume=0.008*this.globalVolume;
 
     this.dungeonsBck.volume = 0.11*this.globalVolume;
+
+    this.villageBck.volume = 0.02*this.globalVolume;
 
 
     this.fireball.volume=0.03*this.globalVolume;

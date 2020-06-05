@@ -1,205 +1,234 @@
-
-@mixin flex(){
-    display:flex;
-    align-items:center;
-    justify-content:center;
+@mixin flex() {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-@mixin radius($r){
-    border-radius:$r;
-    -webkit-border-radius:$r;
-    -moz-border-radius:$r;
-    -ms-border-radius:$r;
+@mixin radius($r) {
+  border-radius: $r;
+  -webkit-border-radius: $r;
+  -moz-border-radius: $r;
+  -ms-border-radius: $r;
 }
 
 
-app-infobubble{
-    min-width:8em;
-    min-height:10em;
-    pointer-events: none;
-    position:absolute;
-    top:0;
-    left:0;
-    z-index:150;
+app-infobubble {
+  min-width: 8em;
+  min-height: 10em;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 150;
 }
 
-.category{
-    height:40%;
-    width:40%;
-    span{
-        display:block;
-        width:100%;
-        color:white;
-        font-size:1.8em;
-        text-align:center;
-        position:relative;
-        bottom:2.3rem;
-    }
-    .label{
-        position:absolute;
-        left: calc( 100%/2 - 5em );
-        top:-3em;
-        font-size:2em;
-        width:10em;
-        z-index:-1;
-        filter:hue-rotate(110deg);
-       
-    }
 
-    mat-grid-list{
-        overflow:visible !important;
-        cursor:default;
+app-alert {
+  position: absolute;
+  left: 0;
+  top: 0;
+  min-width: 100%;
+  min-height: 100vh;
+  z-index: 160;
+  background: rgba(0, 0, 0, 0.6);
+  filter: hue-rotate(70deg);
+}
 
-        mat-grid-tile{
-        overflow:visible !important;
-        cursor:default !important;
-        z-index:15;
-        
-        .item{
-            padding:3em;
-            width:10%;
-            margin:0 45% 0 45%;
-            height:15%;
-            @include flex();
-            flex-direction:column;
-            &:hover{
-                cursor:grab;
-            }
-            z-index:10;
-            div{
-                @include flex();
-                position:relative;
-                top:1em;
-                left:0.15em;
-                transition:all 0.2s;
-                opacity:0;
-                img{
-                    width:0.9em;
+.category {
+  height: 40%;
+  width: 40%;
 
-                }
-                span{
-                    font-size:0.95em;
-                    width:2em;
-                    position:relative;
-                    top:0em;
-                }
-            }
+  span {
+    display: block;
+    width: 100%;
+    color: white;
+    font-size: 1.8em;
+    text-align: center;
+    position: relative;
+    bottom: 2.3rem;
+  }
+
+  .label {
+    position: absolute;
+    left: calc(100%/2 - 5em);
+    top: -3em;
+    font-size: 2em;
+    width: 10em;
+    z-index: -1;
+    filter: hue-rotate(110deg);
+
+  }
+
+  mat-grid-list {
+    overflow: visible !important;
+    cursor: default;
+
+    mat-grid-tile {
+      overflow: visible !important;
+      cursor: default !important;
+      z-index: 15;
+
+      .item {
+        padding: 3em;
+        width: 10%;
+        margin: 0 45% 0 45%;
+        height: 15%;
+        @include flex();
+        flex-direction: column;
+
+        &:hover {
+          cursor: grab;
         }
 
+        z-index:10;
 
+        div {
+          @include flex();
+          position: relative;
+          top: 1em;
+          left: 0.15em;
+          transition: all 0.2s;
+          opacity: 0;
 
-    }
-}
+          img {
+            width: 0.9em;
 
-}
+          }
 
-.weapons{
-    position:absolute;  
-    left:15%;
-    top:15%;
-}
-.armors{
-    position:absolute;  
-    left:55%;
-    top:15%;
-}
-
-
-
-.normal{
-    background:radial-gradient(circle,#00000000,#000000a1 70%, #000000c9 90%) !important;
-    border:solid rgba(0, 0, 0, 0.801) 0.2em !important;
-    padding:0.5em;
-}
-.legend{
-    background:radial-gradient(circle,#00000000,#a78f0aa1 70%, #a78f0ac9 90%) !important;
-    border:solid rgba(114, 107, 3, 0.801) 0.2em !important;
-    padding:0.5em;
-}
-.artefact{
-    background:radial-gradient(circle,#00000000,#7a020298 70%, #7a0202be 90%) !important;
-    border:solid #63010181 0.2em !important;
-    padding:0.5em;
-}
-
-.backpack{
-    position:absolute;
-    top:73%;
-    min-width:90%;
-    left:5%;
-    min-height:9em;
-    @include flex();
-
-    img{
-        width:7.1%;
-        margin:2%;
-    }
-    .spaces{
-       min-width:80%;
-       display:flex;
-       min-height:7.8em;
-       &::before{
-          content: "";
-          background: url("../../../../assets/background/skinArmory.png");
-          @include radius(0.6em);
-          background-size:100%;
-          opacity: 0.2;
-          top: 0;
-          left: 0;
-          bottom: 0;
-          right: 0;
-          position: absolute;
-          z-index: -1;   
+          span {
+            font-size: 0.95em;
+            width: 2em;
+            position: relative;
+            top: 0em;
+          }
         }
-       .spot{
-           min-height:100%;
-           width: calc( 100% / 8 );
-           background:radial-gradient(circle,#00000000,#000000a1 70%, #000000c9 90%);
-           border:solid rgba(0, 0, 0, 0.801) 0.2em;
-           border-right:none;     
-           @include flex();
-           img{
-               width:3.8em;
-               height:3.8em;
-               z-index:10;
-               transition:0.2s all;
-               &:hover{
-                  transform:scale(1.09);
-               }
-           }
-       }
+      }
+
+
+
     }
+  }
+
+}
+
+.weapons {
+  position: absolute;
+  left: 15%;
+  top: 15%;
+}
+
+.armors {
+  position: absolute;
+  left: 55%;
+  top: 15%;
 }
 
 
 
-@media (min-width: 1200px){
-  section{
-  .backpack{
-  .spaces{
-      min-height:8.5em;
-      .spot{
-          img{
-              width:4.4em;
-              height:4.4em;
-          }
+.normal {
+  background: radial-gradient(circle, #00000000, #000000a1 70%, #000000c9 90%) !important;
+  border: solid rgba(0, 0, 0, 0.801) 0.2em !important;
+  padding: 0.5em;
+}
+
+.legend {
+  background: radial-gradient(circle, #00000000, #a78f0aa1 70%, #a78f0ac9 90%) !important;
+  border: solid rgba(114, 107, 3, 0.801) 0.2em !important;
+  padding: 0.5em;
+}
+
+.artefact {
+  background: radial-gradient(circle, #00000000, #7a020298 70%, #7a0202be 90%) !important;
+  border: solid #63010181 0.2em !important;
+  padding: 0.5em;
+}
+
+.backpack {
+  position: absolute;
+  top: 73%;
+  min-width: 90%;
+  left: 5%;
+  min-height: 9em;
+  @include flex();
+
+  img {
+    width: 7.1%;
+    margin: 2%;
+  }
+
+  .spaces {
+    min-width: 80%;
+    display: flex;
+    min-height: 7.8em;
+
+    &::before {
+      content: "";
+      background: url("../../../../assets/background/skinArmory.png");
+      @include radius(0.6em);
+      background-size: 100%;
+      opacity: 0.2;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      position: absolute;
+      z-index: -1;
+    }
+
+    .spot {
+      min-height: 100%;
+      width: calc(100% / 8);
+      background: radial-gradient(circle, #00000000, #000000a1 70%, #000000c9 90%);
+      border: solid rgba(0, 0, 0, 0.801) 0.2em;
+      border-right: none;
+      @include flex();
+
+      img {
+        width: 3.8em;
+        height: 3.8em;
+        z-index: 10;
+        transition: 0.2s all;
+
+        &:hover {
+          transform: scale(1.09);
+        }
       }
+    }
   }
 }
-  }
-}
-@media (min-width: 1550px){
-  section{
-  .backpack{
-  .spaces{
-      min-height:9.9em;
-      .spot{
-          img{
-              width:5.2em;
-              height:5.2em;
+
+
+
+@media (min-width: 1200px) {
+  section {
+    .backpack {
+      .spaces {
+        min-height: 8.5em;
+
+        .spot {
+          img {
+            width: 4.4em;
+            height: 4.4em;
           }
+        }
       }
+    }
   }
- }
+}
+
+@media (min-width: 1550px) {
+  section {
+    .backpack {
+      .spaces {
+        min-height: 9.9em;
+
+        .spot {
+          img {
+            width: 5.2em;
+            height: 5.2em;
+          }
+        }
+      }
+    }
   }
 }

@@ -1,16 +1,16 @@
 <div class="container">
 
- <mat-grid-list cols="2" rowHeight="2:1">
-     <mat-grid-tile (click)="startDungeons()">Dungeon Grinder</mat-grid-tile>
-     <mat-grid-tile (click)="startCoins()">Coins</mat-grid-tile>
-     <mat-grid-tile>Coming Soon</mat-grid-tile>
-     <mat-grid-tile>Coming Soon</mat-grid-tile>
- </mat-grid-list>   
+  <mat-grid-list cols="2" rowHeight="2:1">
+    <mat-grid-tile (click)="startDungeons()">Dungeon Grinder</mat-grid-tile>
+    <mat-grid-tile (click)="startCoins()">Coins</mat-grid-tile>
+    <mat-grid-tile>Coming Soon</mat-grid-tile>
+    <mat-grid-tile>Coming Soon</mat-grid-tile>
+  </mat-grid-list>
 
-    
+
 </div>
 
-    
+
 <app-coins *ngIf="mode==1"></app-coins>
 <app-dungeons *ngIf="mode==2"></app-dungeons>
 
@@ -18,3 +18,5 @@
 <div class="darken" *ngIf="shSettings"></div>
 
 <img class="gear" src="assets/settings.png" (click)="showSettings()">
+
+<div class="version">Alpha v0.30</div>

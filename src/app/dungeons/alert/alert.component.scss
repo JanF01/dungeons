@@ -1,0 +1,78 @@
+@mixin flex() {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin radius($r) {
+  border-radius: $r;
+  -ms-border-radius: $r;
+  -webkit-border-radius: $r;
+  -moz-border-radius: $r;
+}
+
+.box {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  color: #CCC;
+  font-family: "Abel", sans-serif;
+  @include flex();
+
+  img {
+    position: absolute;
+    left: 35%;
+    top: 30%;
+    width: 30%;
+    z-index: -1;
+  }
+
+  p {
+    width: 20%;
+    position: absolute;
+    left: 40%;
+    text-align: center;
+    top: 37.5%;
+    font-size: 1.5em;
+    letter-spacing: 0.03em;
+  }
+
+
+}
+
+
+
+button {
+  position: absolute;
+  left: 46.5%;
+  width: 7%;
+  top: 43.5%;
+  height: 2em;
+
+  font-family: 'Abel', sans-serif;
+  @include flex();
+  font-size: 1.5em;
+  background: url("../../../assets/woodenBramka.jpg");
+
+  border: none;
+  @include radius(0.25em);
+  color: white;
+
+  box-shadow: 0 0em 0.4em 0.1em black !important;
+  transition: 0.2s all;
+  outline: none;
+
+  &:focus {
+    outline: #e26600 solid 0.1em !important;
+  }
+
+  &:hover {
+    transform: scale(0.9);
+    cursor: pointer;
+  }
+
+  filter:hue-rotate(240deg) brightness(70%);
+  //background:rgb(145, 72, 12);
+}

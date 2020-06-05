@@ -27,7 +27,7 @@ export class SettingsComponent implements OnInit {
   sendValue($event){
     this.sound = $event.target.value;
     let s = +this.sound;
-    this.audio.globalVolume = s*3;
+    this.audio.globalVolume = s*2;
     this.audio.changeVolumes();
   }
 

@@ -22,6 +22,7 @@ export class ImagesService {
   darkness = new Image(64,64);
   fire = new Image(64,64);
   ice = new Image(64,64);
+  missions = new Image(1500,900);;
   
 
 
@@ -37,6 +38,11 @@ export class ImagesService {
      this.blacksmith.src="assets/background/armory.jpg";
      this.blacksmith.classList.toggle("map");
      this.blacksmith.classList.toggle("village");
+
+     this.missions.src="assets/woodenBramka.jpg";
+     this.missions.classList.toggle("map");
+     this.missions.classList.toggle("village");
+     this.missions.classList.toggle("missionb");
 
      this.bckMain.src = "assets/background/main.jpg";
      this.bckMain.classList.toggle("map");

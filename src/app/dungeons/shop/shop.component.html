@@ -1,51 +1,55 @@
-
-
-
 <section id="shop">
 
-    <app-left-nav (click)="backHome()" [gold]="player.gold" [place]='shop'></app-left-nav>
-    
+  <app-left-nav (click)="backHome()" [gold]="player.gold" [place]='shop'></app-left-nav>
 
-    
-    <div class="category potions">
-        <img src="assets/deska.png" class="label">
-       <span> Potions </span>
-        <mat-grid-list cols="3" rowHeight="1:1">
-            <mat-grid-tile (mouseenter)="showInfo(hp)" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()">
-                <div id="hp" class="item" cdkDrag  (cdkDragStarted)="grab(0)" [cdkDragFreeDragPosition]="potionPos[0]" (cdkDragEnded)="buyHpPotion(600,$event)" (mouseenter)="showCost('Hp')" (mouseleave)="hideCost('Hp')">
-                
-                <div id="costHp"><img src="assets/coin/1.png"><span>{{healthPrice}}</span></div>
-              </div>
-           </mat-grid-tile>
-           <mat-grid-tile (mouseenter)="showInfo(st)" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()">
-               <div id="stamina" class="item" cdkDrag (cdkDragStarted)="grab(1)" [cdkDragFreeDragPosition]="potionPos[1]" (cdkDragEnded)="buyStaminaPotion(5,$event)" (mouseenter)="showCost('Stamina')" (mouseleave)="hideCost('Stamina')">
-                
-                <div id="costStamina"><img src="assets/coin/1.png"><span>{{staminaPrice}}</span></div>
-               </div>
-          </mat-grid-tile>
-          <mat-grid-tile (mouseenter)="showInfo(sp)" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()">
-              <div id="speed" class="item" cdkDrag (cdkDragStarted)="grab(2)" [cdkDragFreeDragPosition]="potionPos[2]" (cdkDragEnded)="buySpeedPotion(2,$event)" (mouseenter)="showCost('Speed')" (mouseleave)="hideCost('Speed')">
-                
-                <div id="costSpeed"><img src="assets/coin/1.png"><span>{{speedPrice}}</span></div>
-              </div>
-          </mat-grid-tile>
-    </mat-grid-list>
-    </div>
 
-    <div class="backpack">
-        <img src="assets/backpack.png">
-        <div class="spaces">
-            <div *ngFor="let i of [0,1,2,3,4,5,6,7,8]" class="spot" (mouseenter)="showInfo(player.potions[i])" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()">
-                <img *ngIf="player.potions[i]!=undefined" src="{{player.potions[i].graphic.src}}">
-            </div>
-          
+
+  <div class="category potions">
+    <img src="assets/deska.png" class="label">
+    <span> Potions </span>
+    <mat-grid-list cols="3" rowHeight="1:1">
+      <mat-grid-tile (mouseenter)="showInfo(hp)" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()">
+        <div id="hp" class="item" cdkDrag (cdkDragStarted)="grab(0)" [cdkDragFreeDragPosition]="potionPos[0]"
+          (cdkDragEnded)="buyHpPotion(600,$event)" (mouseenter)="showCost('Hp')" (mouseleave)="hideCost('Hp')">
+
+          <div id="costHp"><img src="assets/coin/1.png"><span>{{healthPrice}}</span></div>
         </div>
+      </mat-grid-tile>
+      <mat-grid-tile (mouseenter)="showInfo(st)" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()">
+        <div id="stamina" class="item" cdkDrag (cdkDragStarted)="grab(1)" [cdkDragFreeDragPosition]="potionPos[1]"
+          (cdkDragEnded)="buyStaminaPotion(5,$event)" (mouseenter)="showCost('Stamina')"
+          (mouseleave)="hideCost('Stamina')">
+
+          <div id="costStamina"><img src="assets/coin/1.png"><span>{{staminaPrice}}</span></div>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile (mouseenter)="showInfo(sp)" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()">
+        <div id="speed" class="item" cdkDrag (cdkDragStarted)="grab(2)" [cdkDragFreeDragPosition]="potionPos[2]"
+          (cdkDragEnded)="buySpeedPotion(2,$event)" (mouseenter)="showCost('Speed')" (mouseleave)="hideCost('Speed')">
+
+          <div id="costSpeed"><img src="assets/coin/1.png"><span>{{speedPrice}}</span></div>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+
+  <div class="backpack">
+    <img src="assets/backpack.png">
+    <div class="spaces">
+      <div *ngFor="let i of [0,1,2,3,4,5,6,7,8]" class="spot" (mouseenter)="showInfo(player.potions[i])"
+        (mousemove)="changePosition($event)" (mouseleave)="hideInfo()">
+        <img *ngIf="player.potions[i]!=undefined" src="{{player.potions[i].graphic.src}}">
+      </div>
+
     </div>
+  </div>
 
 
 
-    <img src="assets/background/shop.jpg" class="bkg">
+  <img src="assets/background/shop.jpg" class="bkg">
 
 </section>
 
-<app-infobubble [user]="player" [item]="itemForInfo" *ngIf="showInfoBubble" [ngStyle]="{left: ''+ bubblePos.x + 'px' ,top: ''+bubblePos.y + 'px'}"></app-infobubble>
+<app-infobubble [user]="player" [item]="itemForInfo" *ngIf="showInfoBubble"
+  [ngStyle]="{left: ''+ bubblePos.x + 'px' ,top: ''+bubblePos.y + 'px'}"></app-infobubble>
+<app-alert [input]="alertInput" *ngIf="showAlert" (close)="alertOff()"></app-alert>

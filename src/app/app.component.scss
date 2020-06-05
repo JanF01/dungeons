@@ -47,6 +47,16 @@ app-settings{
   transform: rotate(200deg) scale(1.1);
   }
 }
+.version{
+  position:absolute;
+  top:2%;
+  left:1%;
+  font-size:1em;
+  font-family:'Abel';
+  font-weight:bold;
+  z-index:100;
+  color:white;
+}
 
 @keyframes bg{
    0%{

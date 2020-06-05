@@ -1,20 +1,21 @@
-import { Component, Input } from '@angular/core';
-import { User } from '../models/user.model';
-import { MoneyBag } from '../models/moneyBag.model'
-import { Enemy } from '../models/enemy.model';
-import { PlayerAnimations } from '../animations/player.animation';
-import { EnemyAnimations } from '../animations/enemy.animation';
-import { AdditionAnimations } from '../animations/additions.animation';
-import { AudioService } from '../../audio.service';
-import { DungeonsService } from '../../dungeons.service';
-import { ImagesService } from '../../images.service';
-import { Item } from '../models/item.model';
-import { Weapon } from '../models/items/weapon.model';
+import { Component, Input } from "@angular/core";
+import { User } from "../models/user.model";
+import { MoneyBag } from "../models/moneyBag.model";
+import { Enemy } from "../models/enemy.model";
+import { PlayerAnimations } from "../animations/player.animation";
+import { EnemyAnimations } from "../animations/enemy.animation";
+import { AdditionAnimations } from "../animations/additions.animation";
+import { AudioService } from "../../audio.service";
+import { DungeonsService } from "../../dungeons.service";
+import { ImagesService } from "../../images.service";
+import { Item } from "../models/item.model";
+import { Weapon } from "../models/items/weapon.model";
+import { MissionsService } from "src/app/missions.service";
 
 @Component({
-  selector: 'app-cave',
-  templateUrl: './cave.component.html',
-  styleUrls: ['./cave.component.scss'],
+  selector: "app-cave",
+  templateUrl: "./cave.component.html",
+  styleUrls: ["./cave.component.scss"],
   animations: [
     PlayerAnimations.showUp,
     PlayerAnimations.momentum,
@@ -25,17 +26,15 @@ import { Weapon } from '../models/items/weapon.model';
     EnemyAnimations.enemyAttack,
     AdditionAnimations.showDamage,
     AdditionAnimations.grabGold,
-    AdditionAnimations.showLevelUp
-  ]
+    AdditionAnimations.showLevelUp,
+  ],
 })
 export class CaveComponent {
-
-
-  @Input('user') player: User;
+  @Input("user") player: User;
 
   speed: number = 0.5;
 
-  fighting: boolean = true; 
+  fighting: boolean = true;
 
   coins: Array<any> = [];
 
@@ -54,543 +53,588 @@ export class CaveComponent {
   potions = {
     hp: 0,
     stamina: 0,
-    speed: 0
+    speed: 0,
   };
   DI = 1;
   healing: any;
   weaponMulti: number;
-  elite:boolean = false;
+  elite: boolean = false;
+  label: string = "";
 
   monstersInCave: number = 0;
 
-  playerIsDead: boolean =  false;
+  playerIsDead: boolean = false;
 
+  showAlert: boolean = false;
+  alertInput: string = "";
+  showedAlert: boolean = true;
 
-  constructor(private audio: AudioService, private dungeons: DungeonsService, private images:ImagesService){
-    this.enemy = this.dungeons.dungeons[0].monsters[0]; 
+  constructor(
+    private audio: AudioService,
+    private dungeons: DungeonsService,
+    private images: ImagesService,
+    private missions: MissionsService
+  ) {
+    this.enemy = this.dungeons.dungeons[0].monsters[0];
   }
 
+  alertOut(input) {
+    this.alertInput = input;
+    this.showAlert = true;
+  }
+  alertOff() {
+    this.showAlert = false;
+  }
 
+  backHome() {
+    this.showItemsLooted = false;
 
-  backHome(){
-
-    this.showItemsLooted=false;
-
-
-
-    while(this.player.loot[0]!=undefined){
-      if(this.player.items.length<27){
-          this.player.items.push(this.player.loot[0]);
+    while (this.player.loot[0] != undefined) {
+      if (this.player.items.length < 27) {
+        this.player.items.push(this.player.loot[0]);
       }
-      this.player.loot.splice(0,1);
+      this.player.loot.splice(0, 1);
     }
-    
 
-    this.player.location='home'; 
-    this.player.gold+=this.player.goldInSack; 
-    this.player.goldInSack=0;
+    this.player.location = "home";
+    this.player.gold += this.player.goldInSack;
+    this.player.goldInSack = 0;
     this.audio.stopDungeonMusic();
     this.audio.playBackgroundOne();
-    setTimeout(()=>{
-    let mBck = document.getElementsByClassName('mainBck') as HTMLCollectionOf<HTMLElement>;
-    mBck[0].style.opacity='0.8';
-    document.getElementById("cont").style.opacity = "1";
- 
-    this.player.speed-=this.player.speedBuildUp;
-    this.player.speedBuildUp=0;
+    setTimeout(() => {
+      let mBck = document.getElementsByClassName("mainBck") as HTMLCollectionOf<
+        HTMLElement
+      >;
+      mBck[0].style.opacity = "0.8";
+      document.getElementById("cont").style.opacity = "1";
 
-    let assets = document.getElementsByClassName('assets')[0];
-    assets.innerHTML="";
-    assets.appendChild(this.images.gold);
-    assets.append(this.player.gold.toString());
-  },10);
+      this.player.speed -= this.player.speedBuildUp;
+      this.player.speedBuildUp = 0;
 
-   }
+      let assets = document.getElementsByClassName("assets")[0];
+      assets.innerHTML = "";
+      assets.appendChild(this.images.gold);
+      assets.append(this.player.gold.toString());
+    }, 10);
+  }
 
-   goBackToMap(){
+  goBackToMap() {
+    this.showItemsLooted = false;
 
-    this.showItemsLooted=false;
+    this.player.location = "dungeons";
+    this.audio.dungeonsBck.volume = 0.09;
+    setTimeout(() => {
+      document.getElementById("dungeons").style.opacity = "1";
+      document.getElementById("dungeons").appendChild(this.images.map);
+      this.player.speed -= this.player.speedBuildUp;
+      this.player.speedBuildUp = 0;
+    }, 60);
+  }
 
-    this.player.location='dungeons';
-    this.audio.dungeonsBck.volume=0.09;
-    setTimeout(()=>{
-      document.getElementById('dungeons').style.opacity="1";
-      document.getElementById('dungeons').appendChild(this.images.map);
-      this.player.speed-=this.player.speedBuildUp;
-      this.player.speedBuildUp=0;
-       },60);
-
-   }
-
-
-
-   getDarkness(){
+  getDarkness() {
     return this.images.darkness.src;
-   }
-   getFire(){
+  }
+  getFire() {
     return this.images.fire.src;
   }
-  getIce(){
+  getIce() {
     return this.images.ice.src;
   }
 
-
-   enemyDead(){
+  enemyDead() {
     this.enemyState = "die";
     this.showLoot = true;
     this.audio.enemyDead();
-    let add = Math.round((this.player.dungeon+2)*(this.enemy.level)*Math.round(Math.random()*9+50)*this.player.expMulti);
-    this.player.exp+=add;
+    let add = Math.round(
+      (this.player.dungeon + 2) *
+        this.enemy.level *
+        Math.round(Math.random() * 9 + 50) *
+        this.player.expMulti
+    );
+    this.player.exp += add;
 
-    if(this.player.exp>=this.player.nextExp){
+    if (this.player.exp >= this.player.nextExp) {
       this.player.level++;
-      setTimeout(()=>{
-      this.playerDamage.push(['LEVEL '+this.player.level,false,'lvl']);
-      setTimeout(()=>{this.playerDamage.shift(); },2700);
-      setTimeout(()=>{
-      this.levelUp();
-      this.audio.levelUp();
-      },20);
-      },30);
-      this.player.nextExp = Math.round(this.player.level*(this.player.level*0.4)*928);
+      setTimeout(() => {
+        this.playerDamage.push(["LEVEL " + this.player.level, false, "lvl"]);
+        setTimeout(() => {
+          this.playerDamage.shift();
+        }, 2700);
+        setTimeout(() => {
+          this.levelUp();
+          this.audio.levelUp();
+        }, 20);
+      }, 30);
+      this.player.nextExp = Math.round(
+        this.player.level * (this.player.level * 0.4) * 928
+      );
       this.player.exp = 0;
+    } else {
+      this.playerDamage.push(["+ " + add + "EXP", false, "exp"]);
+
+      this.showPlayerDamage();
     }
-    else{
-      this.playerDamage.push(['+ '+add+'EXP',false,'exp']);
 
-    this.showPlayerDamage();
+    if (this.player.missionOn[0] && this.elite) {
+      if (this.missions.missions[0].name == this.enemy.name) {
+        if (this.missions.missions[0].done < this.missions.missions[0].sum)
+          this.missions.missions[0].done++;
+      }
     }
-  
-   }
-
-
-
-
-
-  tour(){
-
-    this.DI+=0.1;
-
-  this.playerTurn();
-
-   if(Math.random()*100<=(100-this.player.speed*2+this.enemy.level)){
-    setTimeout(()=>{ (this.enemy.health>0) ? this.enemyTurn() : this.enemyDead(); }, 1111*this.speed);
-  }
-  else{
-    setTimeout(()=>{ (this.enemy.health>0) ? this.tour() : this.enemyDead(); },1111*this.speed);
   }
 
-}
+  tour() {
+    this.DI += 0.1;
 
-nextFight(lvl){
-  
-    document.getElementById('d').style.opacity="1";
-    document.getElementById('d').appendChild(this.images.map);
+    this.playerTurn();
 
+    if (Math.random() * 100 <= 100 - this.player.speed * 2 + this.enemy.level) {
+      setTimeout(() => {
+        this.enemy.health > 0 ? this.enemyTurn() : this.enemyDead();
+      }, 1111 * this.speed);
+    } else {
+      setTimeout(() => {
+        this.enemy.health > 0 ? this.tour() : this.enemyDead();
+      }, 1111 * this.speed);
+    }
+  }
 
-  this.enemy = this.dungeons.dungeons[lvl-1].monsters[this.player.subdungeon[this.player.dungeon]]; 
+  nextFight(lvl) {
+    document.getElementById("d").style.opacity = "1";
+    document.getElementById("d").appendChild(this.images.map);
 
-  this.enemy.health = this.enemy.hitPoints;
-  this.showLoot=false;
-  this.enemyState='back';
-  this.coins=[];
+    this.enemy = this.dungeons.dungeons[lvl - 1].monsters[
+      this.player.subdungeon[this.player.dungeon]
+    ];
 
-  this.fighting = true;
+    this.enemy.health = this.enemy.hitPoints;
+    this.showLoot = false;
+    this.enemyState = "back";
+    this.coins = [];
 
-}
+    this.fighting = true;
+  }
 
-
-  fight(lvl,elite){
-
+  fight(lvl, elite) {
+    if (this.player.loot.length < 8 || this.showedAlert) {
+      this.showedAlert = false;
       this.elite = elite;
-      
 
-      this.showItemsLooted=false;
+      this.showItemsLooted = false;
 
       clearInterval(this.healing);
 
-      this.player.weapon.type=="legend"?this.weaponMulti=0.16:this.weaponMulti=0.22;
+      this.player.weapon.type == "legend"
+        ? (this.weaponMulti = 0.16)
+        : (this.weaponMulti = 0.22);
 
-      this.DI=1;
-      this.potions.hp=0;
-      this.potions.stamina=0;
-      this.potions.speed=0;
-      this.player.dungeon=lvl-1;
+      this.DI = 1;
+      this.potions.hp = 0;
+      this.potions.stamina = 0;
+      this.potions.speed = 0;
+      this.player.dungeon = lvl - 1;
+      this.label = this.dungeons.dungeons[this.player.dungeon].label;
 
+      this.enemy = this.dungeons.dungeons[this.player.dungeon].monsters[
+        this.player.subdungeon[this.player.dungeon]
+      ];
 
-
-      this.enemy = this.dungeons.dungeons[this.player.dungeon].monsters[this.player.subdungeon[this.player.dungeon]];
-
-      for(let i=0;i<this.player.potions.length;i++){
-           switch(this.player.potions[i].type){
-             case 'hp':
-               this.potions.hp++;
-             break;
-             case 'stamina':
-              this.potions.stamina++;
-             break;
-             case 'speed':
-              this.potions.speed++;
-             break;
-           }
+      for (let i = 0; i < this.player.potions.length; i++) {
+        switch (this.player.potions[i].type) {
+          case "hp":
+            this.potions.hp++;
+            break;
+          case "stamina":
+            this.potions.stamina++;
+            break;
+          case "speed":
+            this.potions.speed++;
+            break;
+        }
       }
 
-      this.audio.dungeonsBck.volume=0.03;
+      this.audio.dungeonsBck.volume = 0.03;
       this.nextFight(lvl);
       this.tour();
-  
-
+    } else {
+      this.alertOut("You don't have space for loot!");
+      this.showedAlert = true;
+    }
   }
 
   critical = 1;
 
-  playerTurn(){
-
+  playerTurn() {
     let dmg;
 
-    setTimeout(()=>{
-    this.playerAnimation = "playerTurn";
+    setTimeout(() => {
+      this.playerAnimation = "playerTurn";
 
-    Math.random()<this.player.necklace.critical?this.critical=1+this.player.ring.critM:this.critical=1;
-    dmg = Math.round(this.player.strength*(this.player.weapon.damageLow+Math.random()*(this.player.weapon.damageHigh-this.player.weapon.damageLow))*this.critical);
-       
-  
-    },11*this.speed);
+      Math.random() < this.player.necklace.critical
+        ? (this.critical = 1 + this.player.ring.critM)
+        : (this.critical = 1);
+      dmg = Math.round(
+        this.player.strength *
+          (this.player.weapon.damageLow +
+            Math.random() *
+              (this.player.weapon.damageHigh - this.player.weapon.damageLow)) *
+          this.critical
+      );
+    }, 11 * this.speed);
 
-    setTimeout(()=>{ this.throwSword(); },411*this.speed)
+    setTimeout(() => {
+      this.throwSword();
+    }, 411 * this.speed);
 
-    setTimeout(()=>{ this.hitEnemy(dmg); },711*this.speed);
+    setTimeout(() => {
+      this.hitEnemy(dmg);
+    }, 711 * this.speed);
 
-    setTimeout(()=>{ this.enemyHurt(dmg); },911*this.speed);
-
+    setTimeout(() => {
+      this.enemyHurt(dmg);
+    }, 911 * this.speed);
   }
 
-  
   block = 0;
   blocked = false;
 
-  enemyDouble = false
-  
-  enemyTurn(){
+  enemyDouble = false;
+
+  enemyTurn() {
     this.enemyFireball();
-    
-    this.blocked=false;
+
+    this.blocked = false;
     let dmg = 0;
-    this.block = Math.random()*100;
-    if(this.block<this.player.armor.chance){
-      dmg = this.enemy.damage-this.player.armor.defence;
-      this.blocked=true;
-    }else{
-    dmg = this.enemy.damage;
+    this.block = Math.random() * 100;
+    if (this.block < this.player.armor.chance) {
+      dmg = this.enemy.damage - this.player.armor.defence;
+      this.blocked = true;
+    } else {
+      dmg = this.enemy.damage;
     }
 
-    if(dmg<0) dmg=0;
+    if (dmg < 0) dmg = 0;
 
+    setTimeout(() => {
+      this.enemyHitAnimation(dmg);
+    }, 660 * this.speed);
 
-    setTimeout(()=>{ this.enemyHitAnimation(dmg); },660*this.speed);
-    
-
-    setTimeout(()=>{
-    
+    setTimeout(() => {
       this.playerHurt(dmg);
 
-
-      setTimeout(()=>{ 
-
-        if(this.checkIfAlive()){
-          if(Math.random()<(this.enemy.level/this.player.level)/10 && !this.enemyDouble){
-            setTimeout(()=>{
-            this.enemyTurn();
-            },233*this.speed);
-            this.enemyDouble=true;
-          }else{
-        this.tour();
-        this.enemyDouble=false;
+      setTimeout(() => {
+        if (this.checkIfAlive()) {
+          if (
+            Math.random() < this.enemy.level / this.player.level / 10 &&
+            !this.enemyDouble
+          ) {
+            setTimeout(() => {
+              this.enemyTurn();
+            }, 233 * this.speed);
+            this.enemyDouble = true;
+          } else {
+            this.tour();
+            this.enemyDouble = false;
           }
         }
-        
-      },200*this.speed);
-
-    },860*this.speed);
-
+      }, 200 * this.speed);
+    }, 860 * this.speed);
   }
 
-  
-
-  
-  showCoins(bag: any){
-
-
-    if(bag.perks!=undefined){
+  showCoins(bag: any) {
+    if (bag.perks != undefined) {
       this.showInfo(bag);
     }
 
-   if(bag.coins!=undefined){
-
-     for(let i=bag.coins+Math.random()*this.player.luck;i>0;){
-      if(i>=30){
-        this.coins.push([30,'assets/coin/30.png',Math.random()*12-6+bag.offset,"static"]);
-        i-=30;
-       }
-     else if(i>=5){
-      this.coins.push([5,'assets/coin/5.png',Math.random()*12-6+bag.offset,"static"]);
-      i-=5;
-     }
-     else{
-      this.coins.push([1,'assets/coin/1.png',Math.random()*12-6+bag.offset,"static"]);
-      i-=1;
-     }
-      let index = this.coins.length-1;
-
-      setTimeout(()=>{
-        this.coins[index][3]="collected";
-
-        setTimeout(()=>{
-        this.player.goldInSack+=this.coins[index][0];
-        },600);
-
-      },Math.random()*300+100);
-
-     }
-
-     let index = this.enemy.loot.indexOf(bag);  
-     this.enemy.loot.splice(index,1);
-
-     if(this.enemy.loot.length<1){
-
-       setTimeout(()=>{ this.nextDungeon(); },1000);
-
-     }
-
-     this.audio.openSmallMoneyBag();
-
-    }
-
-  }
-
-  collectItem(item: Weapon){
-
-      this.hideInfo();
-
-      if(item.code!=undefined){
-
-        if(this.player.loot.length<8){
-
-       
-          if(!this.player.loot.includes(item)){
-          this.player.loot.push(item);
-          }
-
+    if (bag.coins != undefined) {
+      for (let i = bag.coins + Math.random() * this.player.luck; i > 0; ) {
+        if (i >= 30) {
+          this.coins.push([
+            30,
+            "assets/coin/30.png",
+            Math.random() * 12 - 6 + bag.offset,
+            "static",
+          ]);
+          i -= 30;
+        } else if (i >= 5) {
+          this.coins.push([
+            5,
+            "assets/coin/5.png",
+            Math.random() * 12 - 6 + bag.offset,
+            "static",
+          ]);
+          i -= 5;
+        } else {
+          this.coins.push([
+            1,
+            "assets/coin/1.png",
+            Math.random() * 12 - 6 + bag.offset,
+            "static",
+          ]);
+          i -= 1;
         }
-        
-        setTimeout(()=>{
+        let index = this.coins.length - 1;
 
-          let index = this.enemy.loot.indexOf(item); 
-          this.enemy.loot.splice(index,1);
+        setTimeout(() => {
+          this.coins[index][3] = "collected";
 
-              if(this.enemy.loot.length<1){
-              this.nextDungeon();
-              }
-
-          },600);
-
+          setTimeout(() => {
+            this.player.goldInSack += this.coins[index][0];
+          }, 600);
+        }, Math.random() * 300 + 100);
       }
 
+      let index = this.enemy.loot.indexOf(bag);
+      this.enemy.loot.splice(index, 1);
+
+      if (this.enemy.loot.length < 1) {
+        setTimeout(() => {
+          this.nextDungeon();
+        }, 1000);
+      }
+
+      this.audio.openSmallMoneyBag();
+    }
   }
 
-  nextDungeon(){
-    
+  collectItem(item: Weapon) {
     this.hideInfo();
-    this.fighting=false;
 
-    if(this.elite){
+    if (item.code != undefined) {
+      if (this.player.loot.length < 8) {
+        if (!this.player.loot.includes(item)) {
+          this.player.loot.push(item);
+        }
+      }
 
-      this.dungeons.reFillElite(this.player.dungeon-12);
-      this.dungeons.dungeons[this.player.dungeon].completed=1;
-      this.player.subdungeon[this.player.dungeon]=0;
+      setTimeout(() => {
+        let index = this.enemy.loot.indexOf(item);
+        this.enemy.loot.splice(index, 1);
+
+        if (this.enemy.loot.length < 1) {
+          this.nextDungeon();
+        }
+      }, 600);
+    }
+  }
+
+  nextDungeon() {
+    this.hideInfo();
+    this.fighting = false;
+
+    if (this.elite) {
+      this.dungeons.reFillElite(this.player.dungeon - 12);
+      this.dungeons.dungeons[this.player.dungeon].completed = 1;
+      this.player.subdungeon[this.player.dungeon] = 0;
       this.audio.win();
       this.goBackToMap();
-    }else{
+    } else {
+      if (
+        this.player.subdungeon[this.player.dungeon] <
+        this.dungeons.dungeons[this.player.dungeon].monsters.length - 1
+      ) {
+        this.player.subdungeon[this.player.dungeon]++;
+        this.enemy = this.dungeons.dungeons[this.player.dungeon].monsters[
+          this.player.subdungeon[this.player.dungeon]
+        ];
 
-    if(this.player.subdungeon[this.player.dungeon]<this.dungeons.dungeons[this.player.dungeon].monsters.length-1){
-    this.player.subdungeon[this.player.dungeon]++;
-     this.enemy = this.dungeons.dungeons[this.player.dungeon].monsters[this.player.subdungeon[this.player.dungeon]];
-     if(this.player.subdungeon[this.player.dungeon]>this.dungeons.dungeons[this.player.dungeon].completed){
-      this.dungeons.dungeons[this.player.dungeon].completed++;
+        if (
+          this.player.subdungeon[this.player.dungeon] >
+          this.dungeons.dungeons[this.player.dungeon].completed
+        ) {
+          this.dungeons.dungeons[this.player.dungeon].completed++;
+        }
+      } else {
+        this.dungeons.reFillDungeon(this.player.dungeon);
+
+        if (this.player.missionOn[1] && !this.elite) {
+          if (
+            this.dungeons.dungeons[this.player.dungeon].label ==
+            this.missions.missions[1].name
+          ) {
+            this.missions.missions[1].done++;
+          }
+        }
+
+        if (
+          this.player.subdungeon[this.player.dungeon] ==
+          this.dungeons.dungeons[this.player.dungeon].completed
+        ) {
+          this.dungeons.dungeons[this.player.dungeon].completed++;
+          if (!this.dungeons.dungeons[this.player.dungeon + 1].open) {
+            this.player.subdungeon[this.player.dungeon + 1] = 0;
+            this.dungeons.dungeons[this.player.dungeon + 1].open = true;
+          }
+          this.dungeons.dungeons[this.player.dungeon].completed = 0;
+        }
+
+        this.player.subdungeon[this.player.dungeon] = 0;
+        this.player.dungeon++;
+        this.audio.win();
+        this.goBackToMap();
       }
     }
-    else{
-      
-      this.dungeons.reFillDungeon(this.player.dungeon);
-      if(this.player.subdungeon[this.player.dungeon]==this.dungeons.dungeons[this.player.dungeon].completed){
-        this.dungeons.dungeons[this.player.dungeon].completed++;
-        if(!this.dungeons.dungeons[this.player.dungeon+1].open){
-        this.player.subdungeon[this.player.dungeon+1]=0;
-        this.dungeons.dungeons[this.player.dungeon+1].open=true;
-        }
-        this.dungeons.dungeons[this.player.dungeon].completed = 0;
-        }
-  
-      this.player.subdungeon[this.player.dungeon]=0;
-      this.player.dungeon++;
-      this.audio.win();
-      this.goBackToMap();
-    }
-
   }
-  }
-
 
   //Status check
 
-  checkIfAlive = () => { return this.player.health>0 ? true: this.playerDead() }
+  checkIfAlive = () => {
+    return this.player.health > 0 ? true : this.playerDead();
+  };
 
-  levelUp = () => { this.playerLevelUp=true; setTimeout(()=>{ this.playerLevelUp = false; },3000*this.speed); }
+  levelUp = () => {
+    this.playerLevelUp = true;
+    setTimeout(() => {
+      this.playerLevelUp = false;
+    }, 3000 * this.speed);
+  };
 
-  showPlayerDamage(){
-    setTimeout(()=>{ this.playerDamage[this.playerDamage.length-1][1] = true; },10*this.speed);
-    setTimeout(()=>{this.playerDamage.shift(); },2350);
+  showPlayerDamage() {
+    setTimeout(() => {
+      this.playerDamage[this.playerDamage.length - 1][1] = true;
+    }, 10 * this.speed);
+    setTimeout(() => {
+      this.playerDamage.shift();
+    }, 2350);
   }
-  showEnemyDamage(){
-    setTimeout(()=>{ this.enemyDamage[this.enemyDamage.length-1][1] = true; },10*this.speed);
-    setTimeout(()=>{this.enemyDamage.shift(); },2350);
+  showEnemyDamage() {
+    setTimeout(() => {
+      this.enemyDamage[this.enemyDamage.length - 1][1] = true;
+    }, 10 * this.speed);
+    setTimeout(() => {
+      this.enemyDamage.shift();
+    }, 2350);
   }
-
-
 
   //Animations
 
-
   //Player Animations
 
-  playerDead(){
-
+  playerDead() {
     this.audio.playerIsDead();
     this.playerIsDead = true;
-    this.player.goldInSack=0;
+    this.player.goldInSack = 0;
 
-    this.player.subdungeon[this.player.dungeon]=0;
+    this.player.subdungeon[this.player.dungeon] = 0;
 
     this.player.loot = [];
 
-    setTimeout(()=>{
-    this.backHome();
-    this.player.health = 0;
-    this.healing = setInterval(()=>{
-      if(this.player.health>this.player.hitPoints/2 || this.player.location=="dfight"){
-        clearInterval(this.healing);
-      }     
-          this.player.health++;
-          if(this.player.health>this.player.hitPoints) this.player.health=this.player.hitPoints;
-    },400);
+    setTimeout(() => {
+      this.backHome();
+      this.player.health = 0;
+      this.healing = setInterval(() => {
+        if (
+          this.player.health > this.player.hitPoints / 2 ||
+          this.player.location == "dfight"
+        ) {
+          clearInterval(this.healing);
+        }
+        this.player.health++;
+        if (this.player.health > this.player.hitPoints)
+          this.player.health = this.player.hitPoints;
+      }, 400);
 
-    this.dungeons.reFillDungeon(this.player.dungeon);
-    },1500);
+      this.dungeons.reFillDungeon(this.player.dungeon);
+    }, 1500);
 
     return false;
-
   }
 
-  throwSword(){
+  throwSword() {
     this.playerAnimation = "back";
     this.swordAnimation = "throw";
     this.audio.throwSword();
   }
 
-  hitEnemy(dmg){
+  hitEnemy(dmg) {
     this.audio.enemyDamage();
     this.swordAnimation = "back";
     this.enemyState = "takeDamage";
 
-    this.enemy.health-=Math.round(dmg*this.DI);
-    if(this.player.weapon.perks=="fire" || this.player.weapon.perks=="darkness" || this.player.weapon.perks=="ice"){
-      this.enemy.health-=Math.round(dmg*this.DI*this.weaponMulti);
-      }
-    if(this.enemy.health<0) this.enemy.health=0;
-
+    this.enemy.health -= Math.round(dmg * this.DI);
+    if (
+      this.player.weapon.perks == "fire" ||
+      this.player.weapon.perks == "darkness" ||
+      this.player.weapon.perks == "ice"
+    ) {
+      this.enemy.health -= Math.round(dmg * this.DI * this.weaponMulti);
+    }
+    if (this.enemy.health < 0) this.enemy.health = 0;
   }
 
-  playerHurt(dmg){
+  playerHurt(dmg) {
+    this.enemyHit = false;
 
-    this.enemyHit=false;
-
-    this.playerDamage.push([Math.round(dmg*this.DI),false,'dmg']);
+    this.playerDamage.push([Math.round(dmg * this.DI), false, "dmg"]);
 
     this.showPlayerDamage();
-
   }
 
-//Enemy Animations
+  //Enemy Animations
 
-  enemyFireball(){
+  enemyFireball() {
     this.enemyState = "throwFireball";
     this.audio.throwFireball();
   }
 
-  enemyHitAnimation(dmg){
+  enemyHitAnimation(dmg) {
     this.enemyState = "back";
-    if(dmg!=0){
-      if(this.blocked){
-        this.audio.playBlock();  
+    if (dmg != 0) {
+      if (this.blocked) {
+        this.audio.playBlock();
       }
-      this.audio.takeDamage();  
-      this.enemyHit=true;
-    }
-    else{
-      this.audio.playBlock();  
-    }
-
-    this.player.health-=Math.round(dmg*this.DI);
-
-    if(this.player.health<0){
-      this.player.health=0;
+      this.audio.takeDamage();
+      this.enemyHit = true;
+    } else {
+      this.audio.playBlock();
     }
 
+    this.player.health -= Math.round(dmg * this.DI);
+
+    if (this.player.health < 0) {
+      this.player.health = 0;
+    }
   }
 
-  enemyHurt(dmg){
+  enemyHurt(dmg) {
     this.enemyState = "back";
-    this.enemyDamage.push([Math.round(dmg*this.DI),false,"normal"]);
+    this.enemyDamage.push([Math.round(dmg * this.DI), false, "normal"]);
 
-    setTimeout(()=>{
-
-    if(this.player.weapon.perks=="fire" || this.player.weapon.perks=="darkness" || this.player.weapon.perks=="ice"){
-    this.enemyDamage.push([Math.round(dmg*this.DI*this.weaponMulti),false,this.player.weapon.perks]);
-      this.showEnemyDamage();
-    }
-  
-    },500*this.speed);
+    setTimeout(() => {
+      if (
+        this.player.weapon.perks == "fire" ||
+        this.player.weapon.perks == "darkness" ||
+        this.player.weapon.perks == "ice"
+      ) {
+        this.enemyDamage.push([
+          Math.round(dmg * this.DI * this.weaponMulti),
+          false,
+          this.player.weapon.perks,
+        ]);
+        this.showEnemyDamage();
+      }
+    }, 500 * this.speed);
 
     this.showEnemyDamage();
-
   }
-
- 
-
 
   //bubble
 
   itemForInfo: any;
   showInfoBubble = false;
-  bubblePos = {x:180,y:180};
+  bubblePos = { x: 180, y: 180 };
 
-  showInfo(item){
-  
-      this.itemForInfo = item;
-      this.showInfoBubble=true;
-
+  showInfo(item) {
+    this.itemForInfo = item;
+    this.showInfoBubble = true;
   }
 
-  changePosition($event: MouseEvent){
-     this.bubblePos.x = $event.clientX;
-     this.bubblePos.y = $event.clientY;
+  changePosition($event: MouseEvent) {
+    this.bubblePos.x = $event.clientX;
+    this.bubblePos.y = $event.clientY;
   }
 
-  hideInfo(){
-    this.showInfoBubble=false;
+  hideInfo() {
+    this.showInfoBubble = false;
   }
-
-
-
-
 }
