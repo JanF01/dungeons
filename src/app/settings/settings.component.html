@@ -1,17 +1,12 @@
+<div class="panel" *ngIf="this.showSettings">
 
-
-
-   
-   <div class="panel" *ngIf="this.showSettings">
-      <div class="x" (click)="closeSet()" >
-          <img src="assets/close.png">
-      </div>  
-       <div class="sound"> 
-           <input class="slider" type="range" min="0" max="1" [value]="sound" step="0.01" (change)="sendValue($event)" data-slider-orientation="vertical">
-           <span>Sound</span>
-       </div>
-    </div>
-
-
-
-
+  <img class="bck" src="assets/background/alert.png">
+  <div class="x" (click)="closeSet()">
+    <img src="assets/close.png">
+  </div>
+  <div class="sound">
+    <input class="slider" type="range" min="0" max="1" [value]="sound" step="0.01" (change)="sendValue($event)"
+      data-slider-orientation="vertical">
+    <span>Sound</span>
+  </div>
+</div>

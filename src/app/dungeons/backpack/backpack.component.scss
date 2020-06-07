@@ -1,262 +1,314 @@
-@mixin flex(){
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-@mixin radius($r){
-    border-radius:$r;
-    -webkit-border-radius:$r;
-    -moz-border-radius:$r;
-    -ms-border-radius:$r;
+@mixin flex() {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-
-
-
-app-infobubble{
-    min-width:8em;
-    min-height:10em;
-    pointer-events: none;
-    position:absolute;
-    top:0;
-    left:0;
-    z-index:150;
+@mixin radius($r) {
+  border-radius: $r;
+  -webkit-border-radius: $r;
+  -moz-border-radius: $r;
+  -ms-border-radius: $r;
 }
 
 
-section{
-
-    min-height:100vh;
-    width:100%;
-    opacity:0;
-    transition:all 1s;
 
 
-    .bkg{
-        opacity:0.3;
-        width:100%;
-        height:100%;
-        position:absolute;
-        top:0;
-        left:0;
-        z-index:-5;
-    }
+app-infobubble,
+app-item-menu {
+  min-width: 8em;
+  min-height: 10em;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 150;
+}
+
+app-item-menu {
+  min-width: 13em;
+  min-height: 5em;
+  cursor: pointer;
+  pointer-events: all;
+  z-index: 150;
+}
 
 
-   .sell{
-    position:absolute;
-    top:45%;
-    left:1%;
+section {
+
+  min-height: 100vh;
+  width: 100%;
+  opacity: 0;
+  transition: all 1s;
+
+
+  .bkg {
+    opacity: 0.3;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -5;
+  }
+
+
+  .sell {
+    position: absolute;
+    top: 45%;
+    left: 1%;
     @include flex();
-    width:16%;
-    flex-direction:column;
-    img{
-        width:25%;
-        margin-top:2em;
+    width: 16%;
+    flex-direction: column;
+
+    img {
+      width: 25%;
+      margin-top: 2em;
     }
-    span{
-       font-size:1.8em;
-       color:white;
-       font-family:'Abel',sans-serif;
-       font-weight:bold;
-       letter-spacing:0.05em;
+
+    span {
+      font-size: 1.8em;
+      color: white;
+      font-family: 'Abel', sans-serif;
+      font-weight: bold;
+      letter-spacing: 0.05em;
 
     }
-   }
+  }
 
-.backpack{
-    position:absolute;
-    top:5%;
-    min-width:77%;
-    left:18%;
-    min-height:67vh;
-    padding:1% 0 2% 0;
-    display:flex;
-    flex-direction:column;
+  .backpack {
+    position: absolute;
+    top: 5%;
+    min-width: 77%;
+    left: 18%;
+    min-height: 67vh;
+    padding: 1% 0 2% 0;
+    display: flex;
+    flex-direction: column;
 
-   .potions,.items{
-    
-    @include flex();
-    min-width:100%;
+    .potions,
+    .items {
 
-    img{
-        width:7.1%;
-        margin:2%;
-    }
-    .spaces{
-       min-width:86%;
-       max-width:86%;
-       display:flex;
-       min-height:6.8em;
-       &::before{
+      @include flex();
+      min-width: 100%;
+
+      img {
+        width: 7.1%;
+        margin: 2%;
+      }
+
+      .spaces {
+        min-width: 86%;
+        max-width: 86%;
+        display: flex;
+        min-height: 6.8em;
+
+        &::before {
           content: "";
           background: url("../../../assets/background/skin.png");
           @include radius(0.6em);
-          background-size:100%;
+          background-size: 100%;
           opacity: 0.15;
           top: 0;
           left: 0;
           bottom: 0;
           right: 0;
           position: absolute;
-          z-index: -1;   
+          z-index: -1;
         }
-       .spot{
-           position:relative;
-           min-height:100%;
-           width: calc( 100% / 9 );
-           @include flex();
-           div{
-            width: calc( 100% / 9 - 0.4em );
-               width:100%;
-               min-height:100%;
-               position:absolute;
-               left:0;
-               top:0;
-               z-index:100;
-               background:radial-gradient(circle,#00000000,#000000a1 70%, #000000c9 90%);
-               border:solid rgba(0, 0, 0, 0.801) 0.2em;
-               border-right:none !important;
-           }
-           img{
-               z-index:130 !important;
-               width:3.8em;
-               height:3.8em;
-               transition:0.3s all;
-           }
-           &:hover{
-            img{
-            transform:scale(1.09);
-           }
-           cursor:grab;
-           }
-       }
+
+        .spot {
+          position: relative;
+          min-height: 100%;
+          width: calc(100% / 9);
+          @include flex();
+
+          div {
+            width: calc(100% / 9 - 0.4em);
+            width: 100%;
+            min-height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 100;
+            background: radial-gradient(circle, #00000000, #000000a1 70%, #000000c9 90%);
+            border: solid rgba(0, 0, 0, 0.801) 0.2em;
+            border-right: none !important;
+          }
+
+          img {
+            z-index: 130 !important;
+            width: 3.8em;
+            height: 3.8em;
+            transition: 0.3s all;
+          }
+
+          &:hover {
+            img {
+              transform: scale(1.09);
+            }
+
+            cursor:grab;
+          }
+        }
+      }
     }
- }
-   .items{
-       margin-top:5%;
-       margin-left:0.5%;
-       .spaces{
-        min-width:96%;
-        min-height:20.4em;
-       flex-wrap:wrap;
-       .spot{
-        height:6.8em;
-       }
-       }
 
-   }
+    .items {
+      margin-top: 5%;
+      margin-left: 0.5%;
 
+      .spaces {
+        min-width: 96%;
+        min-height: 20.4em;
+        flex-wrap: wrap;
 
+        .spot {
+          height: 6.8em;
+        }
+      }
 
-
-}
-
-}
-
-.normal{
-    background:radial-gradient(circle,#00000000,#000000a1 70%, #000000c9 90%) !important;
-    border:solid rgba(0, 0, 0, 0.801) 0.2em !important;
-}
-.legend{
-    background:radial-gradient(circle,#00000000,#a78f0aa1 70%, #a78f0ac9 90%) !important;
-    border:solid rgba(114, 107, 3, 0.801) 0.2em !important;
-}
-.artefact{
-    background:radial-gradient(circle,#00000000,#7a020298 70%, #7a0202be 90%) !important;
-    border:solid #63010181 0.2em !important;
-}
-
-.smallCrystal{
-    width:3em !important;
-    height:3em !important;
-}
-.bigCrystal{
-    width:3.5em !important;
-    height:3.5em !important;
-}
-
-
-
-.eq{
-
-    position:absolute;
-    bottom:2.5vh;
-    left:7.5%;
-    min-height:20vh;
-    min-width:80%;
-    @include flex();
-    div{
-        padding:1%;
-        width:6%;
-        margin-left:3%;
-    img{
-        width: 100%;
     }
-  
+
+
+
+
   }
-.user{
-    width:10%;
-}
+
 }
 
+.normal {
+  background: radial-gradient(circle, #00000000, #000000a1 70%, #000000c9 90%) !important;
+  border: solid rgba(0, 0, 0, 0.801) 0.2em !important;
+}
+
+.legend {
+  background: radial-gradient(circle, #00000000, #a78f0aa1 70%, #a78f0ac9 90%) !important;
+  border: solid rgba(114, 107, 3, 0.801) 0.2em !important;
+}
+
+.artefact {
+  background: radial-gradient(circle, #00000000, #7a020298 70%, #7a0202be 90%) !important;
+  border: solid #63010181 0.2em !important;
+}
+
+.revered {
+  background: radial-gradient(circle, #00000000, #027a0298 70%, #387c01be 90%) !important;
+  border: solid #0c610181 0.2em !important;
+}
+
+.holy {
+  background: radial-gradient(circle, #00000000, #0c77cf98 60%, #517affbe 90%) !important;
+  border: solid #014e6181 0.2em !important;
+}
+
+.smallCrystal {
+  width: 3em !important;
+  height: 3em !important;
+}
+
+.bigCrystal {
+  width: 3.5em !important;
+  height: 3.5em !important;
+}
 
 
-@media (min-width: 1200px){
-    section{
-    .backpack{
-        .potions,.items{
-    .spaces{
-        min-height:8em;
-        .spot{
-            img{
-         
-                width:4.4em;
-                height:4.4em;
+
+.eq {
+
+  position: absolute;
+  bottom: 2.5vh;
+  left: 7.5%;
+  min-height: 20vh;
+  min-width: 80%;
+  @include flex();
+
+  div {
+    padding: 1%;
+    width: 6%;
+    margin-left: 3%;
+
+    img {
+      width: 100%;
+    }
+
+  }
+
+  .user {
+    width: 10%;
+  }
+}
+
+
+
+@media (min-width: 1200px) {
+  section {
+    .backpack {
+
+      .potions,
+      .items {
+        .spaces {
+          min-height: 8em;
+
+          .spot {
+            img {
+
+              width: 4.4em;
+              height: 4.4em;
             }
+          }
         }
-    }
-}
-.items{
-    .spaces{
-        min-height:24em;
-        .spot{
-            height:8em;
+      }
+
+      .items {
+        .spaces {
+          min-height: 24em;
+
+          .spot {
+            height: 8em;
+          }
         }
+      }
     }
+  }
+
+  .eq {
+    left: 10%;
+  }
 }
-}
-    }
-    .eq{
-        left:10%;
-    }
-}
-@media (min-width: 1550px){
-    section{
-    .backpack{
-        .potions,.items{
-    .spaces{
-        min-height:9.7em;
-        .spot{
-            img{
-           
-                width:5.2em;
-                height:5.2em;
+
+@media (min-width: 1550px) {
+  section {
+    .backpack {
+
+      .potions,
+      .items {
+        .spaces {
+          min-height: 9.7em;
+
+          .spot {
+            img {
+
+              width: 5.2em;
+              height: 5.2em;
             }
+          }
         }
-    }
-   }
-   .items{
-    .spaces{
-        min-height:29.1em;
-        .spot{
-            height:9.7em;
+      }
+
+      .items {
+        .spaces {
+          min-height: 29.1em;
+
+          .spot {
+            height: 9.7em;
+          }
         }
+      }
     }
-}
-}
-    }
-    .eq{
-        left:14%;
-    }
+  }
+
+  .eq {
+    left: 14%;
+  }
 }

@@ -1,52 +1,66 @@
-<section id="backpack">
+<section id="backpack" (click)="appearMenu=false">
 
-<app-left-nav [gold]="player.gold" (click)="backHome()" [place]="backpack"></app-left-nav>
+  <app-left-nav [gold]="player.gold" (click)="backHome()" [place]="backpack"></app-left-nav>
 
-<div id="sell" class="sell"><span>SELL</span><img src="assets/coinsDrop.png"></div>
+  <div id="sell" class="sell"><span>SELL</span><img src="assets/coinsDrop.png"></div>
 
 
-    <div class="backpack">
-        <div class="potions">
-        <img src="assets/backpack.png">
-        <div class="spaces">
-            <div *ngFor="let i of [0,1,2,3,4,5,6,7,8]" class="spot" (mouseenter)="showInfo(player.potions[i])" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()" cdkDrag (cdkDragStarted)="grab(i)" (cdkDragEnded)="dropItem(i)" [cdkDragFreeDragPosition]="arrayItemsPos[i]">
-                <div></div>
-                <img *ngIf="player.potions[i]!=undefined" src="{{player.potions[i].graphic.src}}">
-            </div>
+  <div class="backpack">
+    <div class="potions">
+      <img src="assets/backpack.png">
+      <div class="spaces">
+        <div *ngFor="let i of [0,1,2,3,4,5,6,7,8]" class="spot" (mouseenter)="showInfo(player.potions[i])"
+          (mousemove)="changePosition($event)" (mouseleave)="hideInfo()" cdkDrag (cdkDragStarted)="grab(i)"
+          (cdkDragEnded)="dropItem(i)" [cdkDragFreeDragPosition]="arrayItemsPos[i]">
+          <div></div>
+          <img *ngIf="player.potions[i]!=undefined" src="{{player.potions[i].graphic.src}}">
         </div>
+      </div>
     </div>
     <div class="items">
-        <div class="spaces">
-            <div *ngFor="let i of arrayForItems" class="spot" (contextmenu)="preventRightClick($event)" (mouseenter)="showInfo(player.items[i])" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()" cdkDrag (cdkDragStarted)="grab(i+9)" (cdkDragEnded)="dropItem(i+9)" [cdkDragFreeDragPosition]="arrayItemsPos[i+9]">
-                <div class="{{player.items[i]==undefined?'normal':player.items[i].type}}"></div>
-                <img *ngIf="player.items[i]!=undefined" src="{{player.items[i].graphic}}" [ngClass]="{'smallCrystal':player.items[i].amp!=undefined && player.items[i].type=='normal', 'bigCrystal':player.items[i].amp!=undefined && player.items[i].type=='legend'}">
-            </div>
+      <div class="spaces">
+        <div *ngFor="let i of arrayForItems" class="spot" (contextmenu)="showMenu($event, i, player.items[i])"
+          (mouseenter)="showInfo(player.items[i])" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()"
+          cdkDrag (cdkDragStarted)="grab(i+9)" (cdkDragEnded)="dropItem(i+9)"
+          [cdkDragFreeDragPosition]="arrayItemsPos[i+9]">
+          <div class="{{player.items[i]==undefined?'normal':player.items[i].type}}"></div>
+          <img *ngIf="player.items[i]!=undefined" src="{{player.items[i].graphic}}"
+            [ngClass]="{'smallCrystal':player.items[i].amp!=undefined && player.items[i].type=='normal', 'bigCrystal':player.items[i].amp!=undefined && player.items[i].type=='legend'}">
         </div>
+      </div>
     </div>
-    </div>
+  </div>
 
-    <img src="assets/background/shop.jpg" class="bkg">
+  <img src="assets/background/shop.jpg" class="bkg">
 
-    <div class="eq">
-        <div id="weapon" class="{{player.weapon.type}}">
-        <img src="{{player.weapon.graphic}}" (mouseenter)="showInfo(player.weapon)" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()">
-        </div>
-        <div id="armor" class="{{player.armor.type}}">
-        <img id="armor" src="{{player.armor.graphic}}" (mouseenter)="showInfo(player.armor)" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()">
-        </div>
-        <div class="user" >
-        <img src="{{player.graphic}}">
-        </div>
-        <div id="necklace" class="{{player.necklace.type}}">
-        <img id="necklace" src="{{player.necklace.graphic}}" (mouseenter)="showInfo(player.necklace)" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()">
-        </div>
-        <div id="ring" class="{{player.ring.type}}">
-        <img id="ring" src="{{player.ring.graphic}}" (mouseenter)="showInfo(player.ring)" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()">
-        </div>
+  <div class="eq">
+    <div id="weapon" class="{{player.weapon.type}}" (mouseenter)="showInfo(player.weapon)"
+      (mousemove)="changePosition($event)" (mouseleave)="hideInfo()" (contextmenu)="showMenu($event,-1,player.weapon)">
+      <img src=" {{player.weapon.graphic}}" draggable="false">
     </div>
+    <div id="armor" class="{{player.armor.type}}" (mouseenter)="showInfo(player.armor)"
+      (mousemove)="changePosition($event)" (mouseleave)="hideInfo()" (contextmenu)="showMenu($event,-1,player.armor)">
+      <img id=" armor" src="{{player.armor.graphic}}" draggable="false">
+    </div>
+    <div class="user">
+      <img src="{{player.graphic}}" draggable="false">
+    </div>
+    <div id="necklace" class="{{player.necklace.type}}" (mouseenter)="showInfo(player.necklace)"
+      (mousemove)="changePosition($event)" (mouseleave)="hideInfo()"
+      (contextmenu)="showMenu($event,-1,player.necklace)">
+      <img id=" necklace" src="{{player.necklace.graphic}}" draggable="false">
+    </div>
+    <div id="ring" class="{{player.ring.type}}" (mouseenter)="showInfo(player.ring)"
+      (mousemove)="changePosition($event)" (mouseleave)="hideInfo()" (contextmenu)="showMenu($event,-1,player.ring)">
+      <img id=" ring" src="{{player.ring.graphic}}" draggable="false">
+    </div>
+  </div>
 
 </section>
 
-<app-infobubble [user]="player" [item]="itemForInfo" *ngIf="showInfoBubble" [ngStyle]="{left: ''+ bubblePos.x + 'px' ,top: ''+bubblePos.y + 'px'}"></app-infobubble>
-    
+<app-infobubble *ngIf="showInfoBubble" [user]="player" [item]="itemForInfo"
+  [ngStyle]="{left: ''+ bubblePos.x + 'px' ,top: ''+bubblePos.y + 'px'}"></app-infobubble>
 
+<app-item-menu *ngIf="appearMenu" [option]="menuOption"
+  [ngStyle]="{left: ''+ bubblePos.x + 'px' ,top: 'calc( '+bubblePos.y + 'px - 5em)'}" (clicked)="itemEvent($event)">
+</app-item-menu>

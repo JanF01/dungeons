@@ -1,259 +1,299 @@
-
-@mixin flex(){
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-@mixin radius($r){
-     border-radius:$r;
-     -ms-border-radius:$r;
-     -moz-border-radius:$r;
-     -webkit-border-radius:$r
+@mixin flex() {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-
-
-app-infobubble{
-    min-width:8em;
-    min-height:10em;
-    pointer-events: none;
-    position:absolute;
-    top:0;
-    left:0;
-    z-index:150;
+@mixin radius($r) {
+  border-radius: $r;
+  -ms-border-radius: $r;
+  -moz-border-radius: $r;
+  -webkit-border-radius: $r
 }
 
-.backpack{
-    position:absolute;
-    top:7%;
-    min-width:77%;
-    left:18%;
-    min-height:43vh;
-    padding:1% 0 2% 0;
-    display:flex;
-    flex-direction:column;
 
-   .potions,.items{
-    
+
+app-infobubble {
+  min-width: 8em;
+  min-height: 10em;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 150;
+}
+
+.backpack {
+  position: absolute;
+  top: 7%;
+  min-width: 77%;
+  left: 18%;
+  min-height: 43vh;
+  padding: 1% 0 2% 0;
+  display: flex;
+  flex-direction: column;
+
+  .potions,
+  .items {
+
     @include flex();
-    min-width:100%;
+    min-width: 100%;
 
-    img{
-        width:7.1%;
-        margin:2%;
+    img {
+      width: 7.1%;
+      margin: 2%;
     }
-    .spaces{
-       min-width:86%;
-       display:flex;
-       min-height:6.8em;
-       &::before{
-          content: "";
-          background: url("../../../../assets/background/skinArmory.png");
-          @include radius(0.6em);
-          background-size:100%;
-          opacity: 0.15;
-          top: 0;
-          left: 0;
-          bottom: 0;
-          right: 0;
+
+    .spaces {
+      min-width: 86%;
+      display: flex;
+      min-height: 6.8em;
+
+      &::before {
+        content: "";
+        background: url("../../../../assets/background/skinArmory.png");
+        @include radius(0.6em);
+        background-size: 100%;
+        opacity: 0.15;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        position: absolute;
+
+      }
+
+      .spot {
+        position: relative;
+        min-height: 100%;
+        width: calc(100% / 9);
+        @include flex();
+
+        div {
+          width: calc(100% / 9 - 0.4em);
+          width: 100%;
+          min-height: 100%;
           position: absolute;
-  
+          left: 0;
+          top: 0;
+          z-index: 100;
+          background: radial-gradient(circle, #00000000, #000000a1 70%, #000000c9 90%);
+          border: solid rgba(0, 0, 0, 0.801) 0.2em;
+          border-right: none;
         }
-       .spot{
-           position:relative;
-           min-height:100%;
-           width: calc( 100% / 9 );
-           @include flex();
-           div{
-            width: calc( 100% / 9 - 0.4em );
-               width:100%;
-               min-height:100%;
-               position:absolute;
-               left:0;
-               top:0;
-               z-index:100;
-               background:radial-gradient(circle,#00000000,#000000a1 70%, #000000c9 90%);
-               border:solid rgba(0, 0, 0, 0.801) 0.2em;
-               border-right:none;
-           }
-           img{
-               z-index:130 !important;
-               width:3.8em;
-               height:3.8em;
-               transition:0.3s all;
-           }
-           &:hover{
-            img{
-            transform:scale(1.09);
-           }
-           cursor:grab;
-           }
-       }
+
+        img {
+          z-index: 130 !important;
+          width: 3.8em;
+          height: 3.8em;
+          transition: 0.3s all;
+        }
+
+        &:hover {
+          img {
+            transform: scale(1.09);
+          }
+
+          cursor:grab;
+        }
+      }
     }
- }
-   .items{
-       margin-top:0;
-       margin-left:0.5%;
-       .spaces{
-        min-width:96%;
-        min-height:20.4em;
-       flex-wrap:wrap;
-       .spot{
-        height:6.8em;
-       }
-       }
-
-   }
-
-
-
-
-}
-
-
-.smallCrystal{
-    width:3em !important;
-    height:3em !important;
-}
-.bigCrystal{
-    width:3.5em !important;
-    height:3.5em !important;
-}
-
-
-
-.eq{
-
-    position:absolute;
-    bottom:2.5vh;
-    left:7.5%;
-    min-height:20vh;
-    min-width:80%;
-    @include flex();
-    div{
-        padding:1%;
-        width:6%;
-        margin-left:3%;
-    img{
-        width: 100%;
-    }
-  
   }
-.user{
-    width:10%;
+
+  .items {
+    margin-top: 0;
+    margin-left: 0.5%;
+
+    .spaces {
+      min-width: 96%;
+      min-height: 20.4em;
+      flex-wrap: wrap;
+
+      .spot {
+        height: 6.8em;
+      }
+    }
+
+  }
+
+
+
+
 }
+
+
+.smallCrystal {
+  width: 3em !important;
+  height: 3em !important;
+}
+
+.bigCrystal {
+  width: 3.5em !important;
+  height: 3.5em !important;
 }
 
 
 
-.anvil{
-    position:absolute;
-    top:67vh;
-    width:50%;
-    left:32%;
-    font-family:'Abel',sans-serif;
+.eq {
+
+  position: absolute;
+  bottom: 2.5vh;
+  left: 7.5%;
+  min-height: 20vh;
+  min-width: 80%;
+  @include flex();
+
+  div {
+    padding: 1%;
+    width: 6%;
+    margin-left: 3%;
+
+    img {
+      width: 100%;
+    }
+
+  }
+
+  .user {
+    width: 10%;
+  }
+}
+
+
+
+.anvil {
+  position: absolute;
+  top: 67vh;
+  width: 50%;
+  left: 32%;
+  font-family: 'Abel', sans-serif;
+  @include flex();
+  color: white;
+
+  span {
+    font-size: 5em;
+    font-weight: bold;
+    margin: 0 6.5% 0 6.5%;
+  }
+
+  .item {
+    min-width: 11em;
+    min-height: 11em;
+    background: radial-gradient(circle, #00000000, #000000a1 70%, #000000c9 90%);
     @include flex();
-    color:white;
 
-    span{
-   font-size:5em;
-   font-weight:bold;
-   margin:0 6.5% 0 6.5%;
+    img {
+      width: 7em;
+      height: 7em;
+      opacity: 0.6;
     }
-    .item{
-        min-width:11em;
-        min-height:11em;
-        background:radial-gradient(circle,#00000000,#000000a1 70%, #000000c9 90%);
-        @include flex();
-        img{
-          width:7em;
-          height:7em;
-          opacity:0.6;
-        }
+  }
+
+  .gem {
+    min-width: 11em;
+    min-height: 11em;
+    background: radial-gradient(circle, #00000000, #000000a1 70%, #000000c9 90%);
+    @include flex();
+
+    img {
+      width: 40%;
+      height: 40%;
+      opacity: 0.6;
     }
-    .gem{
-        min-width:11em;
-        min-height:11em;
-        background:radial-gradient(circle,#00000000,#000000a1 70%, #000000c9 90%);
-        @include flex();
-     img{
-            width:40%;
-            height:40%;
-            opacity:0.6;
-        }
-    }
+  }
 }
 
-.normal{
-    background:radial-gradient(circle,#00000000,#000000a1 70%, #000000c9 90%) !important;
-    border:solid rgba(0, 0, 0, 0.801) 0.2em !important;
+.normal {
+  background: radial-gradient(circle, #00000000, #000000a1 70%, #000000c9 90%) !important;
+  border: solid rgba(0, 0, 0, 0.801) 0.2em !important;
 }
-.legend{
-    background:radial-gradient(circle,#00000000,#a78f0aa1 70%, #a78f0ac9 90%) !important;
-    border:solid rgba(114, 107, 3, 0.801) 0.2em !important;
+
+.legend {
+  background: radial-gradient(circle, #00000000, #a78f0aa1 70%, #a78f0ac9 90%) !important;
+  border: solid rgba(114, 107, 3, 0.801) 0.2em !important;
 }
-.artefact{
-    background:radial-gradient(circle,#00000000,#7a020298 70%, #7a0202be 90%) !important;
-    border:solid #63010181 0.2em !important;
+
+.artefact {
+  background: radial-gradient(circle, #00000000, #7a020298 70%, #7a0202be 90%) !important;
+  border: solid #63010181 0.2em !important;
+}
+
+.revered {
+  background: radial-gradient(circle, #00000000, #027a0298 70%, #387c01be 90%) !important;
+  border: solid #0c610181 0.2em !important;
+}
+
+.holy {
+  background: radial-gradient(circle, #00000000, #0c77cf98 60%, #517affbe 90%) !important;
+  border: solid #014e6181 0.2em !important;
 }
 
 
 
-@media (min-width: 1200px){
-    section{
-    .backpack{
-        .items{
-    .spaces{
-        min-height:8em;
-        .spot{
-            img{
-         
-                width:4.4em;
-                height:4.4em;
+@media (min-width: 1200px) {
+  section {
+    .backpack {
+      .items {
+        .spaces {
+          min-height: 8em;
+
+          .spot {
+            img {
+
+              width: 4.4em;
+              height: 4.4em;
             }
+          }
         }
-    }
-}
-.items{
-    .spaces{
-        min-height:24em;
-        .spot{
-            height:8em;
+      }
+
+      .items {
+        .spaces {
+          min-height: 24em;
+
+          .spot {
+            height: 8em;
+          }
         }
+      }
     }
+  }
+
+  .eq {
+    left: 10%;
+  }
 }
-}
-    }
-    .eq{
-        left:10%;
-    }
-}
-@media (min-width: 1550px){
-    section{
-    .backpack{
-        .items{
-    .spaces{
-        min-height:9.7em;
-        .spot{
-            img{
-           
-                width:5.2em;
-                height:5.2em;
+
+@media (min-width: 1550px) {
+  section {
+    .backpack {
+      .items {
+        .spaces {
+          min-height: 9.7em;
+
+          .spot {
+            img {
+
+              width: 5.2em;
+              height: 5.2em;
             }
+          }
         }
-    }
-   }
-   .items{
-    .spaces{
-        min-height:29.1em;
-        .spot{
-            height:9.7em;
+      }
+
+      .items {
+        .spaces {
+          min-height: 29.1em;
+
+          .spot {
+            height: 9.7em;
+          }
         }
+      }
     }
-}
-}
-    }
-    .eq{
-        left:14%;
-    }
+  }
+
+  .eq {
+    left: 14%;
+  }
 }

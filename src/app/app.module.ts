@@ -25,6 +25,7 @@ import { BlacksmithComponent } from './dungeons/village/blacksmith/blacksmith.co
 import { ArmoryComponent } from './dungeons/village/armory/armory.component';
 import { MissionsComponent } from './dungeons/village/missions/missions.component';
 import { AlertComponent } from './dungeons/alert/alert.component';
+import { ItemMenuComponent } from './dungeons/item-menu/item-menu.component';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { AlertComponent } from './dungeons/alert/alert.component';
     BlacksmithComponent,
     ArmoryComponent,
     MissionsComponent,
-    AlertComponent
+    AlertComponent,
+    ItemMenuComponent
   ],
   imports: [
     BrowserModule,

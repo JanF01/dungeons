@@ -59,14 +59,14 @@ export class DungeonsComponent implements OnInit {
       damage: 21,
       hitPoints: 956,
       health: 956,
-      stamina: 2000,
-      staminaLeft: 2000,
+      stamina: 200032,
+      staminaLeft: 200032,
       speed: 3,
       speedBuildUp: 0,
       luck: 0,
       location: "home",
       dungeon: 0,
-      subdungeon: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      subdungeon: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       goldInSack: 0,
       graphic: "assets/knight1.png",
       weapon: new Weapon(
@@ -78,7 +78,7 @@ export class DungeonsComponent implements OnInit {
         15,
         3.5,
         4.5,
-        100
+        0
       ),
       armor: new Armor(
         "normal",
@@ -116,15 +116,49 @@ export class DungeonsComponent implements OnInit {
       ],
       items: [
         new Weapon(
-          "artefact",
+          "revered",
           "Dagger",
           "assets/weapon/swordDev.png",
           "#00A54",
-          "fire",
+          "fireicedarkness",
           15,
           3500,
           4500,
           100
+        ),
+        new Armor(
+          "holy",
+          "Fricking Holy Armor",
+          "assets/armor/2_1.png",
+          "#00B19",
+          "none",
+          673345,
+          39054,
+          50,
+          100
+        ),
+        new Armor(
+          "holy",
+          "Fricking Holy Armor",
+          "assets/armor/2_1.png",
+          "#00B19",
+          "none",
+          673345,
+          39054,
+          50,
+          100
+        ),
+        new Crystal(
+          "artefact",
+          "Life's Crystal",
+          "assets/crystal/artefact_hp.png",
+          "#00E84",
+          "none",
+          Math.round(2 * 2 * 0.6),
+          "hp",
+          Math.round(Math.random() * 20 + 25) / 100,
+          Math.random() * 30 - 15,
+          "artefact"
         ),
       ],
       itemsOnHold: [],
@@ -264,12 +298,9 @@ export class DungeonsComponent implements OnInit {
   }
   getElites() {
     let elites = new Array();
-    elites.push(this.dungeons.dungeons[12]);
-    elites.push(this.dungeons.dungeons[13]);
-    elites.push(this.dungeons.dungeons[14]);
-    elites.push(this.dungeons.dungeons[15]);
-    elites.push(this.dungeons.dungeons[16]);
-    elites.push(this.dungeons.dungeons[17]);
+    for (let i = 12; i < 19; i++) {
+      elites.push(this.dungeons.dungeons[i]);
+    }
     return elites;
   }
 
@@ -345,11 +376,15 @@ export class DungeonsComponent implements OnInit {
 
       if (this.dungeons.dungeons[lvl - 1].open) {
         if (this.player.staminaLeft >= staminaRequired) {
-          this.player.staminaLeft -= staminaRequired;
-          this.player.location = "dfight";
-          setTimeout(() => {
-            this.cave.fight(lvl, elite);
-          }, 100);
+          if (this.player.weapon.state > 0 && this.player.armor.state > 0) {
+            this.player.staminaLeft -= staminaRequired;
+            this.player.location = "dfight";
+            setTimeout(() => {
+              this.cave.fight(lvl, elite);
+            }, 100);
+          } else {
+            this.alertOut("Your Weapon or your Armor isn't in good shape");
+          }
         } else {
           this.alertOut("You are too exhausted");
         }

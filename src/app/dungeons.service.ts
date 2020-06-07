@@ -185,7 +185,7 @@ export class DungeonsService {
             "Ork",
             this.getDamage(3, 19),
             18,
-            this.createLoot(3, 21, 25, true)
+            this.createLoot(3, 21, 23, true)
           ),
         ],
         0,
@@ -204,7 +204,7 @@ export class DungeonsService {
             "Giant",
             this.getDamage(4, 21),
             25,
-            this.createLoot(4, 21, 34, true)
+            this.createLoot(4, 21, 28, true)
           ),
         ],
         0,
@@ -223,7 +223,7 @@ export class DungeonsService {
             "Cerberus",
             this.getDamage(5, 17),
             29,
-            this.createLoot(5, 11, 39, true)
+            this.createLoot(5, 11, 31, true)
           ),
         ],
         0,
@@ -240,9 +240,9 @@ export class DungeonsService {
             "assets/elite/snake.png",
             49834,
             "Severus Snake",
-            this.getDamage(6, 11),
+            this.getDamage(6, 13),
             33,
-            this.createLoot(6, 13, 44, true)
+            this.createLoot(6, 13, 38, true)
           ),
         ],
         0,
@@ -259,9 +259,28 @@ export class DungeonsService {
             "assets/elite/dragon.png",
             68834,
             "Dragonito Reclito",
-            this.getDamage(6, 23),
+            this.getDamage(6, 24),
             41,
-            this.createLoot(7, 19, 56, true)
+            this.createLoot(7, 19, 45, true)
+          ),
+        ],
+        0,
+        false,
+        1
+      )
+    );
+    this.dungeons.push(
+      new Dungeon(
+        "Hell",
+        "assets/elite/death_icon.png",
+        [
+          new Enemy(
+            "assets/elite/death.png",
+            86834,
+            "Red Death",
+            this.getDamage(7, 21),
+            51,
+            this.createLoot(8, 18, 56, true)
           ),
         ],
         0,
@@ -294,7 +313,8 @@ export class DungeonsService {
     dungeon: number,
     subdungeon: number,
     level: number,
-    elite: boolean = false
+    elite: boolean = false,
+    boss: boolean = false
   ) {
     let amount = Math.round(Math.random() * subdungeon * dungeon) + 1;
     if (amount < 2) {
@@ -331,18 +351,24 @@ export class DungeonsService {
 
     let itemChance = Math.random();
 
-    elite ? (this.chance = 3) : (this.chance = 1);
+    elite
+      ? (this.chance = 3)
+      : boss
+      ? (this.chance = 2.2)
+      : (this.chance = 0.5);
 
     if (itemChance < 0.29 * this.chance) {
-      loot.push(this.itemDrop(itemChance, dungeon, subdungeon, level));
+      loot.push(
+        this.itemDrop(itemChance, dungeon, subdungeon, level, this.chance)
+      );
     }
 
-    this.chance = 1;
+    this.chance = 0.5;
 
     return loot;
   }
 
-  itemDrop(IC, d, s, lvl) {
+  itemDrop(IC, d, s, lvl, chance) {
     var item;
 
     let r = Math.round((Math.random() * lvl) / 2) + 1 + d * 3;
@@ -354,7 +380,7 @@ export class DungeonsService {
       a = "1_";
     }
 
-    if (IC > 0.288 * this.chance) {
+    if (IC > 0.288 * chance) {
       item = new Crystal(
         "artefact",
         "Sonic's Crystal",
@@ -367,7 +393,7 @@ export class DungeonsService {
         Math.random() * 30 - 15,
         "artefact"
       );
-    } else if (IC > 0.286 * this.chance) {
+    } else if (IC > 0.286 * chance) {
       item = new Crystal(
         "artefact",
         "Rain of Experience",
@@ -380,7 +406,7 @@ export class DungeonsService {
         Math.random() * 30 - 15,
         "artefact"
       );
-    } else if (IC > 0.284 * this.chance) {
+    } else if (IC > 0.284 * chance) {
       item = new Crystal(
         "artefact",
         "Crystal of Destruction",
@@ -393,7 +419,7 @@ export class DungeonsService {
         Math.random() * 30 - 15,
         "artefact"
       );
-    } else if (IC > 0.282 * this.chance) {
+    } else if (IC > 0.282 * chance) {
       item = new Crystal(
         "artefact",
         "Life's Crystal",
@@ -406,7 +432,7 @@ export class DungeonsService {
         Math.random() * 30 - 15,
         "artefact"
       );
-    } else if (IC > 0.278 * this.chance) {
+    } else if (IC > 0.278 * chance) {
       item = new Crystal(
         "legend",
         "Velocity Crystal",
@@ -419,7 +445,7 @@ export class DungeonsService {
         Math.random() * 30 - 15,
         "legend"
       );
-    } else if (IC > 0.274 * this.chance) {
+    } else if (IC > 0.274 * chance) {
       item = new Crystal(
         "legend",
         "Experience Multiplier",
@@ -432,7 +458,7 @@ export class DungeonsService {
         Math.random() * 30 - 15,
         "legend"
       );
-    } else if (IC > 0.27 * this.chance) {
+    } else if (IC > 0.27 * chance) {
       item = new Crystal(
         "legend",
         "Power Crystal",
@@ -445,7 +471,7 @@ export class DungeonsService {
         Math.random() * 30 - 15,
         "legend"
       );
-    } else if (IC > 0.266 * this.chance) {
+    } else if (IC > 0.266 * chance) {
       item = new Crystal(
         "legend",
         "Health Stream",
@@ -458,7 +484,7 @@ export class DungeonsService {
         Math.random() * 30 - 15,
         "legend"
       );
-    } else if (IC > 0.259 * this.chance) {
+    } else if (IC > 0.259 * chance) {
       item = new Crystal(
         "normal",
         "Speed Gem",
@@ -471,7 +497,7 @@ export class DungeonsService {
         Math.random() * 30 - 15,
         "normal"
       );
-    } else if (IC > 0.252 * this.chance) {
+    } else if (IC > 0.252 * chance) {
       item = new Crystal(
         "normal",
         "Crystal Of Experience",
@@ -484,7 +510,7 @@ export class DungeonsService {
         Math.random() * 30 - 15,
         "normal"
       );
-    } else if (IC > 0.245 * this.chance) {
+    } else if (IC > 0.245 * chance) {
       item = new Crystal(
         "normal",
         "Damage Crystal",
@@ -497,7 +523,7 @@ export class DungeonsService {
         Math.random() * 30 - 15,
         "normal"
       );
-    } else if (IC > 0.238 * this.chance) {
+    } else if (IC > 0.238 * chance) {
       item = new Crystal(
         "normal",
         "Endurance Gem",
@@ -510,21 +536,131 @@ export class DungeonsService {
         Math.random() * 30 - 15,
         "normal"
       );
-    } else if (IC > 0.14 * this.chance) {
-      item = new Weapon(
-        "normal",
-        "A Fricking Sword",
-        "assets/weapon/" + w + "1.png",
-        "#00A11",
-        "none",
-        Math.round(lvl * lvl * 0.4),
-        Math.round(lvl * 12) / 10 + r,
-        Math.round(lvl * 12) / 10 + r + Math.round(lvl / 4.5),
-        100,
-        Math.random() * 30 - 15,
-        "normal"
-      );
-    } else if (IC > 0.09 * this.chance) {
+    } else if (IC > 0.13 * chance) {
+      if (chance == 3 && IC > 0.233 * chance) {
+        item = new Weapon(
+          "revered",
+          "The Sword of Napoleon",
+          "assets/weapon/" + w + "2.png",
+          "#00A82",
+          "darknessice",
+          Math.round(lvl * lvl * 1.2),
+          Math.round(lvl * 16.5) / 10 + r,
+          Math.round(lvl * 16.5) / 10 + r + Math.round(lvl / 2.5) + lvl,
+          100,
+          Math.random() * 30 - 15,
+          "revered"
+        );
+      } else if (chance == 3 && IC > 0.228 * chance) {
+        item = new Armor(
+          "revered",
+          "The Armor of Napoleon",
+          "assets/armor/" + w + "2.png",
+          "#00A42",
+          "none",
+          Math.round(lvl * lvl),
+          Math.round(lvl * lvl * 1.2) + r + 70,
+          15 + Math.round(Math.random() * 20),
+          100,
+          Math.random() * 30 - 15,
+          "revered"
+        );
+      } else if (chance == 3 && IC > 0.225 * chance) {
+        item = new Weapon(
+          "holy",
+          "The Needle of Ascension",
+          "assets/weapon/" + w + "3.png",
+          "#00A72",
+          "fireicedarkness",
+          Math.round(lvl * lvl * 1.2),
+          Math.round(lvl * 16.5) / 10 + r,
+          Math.round(lvl * 16.5) / 10 + r + Math.round(lvl / 2.4) + lvl,
+          100,
+          Math.random() * 30 - 15,
+          "holy"
+        );
+      } else if (chance == 3 && IC > 0.222 * chance) {
+        item = new Armor(
+          "holy",
+          "Armor of Zeus",
+          "assets/armor/" + w + "3.png",
+          "#00A72",
+          "fireicedarkness",
+          Math.round(lvl * lvl * 1.2),
+          Math.round(lvl * lvl * 1.3) + r + 70,
+          17 + Math.round(Math.random() * 22),
+          100,
+          Math.random() * 30 - 15,
+          "holy"
+        );
+      } else if (chance == 3 && IC > 0.22 * chance) {
+        item = new Necklace(
+          "revered",
+          "Necklace of Poseidon",
+          "assets/necklace/1_2.png",
+          "#00C32",
+          "fireice",
+          Math.round(lvl * lvl * 1.4),
+          lvl * 11,
+          Math.round(Math.random() * 2 + 19) / 100,
+          Math.random() * 30 - 15,
+          "revered"
+        );
+      } else if (chance == 3 && IC > 0.218 * chance) {
+        item = new Ring(
+          "revered",
+          "Ring of Persefona",
+          "assets/ring/1_2.png",
+          "#00D21",
+          "darknessice",
+          Math.round(lvl * lvl * 1.4),
+          lvl * 11,
+          Math.round(Math.random() * 30 + 150) / 100,
+          Math.random() * 30 - 15,
+          "revered"
+        );
+      } else if (chance == 3 && IC > 0.217 * chance) {
+        item = new Ring(
+          "holy",
+          "End Ring",
+          "assets/ring/1_2.png",
+          "#00D51",
+          "fireicedarkness",
+          Math.round(lvl * lvl * 1.5),
+          lvl * 14,
+          Math.round(Math.random() * 40 + 160) / 100,
+          Math.random() * 30 - 15,
+          "holy"
+        );
+      } else if (chance == 3 && IC > 0.216 * chance) {
+        item = new Necklace(
+          "holy",
+          "End Necklace",
+          "assets/necklace/1_2.png",
+          "#00C42",
+          "fireice",
+          Math.round(lvl * lvl * 1.5),
+          lvl * 14,
+          Math.round(Math.random() * 3 + 20) / 100,
+          Math.random() * 30 - 15,
+          "holy"
+        );
+      } else {
+        item = new Weapon(
+          "normal",
+          "A Fricking Sword",
+          "assets/weapon/" + w + "1.png",
+          "#00A11",
+          "none",
+          Math.round(lvl * lvl * 0.4),
+          Math.round(lvl * 12) / 10 + r,
+          Math.round(lvl * 12) / 10 + r + Math.round(lvl / 4.5),
+          100,
+          Math.random() * 30 - 15,
+          "normal"
+        );
+      }
+    } else if (IC > 0.08 * chance) {
       item = new Armor(
         "normal",
         "Shield Yourself",
@@ -538,7 +674,7 @@ export class DungeonsService {
         Math.random() * 30 - 15,
         "normal"
       );
-    } else if (IC > 0.07 * this.chance) {
+    } else if (IC > 0.05 * chance) {
       item = new Weapon(
         "legend",
         "Holy Sword",
@@ -552,7 +688,7 @@ export class DungeonsService {
         Math.random() * 30 - 15,
         "legend"
       );
-    } else if (IC > 0.05 * this.chance) {
+    } else if (IC > 0.045 * chance) {
       item = new Armor(
         "legend",
         "Holy Armor",
@@ -566,7 +702,7 @@ export class DungeonsService {
         Math.random() * 30 - 15,
         "legend"
       );
-    } else if (IC > 0.045 * this.chance) {
+    } else if (IC > 0.04 * chance) {
       item = new Weapon(
         "artefact",
         "Lucky Needle",
@@ -580,7 +716,7 @@ export class DungeonsService {
         Math.random() * 30 - 15,
         "artefact"
       );
-    } else if (IC > 0.04 * this.chance) {
+    } else if (IC > 0.042 * chance) {
       item = new Armor(
         "artefact",
         "Foreknowing Armor AI",
@@ -594,7 +730,7 @@ export class DungeonsService {
         Math.random() * 30 - 15,
         "artefact"
       );
-    } else if (IC > 0.027 * this.chance) {
+    } else if (IC > 0.027 * chance) {
       item = new Necklace(
         "normal",
         "Necklace of Wisdom",
@@ -607,7 +743,7 @@ export class DungeonsService {
         Math.random() * 30 - 15,
         "normal"
       );
-    } else if (IC > 0.014 * this.chance) {
+    } else if (IC > 0.014 * chance) {
       item = new Ring(
         "normal",
         "Ring of Wisdom",
@@ -620,7 +756,7 @@ export class DungeonsService {
         Math.random() * 30 - 15,
         "normal"
       );
-    } else if (IC > 0.009 * this.chance) {
+    } else if (IC > 0.009 * chance) {
       item = new Necklace(
         "legend",
         "Necklace on Fire",
@@ -633,39 +769,39 @@ export class DungeonsService {
         Math.random() * 30 - 15,
         "legend"
       );
-    } else if (IC > 0.004 * this.chance) {
+    } else if (IC > 0.004 * chance) {
       item = new Ring(
         "legend",
         "Ring of Darkness",
         "assets/ring/1_2.png",
         "#00D02",
-        "darkness",
+        "ice",
         Math.round(lvl * lvl * 1.2),
         lvl * 6,
         Math.round(Math.random() * 50 + 50) / 100,
         Math.random() * 30 - 15,
         "legend"
       );
-    } else if (IC > 0.002 * this.chance) {
+    } else if (IC > 0.002 * chance) {
       item = new Necklace(
         "artefact",
         "Necklace 1/500",
         "assets/necklace/1_2.png",
         "#00C03",
-        "fire",
+        "darknessice",
         Math.round(lvl * lvl * 1.3),
         lvl * 9,
         Math.round(Math.random() * 10 + 10) / 100,
         Math.random() * 30 - 15,
         "artefact"
       );
-    } else if (IC <= 0.002 * this.chance) {
+    } else if (IC <= 0.002 * chance) {
       item = new Ring(
         "artefact",
         "Ring 1/500",
         "assets/ring/1_2.png",
         "#00D03",
-        "darkness",
+        "fireice",
         Math.round(lvl * lvl * 1.3),
         lvl * 9,
         Math.round(Math.random() * 100 + 75) / 100,
@@ -1070,7 +1206,13 @@ export class DungeonsService {
             ],
             this.getDamage(dungeon, i + 1),
             dungeon * dungeon + addLvl,
-            this.createLoot(dungeon, i + 1, dungeon * dungeon + addLvl)
+            this.createLoot(
+              dungeon,
+              i + 1,
+              dungeon * dungeon + addLvl,
+              false,
+              true
+            )
           )
         );
       } else {
@@ -1124,7 +1266,7 @@ export class DungeonsService {
             "Ork",
             this.getDamage(3, 21),
             19,
-            this.createLoot(3, 21, 25, true)
+            this.createLoot(3, 21, 23, true)
           ),
         ];
         break;
@@ -1134,9 +1276,9 @@ export class DungeonsService {
             "assets/elite/giant2.png",
             29834,
             "Giant",
-            this.getDamage(4, 18),
+            this.getDamage(4, 21),
             25,
-            this.createLoot(4, 21, 25, true)
+            this.createLoot(4, 21, 28, true)
           ),
         ];
         break;
@@ -1146,9 +1288,9 @@ export class DungeonsService {
             "assets/elite/cerberus.png",
             39834,
             "Cerberus",
-            this.getDamage(5, 7),
+            this.getDamage(5, 17),
             29,
-            this.createLoot(5, 11, 25, true)
+            this.createLoot(5, 11, 31, true)
           ),
         ];
         break;
@@ -1158,9 +1300,9 @@ export class DungeonsService {
             "assets/elite/snake.png",
             53834,
             "Severus Snake",
-            this.getDamage(5, 21),
+            this.getDamage(6, 13),
             33,
-            this.createLoot(6, 13, 25, true)
+            this.createLoot(6, 13, 38, true)
           ),
         ];
         break;
@@ -1170,9 +1312,21 @@ export class DungeonsService {
             "assets/elite/dragon.png",
             68834,
             "Dragonito Reclito",
-            this.getDamage(6, 19),
+            this.getDamage(6, 24),
             41,
-            this.createLoot(7, 19, 25, true)
+            this.createLoot(7, 19, 45, true)
+          ),
+        ];
+        break;
+      case 6:
+        this.dungeons[elite + 12].monsters = [
+          new Enemy(
+            "assets/elite/death.png",
+            86834,
+            "Red Death",
+            this.getDamage(7, 21),
+            51,
+            this.createLoot(8, 18, 56, true)
           ),
         ];
         break;

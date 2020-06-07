@@ -61,6 +61,8 @@ export class CaveComponent {
   elite: boolean = false;
   label: string = "";
 
+  multipliers = [0, 0, 0];
+
   monstersInCave: number = 0;
 
   playerIsDead: boolean = false;
@@ -141,6 +143,64 @@ export class CaveComponent {
     return this.images.ice.src;
   }
 
+  necklaceRingPerk() {
+    switch (this.player.weapon.perks) {
+      case "fire":
+      case "fireice":
+      case "fireicedarkness":
+        if (
+          this.player.necklace.perks == "fire" ||
+          this.player.necklace.perks == "fireice" ||
+          this.player.necklace.perks == "fireicedarkness"
+        ) {
+          this.multipliers[0] += 0.03;
+        }
+        if (
+          this.player.ring.perks == "fire" ||
+          this.player.ring.perks == "fireice" ||
+          this.player.ring.perks == "fireicedarkness"
+        ) {
+          this.multipliers[0] += 0.03;
+        }
+        break;
+      case "ice":
+      case "fireice":
+      case "darknessice":
+      case "fireicedarkness":
+        if (
+          this.player.necklace.perks == "ice" ||
+          this.player.necklace.perks == "fireice" ||
+          this.player.necklace.perks == "fireicedarkness"
+        ) {
+          this.multipliers[1] += 0.03;
+        }
+        if (
+          this.player.ring.perks == "ice" ||
+          this.player.ring.perks == "fireice" ||
+          this.player.ring.perks == "fireicedarkness"
+        ) {
+          this.multipliers[1] += 0.03;
+        }
+        break;
+      case "darkness":
+      case "darknessice":
+      case "fireicedarkness":
+        if (
+          this.player.necklace.perks == "darkness" ||
+          this.player.necklace.perks == "fireicedarkness"
+        ) {
+          this.multipliers[2] += 0.03;
+        }
+        if (
+          this.player.ring.perks == "darkness" ||
+          this.player.ring.perks == "fireicedarkness"
+        ) {
+          this.multipliers[2] += 0.03;
+        }
+        break;
+    }
+  }
+
   enemyDead() {
     this.enemyState = "die";
     this.showLoot = true;
@@ -181,6 +241,8 @@ export class CaveComponent {
           this.missions.missions[0].done++;
       }
     }
+
+    this.deteriorateItems();
   }
 
   tour() {
@@ -227,6 +289,12 @@ export class CaveComponent {
       this.player.weapon.type == "legend"
         ? (this.weaponMulti = 0.16)
         : (this.weaponMulti = 0.22);
+
+      this.multipliers[0] = this.weaponMulti;
+      this.multipliers[1] = this.weaponMulti;
+      this.multipliers[2] = this.weaponMulti;
+
+      this.necklaceRingPerk();
 
       this.DI = 1;
       this.potions.hp = 0;
@@ -516,6 +584,7 @@ export class CaveComponent {
     this.player.goldInSack = 0;
 
     this.player.subdungeon[this.player.dungeon] = 0;
+    this.dungeons.dungeons[this.player.dungeon].completed = 0;
 
     this.player.loot = [];
 
@@ -537,6 +606,8 @@ export class CaveComponent {
       this.dungeons.reFillDungeon(this.player.dungeon);
     }, 1500);
 
+    this.deteriorateItems();
+
     return false;
   }
 
@@ -552,13 +623,25 @@ export class CaveComponent {
     this.enemyState = "takeDamage";
 
     this.enemy.health -= Math.round(dmg * this.DI);
-    if (
-      this.player.weapon.perks == "fire" ||
-      this.player.weapon.perks == "darkness" ||
-      this.player.weapon.perks == "ice"
-    ) {
-      this.enemy.health -= Math.round(dmg * this.DI * this.weaponMulti);
+    if (this.player.weapon.perks == "fire") {
+      this.enemy.health -= Math.round(dmg * this.DI * this.multipliers[0]);
+    } else if (this.player.weapon.perks == "ice") {
+      this.enemy.health -= Math.round(dmg * this.DI * this.multipliers[1]);
+    } else if (this.player.weapon.perks == "darkness") {
+      this.enemy.health -= Math.round(dmg * this.DI * this.multipliers[2]);
+    } else if (this.player.weapon.perks == "fireice") {
+      this.enemy.health -= Math.round(dmg * this.DI * this.multipliers[0]);
+
+      this.enemy.health -= Math.round(dmg * this.DI * this.multipliers[1]);
+    } else if (this.player.weapon.perks == "darknessice") {
+      this.enemy.health -= Math.round(dmg * this.DI * this.multipliers[1]);
+      this.enemy.health -= Math.round(dmg * this.DI * this.multipliers[2]);
+    } else if (this.player.weapon.perks == "fireicedarkness") {
+      this.enemy.health -= Math.round(dmg * this.DI * this.multipliers[0]);
+      this.enemy.health -= Math.round(dmg * this.DI * this.multipliers[1]);
+      this.enemy.health -= Math.round(dmg * this.DI * this.multipliers[2]);
     }
+
     if (this.enemy.health < 0) this.enemy.health = 0;
   }
 
@@ -596,6 +679,8 @@ export class CaveComponent {
     }
   }
 
+  perks = ["fire", "darkness", "ice"];
+
   enemyHurt(dmg) {
     this.enemyState = "back";
     this.enemyDamage.push([Math.round(dmg * this.DI), false, "normal"]);
@@ -607,15 +692,113 @@ export class CaveComponent {
         this.player.weapon.perks == "ice"
       ) {
         this.enemyDamage.push([
-          Math.round(dmg * this.DI * this.weaponMulti),
+          Math.round(
+            dmg *
+              this.DI *
+              this.multipliers[this.perks.indexOf(this.player.weapon.perks)]
+          ),
           false,
           this.player.weapon.perks,
         ]);
         this.showEnemyDamage();
+      } else if (
+        this.player.weapon.perks == "fireice" ||
+        this.player.weapon.perks == "darknessice"
+      ) {
+        this.enemyDamage.push([
+          Math.round(dmg * this.DI * this.multipliers[1]),
+          false,
+          "ice",
+        ]);
+        this.showEnemyDamage();
+
+        setTimeout(() => {
+          let perk = "fire";
+          if (this.player.weapon.perks == "darknessice") perk = "darkness";
+          this.enemyDamage.push([
+            Math.round(
+              dmg * this.DI * this.multipliers[this.perks.indexOf(perk)]
+            ),
+            false,
+            perk,
+          ]);
+          this.showEnemyDamage();
+        }, 500 * this.speed);
+      } else if (this.player.weapon.perks == "fireicedarkness") {
+        this.enemyDamage.push([
+          Math.round(dmg * this.DI * this.multipliers[1]),
+          false,
+          "ice",
+        ]);
+        this.showEnemyDamage();
+
+        setTimeout(() => {
+          this.enemyDamage.push([
+            Math.round(dmg * this.DI * this.multipliers[0]),
+            false,
+            "fire",
+          ]);
+          this.showEnemyDamage();
+
+          setTimeout(() => {
+            this.enemyDamage.push([
+              Math.round(dmg * this.DI * this.multipliers[2]),
+              false,
+              "darkness",
+            ]);
+            this.showEnemyDamage();
+          }, 500 * this.speed);
+        }, 500 * this.speed);
       }
     }, 500 * this.speed);
 
     this.showEnemyDamage();
+  }
+
+  deteriorateItems() {
+    if (this.player.weapon.name != "Fist") {
+      switch (this.player.weapon.type) {
+        case "normal":
+          this.player.weapon.state -= 3;
+          break;
+        case "legend":
+          this.player.weapon.state -= 2;
+          break;
+        case "artefact":
+          this.player.weapon.state -= 1.5;
+          break;
+        case "revered":
+        case "holy":
+          this.player.weapon.state -= 1;
+          break;
+      }
+    }
+    if (this.player.armor.name != "none") {
+      switch (this.player.armor.type) {
+        case "normal":
+          this.player.armor.state -= 3;
+          break;
+        case "legend":
+          this.player.armor.state -= 2;
+          break;
+        case "artefact":
+          this.player.armor.state -= 1.5;
+          break;
+        case "revered":
+        case "holy":
+          this.player.armor.state -= 1;
+          break;
+      }
+    }
+
+    if (this.player.weapon.state <= 0) {
+      this.player.weapon.state = 0;
+      this.player.weapon.cost = Math.round(this.player.weapon.cost * 0.1);
+    }
+    if (this.player.armor.state <= 0) {
+      this.player.armor.state = 0;
+      this.player.armor.cost = Math.round(this.player.armor.cost * 0.1);
+    }
   }
 
   //bubble

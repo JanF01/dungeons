@@ -1,0 +1,57 @@
+@mixin flex() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+main {
+  width: 13em;
+  height: 5em;
+  z-index: 350 !important;
+  cursor: pointer;
+
+  img {
+    width: 100%;
+    min-height: 10em;
+    position: absolute;
+    top: -0.75em;
+    left: 0;
+    filter: hue-rotate(110deg) brightness(130%);
+  }
+
+  ul {
+    list-style-type: none;
+    color: white;
+    font-family: 'Abel', sans-serif;
+    font-size: 1.5em;
+    width: 7.5em;
+    height: 5.3em;
+    @include flex();
+    flex-direction: column;
+    position: absolute;
+    top: -0.85em;
+    left: -1.23em;
+
+    li {
+      width: 100%;
+      flex: 1;
+      @include flex();
+      transition: 0.2s all;
+      border-radius: 0.5em;
+      -webkit-border-radius: 0.5em;
+      -moz-border-radius: 0.5em;
+      -ms-border-radius: 0.5em;
+
+      &:hover {
+        box-shadow: 0em -0.18em 1.4em -0.24em rgb(153, 43, 0);
+        background: rgba(153, 10, 0, 0.25);
+
+        &:first-child {
+          box-shadow: 0em 0.18em 1.2em -0.25em rgb(153, 43, 0);
+        }
+      }
+
+
+    }
+  }
+}

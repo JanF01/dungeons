@@ -1,132 +1,163 @@
-div{
-   min-width:14em;
-   height:auto;
-   font-family:"Abel",sans-serif;
-    img{
-        position:absolute;
-        top:-16em;
-        left:-3.4em;
-     
-        opacity:0.8;
-       }
-       .bubble{
-           height:17em;
-        width:14.4em;
-       }
-}
+div {
+  min-width: 14em;
+  height: auto;
+  font-family: "Abel", sans-serif;
 
-span{
-       position:absolute;
-       display:block;
-       color:rgb(231, 223, 186);
-       z-index:4;
-   }
-.type{
-   top:-13.6em;
-   left:-1.9em;
-   font-size:1.25em;
-}
-.cost{
-    display:flex;
-    left:1.2em;
-    width:3.24em;
-    color:white;
-    background:rgba(0, 0, 0, 0.555);
-    padding:0.1em 0.5em 0.1em 1.4em;
-    border-radius:0.3em;
-    -ms-border-radius:0.3em;
-    -moz-border-radius:0.3em;
-    -webkit-border-radius:0.3em;
-    box-shadow:0em 0em 0.2em 0em rgba(0, 0, 0, 0.623);
-    top:-1em;
-    font-size:1.3em;
-    img{
-        width:0.9em;
-        position:absolute;
-        left:0.2em;
-        top:0.2em;
-       z-index:10;
-    }
-}
-.name{
-    top:-10.5em;
-    left:-1.5em;
-    font-size:1.42em;
-}
-.strength,.defence,.critChance,.critMulti,.stamina{
-    top:-9.5em;
-    left:-1.2em;
-    font-size:1.3em;
-}
+  img {
+    position: absolute;
+    top: -16em;
+    left: -3.4em;
 
-.status,.critChance,.critMulti{
-    display:flex;
-    align-items:center;
-    top:-7.9em;
-    left:-1.2em;
-    font-size:1.3em;
-    div{
-        margin-left:0.2em;
-        margin-top:0.1em;
-        min-width:4.2em;
-        height:0.6em;
-        -webkit-border-radius:0.2em;
-        -moz-border-radius:0.2em;
-        -ms-border-radius:0.2em;
-        border-radius:0.2em;
-        border:solid 0.06em rgb(25, 193, 223);
-    }
-}
-.critChance,.critMulti{
-    font-size:1.3em;
+    opacity: 0.8;
   }
-.reliability{
-    top:-6.2em;
-    left:-1.2em;
-    font-size:1.3em;
-}
-.fire,.darkness,.ice{
-    top:8.4em;
-    left:2.2em;
-    img{
-        width:3.1em;
-    }
-}
-.darkness{
-    left:5.3em;
-    box-shadow:0 0 0.2em -0.1em#FFF;
-}
-.ice{
-    left:7.9em;
+
+  .bubble {
+    height: 17em;
+    width: 14.4em;
+  }
 }
 
-.gem{
-    top:12em;
-    left:1.2em;
-    img{
-        width:1.8em;
-    }
+span {
+  position: absolute;
+  display: block;
+  color: rgb(231, 223, 186);
+  z-index: 4;
 }
-.gemPerk{
-    top:-3.23em;
-    left:0.25em;
-    font-size:1.15em;
-    color:rgb(29, 255, 244);
+
+.type {
+  top: -13.6em;
+  left: -1.9em;
+  font-size: 1.25em;
+}
+
+.cost {
+  display: flex;
+  left: 1.2em;
+  width: 3.24em;
+  color: white;
+  background: rgba(0, 0, 0, 0.555);
+  padding: 0.1em 0.5em 0.1em 1.4em;
+  border-radius: 0.3em;
+  -ms-border-radius: 0.3em;
+  -moz-border-radius: 0.3em;
+  -webkit-border-radius: 0.3em;
+  box-shadow: 0em 0em 0.2em 0em rgba(0, 0, 0, 0.623);
+  top: -1em;
+  font-size: 1.3em;
+
+  img {
+    width: 0.9em;
+    position: absolute;
+    left: 0.2em;
+    top: 0.2em;
+    z-index: 10;
+  }
+}
+
+.name {
+  top: -10.5em;
+  left: -1.5em;
+  font-size: 1.42em;
+}
+
+.strength,
+.defence,
+.critChance,
+.critMulti,
+.stamina {
+  top: -9.5em;
+  left: -1.2em;
+  font-size: 1.3em;
+}
+
+.status,
+.critChance,
+.critMulti {
+  display: flex;
+  align-items: center;
+  top: -7.9em;
+  left: -1.2em;
+  font-size: 1.3em;
+
+  div {
+    margin-left: 0.2em;
+    margin-top: 0.1em;
+    min-width: 4.2em;
+    height: 0.6em;
+    -webkit-border-radius: 0.2em;
+    -moz-border-radius: 0.2em;
+    -ms-border-radius: 0.2em;
+    border-radius: 0.2em;
+    border: solid 0.06em rgb(25, 193, 223);
+  }
+}
+
+.critChance,
+.critMulti {
+  font-size: 1.3em;
+}
+
+.reliability {
+  top: -6.2em;
+  left: -1.2em;
+  font-size: 1.3em;
+}
+
+.fire,
+.darkness,
+.ice {
+  top: 8.4em;
+  left: 2.2em;
+
+  img {
+    width: 3.1em;
+  }
+}
+
+.darkness {
+  top: 8.6em;
+  left: 5.3em;
+  box-shadow: 0 0 0.2em -0.1em#FFF;
+}
+
+.ice {
+  top: 8.6em;
+  left: 8.4em;
+}
+
+.gem {
+  top: 12em;
+  left: 1.2em;
+
+  img {
+    width: 1.8em;
+  }
+}
+
+.gemPerk {
+  top: -3.23em;
+  left: 0.25em;
+  font-size: 1.15em;
+  color: rgb(29, 255, 244);
 }
 
 
-.white{
-    color:white;
-}
-.red{
-    color:red;
-}
-.orange{
-    color:orange;
+.white {
+  color: white;
 }
 
-.white,.red,.orange{
-    text-shadow:0em 0em 0.5em #000;
-    letter-spacing:0.05em;
-    font-weight:bold;
+.red {
+  color: red;
+}
+
+.orange {
+  color: orange;
+}
+
+.white,
+.red,
+.orange {
+  text-shadow: 0em 0em 0.5em #000;
+  letter-spacing: 0.05em;
+  font-weight: bold;
 }
