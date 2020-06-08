@@ -68,7 +68,7 @@ export class DungeonsComponent implements OnInit {
       dungeon: 0,
       subdungeon: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       goldInSack: 0,
-      graphic: "assets/knight1.png",
+      graphic: "assets/player/knight_blue_plus.png",
       weapon: new Weapon(
         "normal",
         "Dagger",

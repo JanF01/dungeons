@@ -159,6 +159,8 @@ export class ArmoryComponent implements OnInit {
           this.player.items.push(itemCopy);
           this.player.itemsOnHold.push(itemCopy);
           this.player.gold -= item.cost;
+
+          t[n] = { x: 0, y: 0 };
         } else {
           this.alertOut("Not enough gold");
           t[n] = { x: 0, y: 0 };

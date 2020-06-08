@@ -1,6 +1,50 @@
+<img *ngIf="mode==0" src="assets/background/bark.jpg" class="upMain">
+<img id="l1" class="line1" src="assets/background/lina.png">
+<img id="l2" class="line2" src="assets/background/lina.png">
+<img class="logo" src="assets/player/logo.png">
+
+
+<div (click)="register()">
+  <img id="info1" class="info1" src="assets/background/block.png">
+  <span id="c" class="create">Create character</span>
+</div>
+<div>
+  <img id="info2" class="info2" src="assets/background/block.png">
+  <span id="l" class="login">Sign in</span>
+</div>
+
+<div class="attrib">
+  <span>Attributions</span>
+  <img class="info3" src="assets/background/block.png">
+</div>
+<div class="desc">
+  <span>Description</span>
+  <img class="info3" src="assets/background/block.png">
+</div>
+<div class="safety">
+  <span>Safety</span>
+  <img class="info3" src="assets/background/block.png">
+</div>
+<div class="term">
+  <span>Terms of Service</span>
+  <img class="info3" src="assets/background/block.png">
+</div>
+
+
+<div id="r" class="register">
+  <img src="assets/background/alert2.png">
+
+  <input type="text" class="form-control" placeholder="Nick">
+  <input type="password" class="form-control" placeholder="Password">
+  <button>DONE</button>
+
+</div>
+
+
 <div class="container">
 
-  <mat-grid-list cols="2" rowHeight="2:1">
+
+  <mat-grid-list cols="2" rowHeight="2:1" *ngIf="mode==1">
     <mat-grid-tile (click)="startDungeons()">Dungeon Grinder</mat-grid-tile>
     <mat-grid-tile (click)="startCoins()">Coins</mat-grid-tile>
     <mat-grid-tile>Coming Soon</mat-grid-tile>
@@ -14,9 +58,11 @@
 <app-coins *ngIf="mode==1"></app-coins>
 <app-dungeons *ngIf="mode==2"></app-dungeons>
 
-<app-settings [showSettings]="shSettings" (close)="closeSettings()"></app-settings>
+<app-settings *ngIf="mode==1" [showSettings]="shSettings" (close)="closeSettings()"></app-settings>
 <div class="darken" *ngIf="shSettings"></div>
 
-<img class="gear" src="assets/settings.png" (click)="showSettings()">
+<img *ngIf="mode==1" class="gear" src="assets/settings.png" (click)="showSettings()">
 
-<div class="version">Alpha v0.30</div>
+<div class="version">Alpha v0. 40</div>
+
+<!--<img class="logo2" src="assets/player/logo2.png">-->

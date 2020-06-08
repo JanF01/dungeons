@@ -1,75 +1,365 @@
+@mixin flex() {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-.container{
-   z-index:-12;
-    background:#222244;
-    animation:bg 5s infinite;
-    mat-grid-tile{
-        background:radial-gradient(circle,rgba(46, 13, 77, 0.945),rgba(34, 2, 58, 0.678));
-        z-index:-11;
-        font-size:1.8em;
-        letter-spacing:0.05em;
-        color:white;
-        transition:1s all;
-        font-family:'Abel',sans-serif;
-        &:hover{
-            cursor:pointer;
-            transform:scale(0.85);
-            
-        }
+@mixin radius($r) {
+  border-radius: $r;
+  -moz-border-radius: $r;
+  -ms-border-radius: $r;
+  -webkit-border-radius: $r;
+}
+
+
+.container {
+  z-index: 12;
+  background: #ffffff;
+  //animation: grad 5s infinite;
+  min-height: 100%;
+
+  mat-grid-list {
+    height: 100%;
+
+    mat-grid-tile {
+      background: radial-gradient(circle, rgba(46, 13, 77, 0.945), rgba(34, 2, 58, 0.678));
+      z-index: 11;
+      font-size: 1.8em;
+      letter-spacing: 0.05em;
+      color: white;
+      transition: 1s all;
+      font-family: 'Abel', sans-serif;
+
+      &:hover {
+        cursor: pointer;
+        transform: scale(0.85);
+
+      }
     }
-}
-
-app-settings{
-  min-width:100%;
-  min-height:100%;
-  z-index:15;
-}
-.darken{
-  width:100%;
-  min-height:100vh;
-  background:#000000A0;
-  z-index:14;
-  position:absolute;
-  top:0;
-  left:0;
-}
-
-.gear{
-  position:absolute;
-  top:2%;
-  right:1%;
-  width:3%;
-  z-index:100;
-  cursor:pointer;
-  transition:0.6s all;
-  transform:rotate(0deg) scale(1);
-  &:hover{
-  transform: rotate(200deg) scale(1.1);
   }
 }
-.version{
-  position:absolute;
-  top:2%;
-  left:1%;
-  font-size:1em;
-  font-family:'Abel';
-  font-weight:bold;
-  z-index:100;
-  color:white;
+
+
+.mainBck {
+  opacity: 0.8;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 14;
 }
 
-@keyframes bg{
-   0%{
-    background:#222244;
-   }
-   33%{
-    background:#9c5f02;
-  }
-  66%{
-    background:#2a1353;
-  }
-  100%{
-    background:#222244;
+.upMain {
+  min-width: 100%;
+  height: 102vh;
+  position: absolute;
+  top: 0.8em;
+  left: 0;
+  height: 4.2em;
+  z-index: 16;
+  filter: brightness(80%);
+  box-shadow: 0 0.1em 0.5em -0.22em rgb(80, 36, 0);
+  display: none;
+}
+
+.logo {
+  width: 55%;
+  position: absolute;
+  left: 22.5%;
+  top: 3%;
+  opacity: 0.1;
+  filter: hue-rotate(190deg) brightness(0%);
+}
+
+app-settings {
+  min-width: 100%;
+  min-height: 100%;
+  z-index: 15;
+}
+
+.line1,
+.line2 {
+  width: 1.4%;
+  height: 40%;
+  position: absolute;
+  top: 0em;
+  left: 35.7%;
+  z-index: 15;
+  filter: hue-rotate(-20deg) brightness(80%);
+  transition: all 0.8s;
+}
+
+.line2 {
+  left: 61.7%;
+}
+
+.darken {
+  width: 100%;
+  min-height: 100vh;
+  background: #000000A0;
+  z-index: 14;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+div {
+  padding: 1em;
+  cursor: pointer;
+
+  .info1,
+  .info2 {
+    width: 18%;
+    position: absolute;
+    left: 27.72%;
+    top: calc(34.6vh + 5%);
+    z-index: 16;
+    transition: all 0.8s;
+
+
   }
 
+  .info2 {
+    left: 53.77%;
+  }
+
+
+
+  .create,
+  .login {
+    font-family: 'Abel', sans-serif;
+    font-size: 2.1em;
+    width: 17%;
+    line-height: 1.5em;
+    text-align: center;
+    display: block;
+    position: absolute;
+    color: white;
+    z-index: 17;
+    height: 11.5%;
+    @include flex();
+    top: calc(34.6vh + 6.4%);
+    letter-spacing: 0.05em;
+    @include radius(1em);
+    transition: all 0.8s;
+    pointer-events: none;
+
+
+
+
+
+  }
+
+  .create {
+    left: 28.32%;
+  }
+
+  .login {
+    left: 54.45%;
+  }
+
+
+  &:hover {
+
+    .info1,
+    .info2 {
+      top: calc(34.6vh + 1%);
+    }
+
+    span {
+
+
+      top: calc(34.6vh + 2.4%);
+
+    }
+  }
+}
+
+
+.attrib,
+.safety,
+.desc,
+.term {
+  width: 9%;
+  position: absolute;
+  min-height: 7%;
+  top: 2.5%;
+  left: 1.5%;
+  @include flex();
+  transition: all 0.3s;
+
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+  }
+
+  &:hover {
+    transform: scale(0.92);
+  }
+
+}
+
+.desc {
+  left: 13%;
+}
+
+.safety {
+  left: 76%;
+}
+
+.term {
+  left: 87.5%;
+}
+
+
+
+.attrib,
+.safety,
+.desc,
+.term {
+
+  span {
+    z-index: 11;
+    color: white;
+    font-size: 1.6em;
+    font-family: 'Abel', sans-serif;
+    transition: all 0.2s;
+    display: block;
+    width: 170%;
+    text-align: center;
+    margin-top: -0.6em;
+    min-height: 7%;
+    padding: 0.7em 0.7em 0.7em 0.7em;
+    @include flex();
+    @include radius(0.6em);
+
+
+  }
+}
+
+
+.gear {
+  position: absolute;
+  top: 2%;
+  right: 1%;
+  width: 3%;
+  z-index: 100;
+  cursor: pointer;
+  transition: 0.6s all;
+  transform: rotate(0deg) scale(1);
+
+  &:hover {
+    transform: rotate(200deg) scale(1.1);
+  }
+}
+
+.logo2 {
+  width: 14%;
+  position: absolute;
+  top: 4%;
+  left: 42.5%;
+  z-index: 19;
+}
+
+.version {
+  position: absolute;
+  top: 94%;
+  left: 1%;
+  font-size: 1.2em;
+  font-family: 'Abel';
+  font-weight: bold;
+  z-index: 100;
+}
+
+
+#r {
+  position: absolute;
+  top: -50%;
+  left: 31%;
+  width: 35%;
+  transition: 1s all;
+  z-index: 15;
+  @include flex();
+  flex-direction: column;
+
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 40vh;
+  }
+
+  input {
+    width: 80%;
+    background: none;
+    border: none;
+    border-bottom: white solid 0.2em;
+    z-index: 16;
+    outline: none;
+    text-align: center;
+    color: white;
+    padding-bottom: 0.2em;
+    color: white;
+    font-size: 1.4em;
+    font-family: 'Abel', sans-serif;
+    margin-top: 8%;
+
+    &::placeholder {
+      color: rgb(223, 223, 223);
+    }
+
+  }
+
+  button {
+    margin-top: 10%;
+    border: none;
+    background: url(../assets/background/alert.jpg);
+    color: white;
+    @include radius(70%);
+    font-family: 'Abel', sans-serif;
+    font-size: 1.7em;
+    padding: 0.6em 0.35em 0.6em 0.35em;
+    filter: hue-rotate(-10deg);
+    font-weight: bold;
+    box-shadow: 0em 0em 0.4em -0.1em rgb(0, 0, 0);
+    width: 21%;
+    transition: 0.3s all;
+
+    &:hover {
+      transform: scale(0.9);
+      cursor: pointer
+    }
+
+  }
+
+
+
+
+}
+
+@keyframes grad {
+  0% {
+    background: black;
+  }
+
+  25% {
+    background: rgb(108, 4, 112);
+  }
+
+  50% {
+    background: black;
+  }
+
+  75% {
+    background: rgb(4, 4, 179);
+  }
+
+  100% {
+    background: black;
+  }
 }

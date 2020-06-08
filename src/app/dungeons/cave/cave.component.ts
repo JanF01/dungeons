@@ -124,7 +124,7 @@ export class CaveComponent {
     this.showItemsLooted = false;
 
     this.player.location = "dungeons";
-    this.audio.dungeonsBck.volume = 0.09;
+    this.audio.dungeonsBck.volume = 0.065 * this.audio.globalVolume;
     setTimeout(() => {
       document.getElementById("dungeons").style.opacity = "1";
       document.getElementById("dungeons").appendChild(this.images.map);
@@ -321,7 +321,7 @@ export class CaveComponent {
         }
       }
 
-      this.audio.dungeonsBck.volume = 0.03;
+      this.audio.dungeonsBck.volume = 0.02 * this.audio.globalVolume;
       this.nextFight(lvl);
       this.tour();
     } else {

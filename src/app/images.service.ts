@@ -9,6 +9,7 @@ export class ImagesService {
   village = new Image(2000, 1000);
   blacksmith = new Image(1500, 900);
   bckMain = new Image(1800, 900);
+  registerBck = new Image(680, 438);
   hpPotion = new Image(256, 256);
   speedPotion = new Image(256, 256);
   staminaPotion = new Image(256, 256);
@@ -46,6 +47,11 @@ export class ImagesService {
     this.bckMain.classList.toggle("map");
     this.bckMain.classList.toggle("mainBck");
     this.bckMain.id = "mainBck";
+
+    this.registerBck.src = "assets/background/main.jpg";
+    this.registerBck.classList.toggle("map");
+    this.registerBck.classList.toggle("mainBck");
+    this.registerBck.id = "mainBck";
 
     this.gold.src = "assets/coins.png";
     this.gold.classList.toggle("coins");

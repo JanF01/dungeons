@@ -238,7 +238,7 @@ export class BackpackComponent implements OnInit {
   bubblePos = { x: 180, y: 180 };
 
   showInfo(item) {
-    if (item != undefined) {
+    if (item != undefined && (this.itemOnCheck == item || !this.appearMenu)) {
       if (item.name != "none") {
         this.itemForInfo = item;
         this.showInfoBubble = true;

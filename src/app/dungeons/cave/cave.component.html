@@ -15,7 +15,7 @@
 
   <div class="tile" *ngIf="!showItemsLooted">
 
-    <img src="{{this.player.graphic}}" @showUp [@levelUp]="{value: playerLevelUp}"
+    <img class="player" src="{{this.player.graphic}}" @showUp [@levelUp]="{value: playerLevelUp}"
       [@momentum]="{value: playerAnimation}" [@takeDamage]="enemyHit" draggable="false">
     <img src="{{this.player.weapon.graphic}}" class="sword" @showUp [@swordMomentum]="{value: swordAnimation}"
       draggable="false">

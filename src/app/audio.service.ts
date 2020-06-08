@@ -27,7 +27,7 @@ export class AudioService {
 
     this.dungeonsBck = new Audio();
     this.dungeonsBck.src = "assets/soundtrack/dungeons.wav";
-    this.dungeonsBck.volume = 0.09 * this.globalVolume;
+    this.dungeonsBck.volume = 0.065 * this.globalVolume;
     this.dungeonsBck.load();
     this.dungeonsBck.loop = true;
 
@@ -140,7 +140,7 @@ export class AudioService {
   changeVolumes() {
     this.bckMusicOne.volume = 0.008 * this.globalVolume;
 
-    this.dungeonsBck.volume = 0.11 * this.globalVolume;
+    this.dungeonsBck.volume = 0.065 * this.globalVolume;
 
     this.villageBck.volume = 0.02 * this.globalVolume;
 
@@ -154,8 +154,10 @@ export class AudioService {
 
     this.block.volume = 0.016 * this.globalVolume;
 
-    this.dead.volume = 0.03 * this.globalVolume;
+    this.dead.volume = 0.06 * this.globalVolume;
 
-    this.playerDead.volume = 0.2 * this.globalVolume;
+    this.playerDead.volume = 0.1 * this.globalVolume;
+
+    this.lvlUp.volume = 0.07 * this.globalVolume;
   }
 }

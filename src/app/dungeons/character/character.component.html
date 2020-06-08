@@ -5,15 +5,23 @@
 
 
   <div class="user">
-    <img class="weapon item" src="{{player.weapon.graphic}}" draggable="false" cdkDrag
-      [cdkDragFreeDragPosition]="weaponPos" (cdkDragEnded)="weaponDrop($event)" (cdkDragStarted)="startDrag()">
-    <img class="armor item" src="{{player.armor.graphic}}" draggable="false" cdkDrag
-      [cdkDragFreeDragPosition]="armorPos" (cdkDragEnded)="armorDrop($event)" (cdkDragStarted)="startDrag()">
-    <img class="necklace item" src="{{player.necklace.graphic}}" draggable="false" cdkDrag
-      [cdkDragFreeDragPosition]="necklacePos" (cdkDragEnded)="necklaceDrop($event)" (cdkDragStarted)="startDrag()">
-    <img class="ring item" src="{{player.ring.graphic}}" draggable="false" cdkDrag [cdkDragFreeDragPosition]="ringPos"
-      (cdkDragEnded)="ringDrop($event)" (cdkDragStarted)="startDrag()">
-    <img src="{{this.player.graphic}}" draggable="false">
+    <div class="weapon" class="{{this.player.weapon.type}}">
+      <img class="item" src="{{player.weapon.graphic}}" draggable="false" cdkDrag [cdkDragFreeDragPosition]="weaponPos"
+        (cdkDragEnded)="weaponDrop($event)" (cdkDragStarted)="startDrag()">
+    </div>
+    <div class="armor" class="{{this.player.armor.type}}">
+      <img class="item" src="{{player.armor.graphic}}" draggable="false" cdkDrag [cdkDragFreeDragPosition]="armorPos"
+        (cdkDragEnded)="armorDrop($event)" (cdkDragStarted)="startDrag()">
+    </div>
+    <div class="necklace" class="{{this.player.necklace.type}}">
+      <img class="item" src="{{player.necklace.graphic}}" draggable="false" cdkDrag
+        [cdkDragFreeDragPosition]="necklacePos" (cdkDragEnded)="necklaceDrop($event)" (cdkDragStarted)="startDrag()">
+    </div>
+    <div class="ring" class="{{this.player.ring.type}}">
+      <img class="item" src="{{player.ring.graphic}}" draggable="false" cdkDrag [cdkDragFreeDragPosition]="ringPos"
+        (cdkDragEnded)="ringDrop($event)" (cdkDragStarted)="startDrag()">
+    </div>
+    <img class="player" src="{{this.player.graphic}}" draggable="false">
     <span>{{player.name}}</span>
     <div class="exp">
       <div class="expBar"
@@ -24,23 +32,25 @@
     </div>
   </div>
   <div class="stats">
-    <div class="gridTile">Strength: <span>{{player.strength}}</span>
+    <div class="gridTile"><span class="name">Strength:</span><span class="numb">{{player.strength}}</span>
       <div class="plus" (click)="addStrength()" (mouseenter)="showCost(0)" (mouseleave)="hideCost(0)"> + </div>
       <div class="cost"> {{strengthCost}} <img src="assets/coin/1.png"></div>
     </div>
-    <div class="gridTile">Health: <span>{{player.health}} / {{player.hitPoints}}</span>
+    <div class="gridTile"><span class="name">Health:</span> <span class="numb">{{player.health}} /
+        {{player.hitPoints}}</span>
       <div class="plus" (click)="addHealth()" (mouseenter)="showCost(1)" (mouseleave)="hideCost(1)"> + </div>
       <div class="cost">{{hpCost}} <img src="assets/coin/1.png"></div>
     </div>
-    <div class="gridTile">Speed: <span>{{player.speed}}</span>
+    <div class="gridTile"><span class="name">Speed:</span><span class="numb">{{player.speed}}</span>
       <div class="plus" (click)="addSpeed()" (mouseenter)="showCost(2)" (mouseleave)="hideCost(2)"> + </div>
       <div class="cost">{{speedCost}}<img src="assets/coin/1.png"></div>
     </div>
-    <div class="gridTile">Stamina: <span>{{player.staminaLeft}} / {{player.stamina}}</span>
+    <div class="gridTile"><span class="name">Stamina:</span> <span class="numb">{{player.staminaLeft}} /
+        {{player.stamina}}</span>
       <div class="plus" (click)="addStamina()" (mouseenter)="showCost(3)" (mouseleave)="hideCost(3)"> + </div>
       <div class="cost">{{staminaCost}}<img src="assets/coin/1.png"></div>
     </div>
-    <div class="gridTile">Luck: <span>{{player.luck}}</span>
+    <div class="gridTile"><span class="name">Luck:</span> <span class="numb">{{player.luck}}</span>
       <div class="plus" (click)="addLuck()" (mouseenter)="showCost(4)" (mouseleave)="hideCost(4)"> + </div>
       <div class="cost">{{luckCost}}<img src="assets/coin/1.png"></div>
     </div>
