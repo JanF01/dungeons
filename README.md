@@ -1,6 +1,5 @@
-# Dungeons
+<img src="src/assets/player/logo2.png" style="margin:0 auto">
 
-<img src="src/assets/player/logo2.png">
 RPG, Clicker Browser Game Project
 
 ## FrontEnd
@@ -8,12 +7,12 @@ RPG, Clicker Browser Game Project
 - Angular
 - SCSS
 
-## Code scaffolding
+## Backend
 
-## Build
+- Node.js
+- Express
+- JWT Token
 
-## Running unit tests
+* localStorage
 
-## Running end-to-end tests
-
-## Further help
+### Version: Alpha v0.4
