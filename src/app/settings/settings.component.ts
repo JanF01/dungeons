@@ -1,38 +1,39 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
-import { EventEmitter } from '@angular/core';
-import { AudioService } from '../audio.service';
+import { Component, OnInit, Input, Output } from "@angular/core";
+import { EventEmitter } from "@angular/core";
+import { AudioService } from "../audio.service";
+import { VerificationService } from "../verification.service";
 
 @Component({
-  selector: 'app-settings',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+  selector: "app-settings",
+  templateUrl: "./settings.component.html",
+  styleUrls: ["./settings.component.scss"],
 })
 export class SettingsComponent implements OnInit {
-
-
   @Input() showSettings: boolean;
-  @Output('close') closeSettings: EventEmitter<any> = new EventEmitter();
+  @Output("close") closeSettings: EventEmitter<any> = new EventEmitter();
 
   sound = 0.5;
 
-  constructor( private audio: AudioService) { }
+  constructor(
+    private audio: AudioService,
+    private verify: VerificationService
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  closeSet(){
+  closeSet() {
     this.closeSettings.emit(null);
   }
 
-  sendValue($event){
+  sendValue($event) {
     this.sound = $event.target.value;
     let s = +this.sound;
-    this.audio.globalVolume = s*2;
+    this.audio.globalVolume = s * 2;
     this.audio.changeVolumes();
   }
 
-
-
-
-
+  logout() {
+    this.verify.logout();
+    location.reload();
+  }
 }

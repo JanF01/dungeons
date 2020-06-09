@@ -1,67 +1,78 @@
-<img *ngIf="mode==0" src="assets/background/bark.jpg" class="upMain">
-<img id="l1" class="line1" src="assets/background/lina.png">
-<img id="l2" class="line2" src="assets/background/lina.png">
-<img class="logo" src="assets/player/logo.png">
+<img *ngIf="mode == 0" src="assets/background/bark.jpg" class="upMain" />
+<img id="l1" class="line1" src="assets/background/lina.png" *ngIf="mode != 3" />
+<img id="l2" class="line2" src="assets/background/lina.png" *ngIf="mode != 3" />
+<img class="logo" src="assets/player/logo.png" />
 
-
-<div (click)="register()">
-  <img id="info1" class="info1" src="assets/background/block.png">
+<div (click)="reg()" *ngIf="mode != 3">
+  <img id="info1" class="info1" src="assets/background/block.png" />
   <span id="c" class="create">Create character</span>
 </div>
-<div>
-  <img id="info2" class="info2" src="assets/background/block.png">
+<div (click)="log()" *ngIf="mode != 3">
+  <img id="info2" class="info2" src="assets/background/block.png" />
   <span id="l" class="login">Sign in</span>
 </div>
 
-<div class="attrib">
+<div class="attrib" *ngIf="mode == 0">
   <span>Attributions</span>
-  <img class="info3" src="assets/background/block.png">
+  <img class="info3" src="assets/background/block.png" />
 </div>
-<div class="desc">
+<div class="desc" *ngIf="mode == 0">
   <span>Description</span>
-  <img class="info3" src="assets/background/block.png">
+  <img class="info3" src="assets/background/block.png" />
 </div>
-<div class="safety">
+<div class="safety" *ngIf="mode == 0">
   <span>Safety</span>
-  <img class="info3" src="assets/background/block.png">
+  <img class="info3" src="assets/background/block.png" />
 </div>
-<div class="term">
+<div class="term" *ngIf="mode == 0">
   <span>Terms of Service</span>
-  <img class="info3" src="assets/background/block.png">
+  <img class="info3" src="assets/background/block.png" />
 </div>
 
 
-<div id="r" class="register">
-  <img src="assets/background/alert2.png">
 
-  <input type="text" class="form-control" placeholder="Nick">
-  <input type="password" class="form-control" placeholder="Password">
-  <button>DONE</button>
+<div id="r" class="register" *ngIf="mode != 3">
+  <img id="sp" class="spike" src="assets/spike.png" cdkDrag (cdkDragStarted)="mainPage()"
+    [cdkDragFreeDragPosition]="this.spikePos" />
+  <img class="main" src="assets/background/alert2.png" />
 
+
+  <input type="text" class="form-control" placeholder="Nick" [(ngModel)]="this.credentials.login"
+    *ngIf="state=='register'" />
+  <input type="password" class="form-control" placeholder="Password" [(ngModel)]="this.credentials.password"
+    *ngIf="state=='register'" />
+  <input type="password" class="form-control" placeholder="Password" [(ngModel)]="this.passRepeat"
+    *ngIf="state=='register'" />
+  <button (click)="register()" *ngIf="state=='register'">DONE</button>
+
+  <input type="text" class="form-control" placeholder="Nick" [(ngModel)]="this.credentials.login"
+    *ngIf="state=='login'" />
+  <input type="password" class="form-control" placeholder="Password" [(ngModel)]="this.credentials.password"
+    *ngIf="state=='login'" />
+  <button (click)="login()" *ngIf="state=='login'">DONE</button>
+
+
+  <span class="alert" *ngIf="showAlert">{{alert}}</span>
 </div>
+
 
 
 <div class="container">
-
-
-  <mat-grid-list cols="2" rowHeight="2:1" *ngIf="mode==1">
+  <mat-grid-list cols="2" rowHeight="2:1" *ngIf="mode == 1">
     <mat-grid-tile (click)="startDungeons()">Dungeon Grinder</mat-grid-tile>
     <mat-grid-tile (click)="startCoins()">Coins</mat-grid-tile>
     <mat-grid-tile>Coming Soon</mat-grid-tile>
     <mat-grid-tile>Coming Soon</mat-grid-tile>
   </mat-grid-list>
-
-
 </div>
 
+<app-coins *ngIf="mode == 1"></app-coins>
+<app-dungeons *ngIf="mode == 2 || mode == 3"></app-dungeons>
 
-<app-coins *ngIf="mode==1"></app-coins>
-<app-dungeons *ngIf="mode==2"></app-dungeons>
-
-<app-settings *ngIf="mode==1" [showSettings]="shSettings" (close)="closeSettings()"></app-settings>
+<app-settings *ngIf="mode == 2 || mode == 3" [showSettings]="shSettings" (close)="closeSettings()"></app-settings>
 <div class="darken" *ngIf="shSettings"></div>
 
-<img *ngIf="mode==1" class="gear" src="assets/settings.png" (click)="showSettings()">
+<img *ngIf="mode == 2 || mode == 3" class="gear" src="assets/settings.png" (click)="showSettings()" />
 
 <div class="version">Alpha v0. 40</div>
 

@@ -83,5 +83,31 @@
     }
   }
 
+  .logout {
+    position: absolute;
+    @include flex();
+    color: white;
+    font-family: 'Abel', sans-serif;
+    font-size: 1.5em;
+    border: white;
+    background: url(../../assets/background/alert.jpg);
+    filter: hue-rotate(200deg) brightness(85%);
+    border-radius: 0.4em;
+    -webkit-border-radius: 0.4em;
+    -moz-border-radius: 0.4em;
+    -ms-border-radius: 0.4em;
+    transition: 0.3s all;
+    top: 12%;
+    left: 17%;
+    width: 18%;
+    min-height: 2.1em;
+
+    &:hover {
+      transform: scale(0.9);
+      cursor: pointer;
+    }
+
+  }
+
 
 }
