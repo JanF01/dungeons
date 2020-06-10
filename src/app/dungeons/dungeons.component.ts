@@ -15,6 +15,8 @@ import { Necklace } from "./models/items/necklace.model";
 import { Ring } from "./models/items/ring.model";
 import { VillageComponent } from "./village/village.component";
 import { Crystal } from "./models/items/crystal.model";
+import { VerificationService, PlayerDetails } from "../verification.service";
+import { UpdateService } from "../update.service";
 
 @Component({
   selector: "app-dungeons",
@@ -45,28 +47,60 @@ export class DungeonsComponent implements OnInit {
   constructor(
     private audio: AudioService,
     private dungeons: DungeonsService,
-    private images: ImagesService
-  ) {
+    private images: ImagesService,
+    private update: UpdateService
+  ) {}
+
+  public updateDetails = {
+    id: 0,
+    login: "",
+    email: "jolo@gmail.com",
+    password: "",
+    experience: 0,
+    gold: 0,
+    strength: 0,
+    hpleft: 0,
+    health: 0,
+    speed: 0,
+    staminaleft: 0,
+    stamina: 0,
+    luck: 0,
+    lvl: 0,
+    exp: 0,
+    bp_str: 0,
+    bp_hp: 0,
+    bp_sp: 0,
+    bp_stam: 0,
+    bp_luck: 0,
+    iat: 0,
+  };
+
+  setPlayer(details: PlayerDetails) {
+    let nextExp = Math.round(details.lvl * (details.lvl * 0.4) * 928);
+
+    this.updateDetails = details;
+
     this.player = {
-      name: this.name,
-      level: 1,
-      exp: 0,
+      name: details.login,
+      level: details.lvl,
+      exp: details.experience,
       expMulti: 1,
-      nextExp: 782,
-      gold: 20,
-      basePoints: [0, 0, 0, 0, 0],
-      strength: 7,
-      damage: 21,
-      hitPoints: 956,
-      health: 956,
-      stamina: 200032,
-      staminaLeft: 200032,
-      speed: 3,
+      nextExp: nextExp,
+      gold: details.gold,
+      basePoints: [],
+      strength: details.strength,
+      damage: details.strength * 3,
+      hitPoints: details.health,
+      health: details.hpleft,
+      stamina: details.stamina,
+      staminaLeft: details.staminaleft,
+      speed: details.speed,
       speedBuildUp: 0,
-      luck: 0,
+      luck: details.luck,
       location: "home",
+      dungeonsOpen: details.dungeon_open,
       dungeon: 0,
-      subdungeon: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      subdungeon: [],
       goldInSack: 0,
       graphic: "assets/player/knight_blue_plus.png",
       weapon: new Weapon(
@@ -112,7 +146,7 @@ export class DungeonsComponent implements OnInit {
         0.3
       ),
       potions: [
-        new Potion("Health I", images.hpPotion, "hp", 600, "HP Potion"),
+        new Potion("Health I", this.images.hpPotion, "hp", 600, "HP Potion"),
       ],
       items: [
         new Weapon(
@@ -253,11 +287,66 @@ export class DungeonsComponent implements OnInit {
       missions: 12,
     };
 
-    this.player.stamina +=
-      this.player.necklace.stamina + this.player.ring.stamina;
+    this.player.basePoints[0] = details.bp_str;
+    this.player.basePoints[1] = details.bp_hp;
+    this.player.basePoints[2] = details.bp_sp;
+    this.player.basePoints[3] = details.bp_stam;
+    this.player.basePoints[4] = details.bp_luck;
 
-    this.player.staminaLeft +=
-      this.player.necklace.stamina + this.player.ring.stamina;
+    this.player.subdungeon[0] = details.d1;
+    this.player.subdungeon[1] = details.d2;
+    this.player.subdungeon[2] = details.d3;
+    this.player.subdungeon[3] = details.d4;
+    this.player.subdungeon[4] = details.d5;
+    this.player.subdungeon[5] = details.d6;
+    this.player.subdungeon[6] = details.d7;
+    this.player.subdungeon[7] = details.d8;
+    this.player.subdungeon[8] = details.d9;
+    this.player.subdungeon[9] = details.d10;
+    this.player.subdungeon[10] = details.d11;
+    this.player.subdungeon[11] = details.d12;
+    this.player.subdungeon[12] = details.d13;
+    this.player.subdungeon[13] = details.d14;
+    this.player.subdungeon[14] = details.d15;
+    this.player.subdungeon[15] = details.d16;
+    this.player.subdungeon[16] = details.d17;
+    this.player.subdungeon[17] = details.d18;
+    this.player.subdungeon[18] = details.d19;
+
+    let open: Array<boolean> = [];
+
+    for (let i = 0; i < 12; i++) {
+      if (i < this.player.dungeonsOpen) {
+        open.push(true);
+      } else {
+        open.push(false);
+      }
+    }
+
+    this.dungeons.firstFill(
+      [
+        this.player.subdungeon[0],
+        this.player.subdungeon[1],
+        this.player.subdungeon[2],
+        this.player.subdungeon[3],
+        this.player.subdungeon[4],
+        this.player.subdungeon[5],
+        this.player.subdungeon[6],
+        this.player.subdungeon[7],
+        this.player.subdungeon[8],
+        this.player.subdungeon[9],
+        this.player.subdungeon[10],
+        this.player.subdungeon[11],
+        this.player.subdungeon[12],
+        this.player.subdungeon[13],
+        this.player.subdungeon[14],
+        this.player.subdungeon[15],
+        this.player.subdungeon[16],
+        this.player.subdungeon[17],
+        this.player.subdungeon[18],
+      ],
+      open
+    );
 
     setTimeout(() => {
       this.mainBck = this.images.bckMain;
@@ -269,6 +358,66 @@ export class DungeonsComponent implements OnInit {
       assets.appendChild(this.images.gold);
       assets.append(this.player.gold.toString());
     }, 10);
+
+    setInterval(() => {
+      this.sendUpdate();
+    }, 15000);
+  }
+
+  sendUpdate() {
+    if (this.updateDetails.gold != this.player.gold) {
+      this.updateDetails.gold = this.player.gold;
+      this.updateDetails.health = this.player.hitPoints;
+      this.updateDetails.luck = this.player.luck;
+      this.updateDetails.speed = this.player.speed;
+      this.updateDetails.strength = this.player.strength;
+      this.updateDetails.stamina = this.player.stamina;
+      this.updateDetails.bp_str = this.player.basePoints[0];
+      this.updateDetails.bp_hp = this.player.basePoints[1];
+      this.updateDetails.bp_sp = this.player.basePoints[2];
+      this.updateDetails.bp_stam = this.player.basePoints[3];
+      this.updateDetails.bp_luck = this.player.basePoints[4];
+
+      this.update.sendUserData(this.updateDetails);
+    } else if (
+      this.updateDetails.experience != this.player.exp ||
+      this.updateDetails.lvl != this.player.level ||
+      this.updateDetails.staminaleft != this.player.staminaLeft ||
+      this.updateDetails.hpleft != this.player.health
+    ) {
+      this.updateDetails.experience = this.player.exp;
+      this.updateDetails.hpleft = this.player.health;
+      this.updateDetails.lvl = this.player.level;
+      this.updateDetails.staminaleft = this.player.staminaLeft;
+
+      this.update.sendUserData(this.updateDetails);
+
+      let subList = {
+        login: this.player.name,
+        dungeon_open: this.player.dungeonsOpen,
+        d1: this.player.subdungeon[0],
+        d2: this.player.subdungeon[1],
+        d3: this.player.subdungeon[2],
+        d4: this.player.subdungeon[3],
+        d5: this.player.subdungeon[4],
+        d6: this.player.subdungeon[5],
+        d7: this.player.subdungeon[6],
+        d8: this.player.subdungeon[7],
+        d9: this.player.subdungeon[8],
+        d10: this.player.subdungeon[9],
+        d11: this.player.subdungeon[10],
+        d12: this.player.subdungeon[11],
+        d13: this.player.subdungeon[12],
+        d14: this.player.subdungeon[13],
+        d15: this.player.subdungeon[14],
+        d16: this.player.subdungeon[15],
+        d17: this.player.subdungeon[16],
+        d18: this.player.subdungeon[17],
+        d19: this.player.subdungeon[18],
+      };
+
+      this.update.dungeonUpdate(subList);
+    }
   }
 
   goToShop() {

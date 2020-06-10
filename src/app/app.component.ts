@@ -1,7 +1,12 @@
-import { Component } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
 import { ImagesService } from "./images.service";
-import { VerificationService, TokenPayload } from "./verification.service";
+import {
+  VerificationService,
+  TokenPayload,
+  PlayerDetails,
+} from "./verification.service";
 import { GuardService } from "./guard.service";
+import { DungeonsComponent } from "./dungeons/dungeons.component";
 
 @Component({
   selector: "app-root",
@@ -9,6 +14,8 @@ import { GuardService } from "./guard.service";
   styleUrls: ["./app.component.scss"],
 })
 export class AppComponent {
+  @ViewChild(DungeonsComponent) dungeons: DungeonsComponent;
+
   title = "dungeons";
   mode: number = 0;
   shSettings = false;
@@ -27,6 +34,85 @@ export class AppComponent {
     login: "",
     email: "jolo@gmail.com",
     password: "",
+    experience: 0,
+    gold: 0,
+    strength: 0,
+    hpleft: 0,
+    health: 0,
+    speed: 0,
+    staminaleft: 0,
+    stamina: 0,
+    luck: 0,
+    lvl: 0,
+    dungeon_open: 0,
+    bp_str: 0,
+    bp_hp: 0,
+    bp_sp: 0,
+    bp_stam: 0,
+    bp_luck: 0,
+    d1: 0,
+    d2: 0,
+    d3: 0,
+    d4: 0,
+    d5: 0,
+    d6: 0,
+    d7: 0,
+    d8: 0,
+    d9: 0,
+    d10: 0,
+    d11: 0,
+    d12: 0,
+    d13: 0,
+    d14: 0,
+    d15: 0,
+    d16: 0,
+    d17: 0,
+    d18: 0,
+    d19: 0,
+  };
+
+  details: PlayerDetails = {
+    id: 0,
+    login: "",
+    email: "jolo@gmail.com",
+    password: "",
+    experience: 0,
+    gold: 0,
+    strength: 0,
+    hpleft: 0,
+    health: 0,
+    speed: 0,
+    staminaleft: 0,
+    stamina: 0,
+    luck: 0,
+    lvl: 0,
+    dungeon_open: 0,
+    bp_str: 0,
+    bp_hp: 0,
+    bp_sp: 0,
+    bp_stam: 0,
+    bp_luck: 0,
+    d1: 0,
+    d2: 0,
+    d3: 0,
+    d4: 0,
+    d5: 0,
+    d6: 0,
+    d7: 0,
+    d8: 0,
+    d9: 0,
+    d10: 0,
+    d11: 0,
+    d12: 0,
+    d13: 0,
+    d14: 0,
+    d15: 0,
+    d16: 0,
+    d17: 0,
+    d18: 0,
+    d19: 0,
+    exp: 0,
+    iat: 0,
   };
 
   constructor(
@@ -39,7 +125,25 @@ export class AppComponent {
     }, 10);
 
     if (this.guard.isLoggedIn()) {
-      this.mode = 3;
+      this.details = this.verify.getUserDetails();
+      this.verify.updateToken(this.details.login).subscribe(
+        (resp) => {
+          if (resp.error) {
+            this.alert = resp.error;
+            this.showAlert = true;
+          } else {
+            this.mode = 3;
+            this.details = this.verify.getUserDetails();
+            setTimeout(() => {
+              this.dungeons.setPlayer(this.details);
+            }, 200);
+          }
+        },
+        (err) => {
+          this.alert = err.error.text;
+          this.showAlert = true;
+        }
+      );
     }
   }
   startCoins() {
@@ -53,8 +157,12 @@ export class AppComponent {
   showSettings() {
     this.shSettings = true;
   }
-  closeSettings() {
-    this.shSettings = false;
+  closeSettings(value) {
+    if (value == "close") {
+      this.shSettings = false;
+    } else {
+      this.dungeons.sendUpdate();
+    }
   }
 
   spikePos = { x: 0, y: 0 };
@@ -155,6 +263,10 @@ export class AppComponent {
             } else {
               this.mode = 2;
               this.tablesUp();
+              this.details = this.verify.getUserDetails();
+              setTimeout(() => {
+                this.dungeons.setPlayer(this.details);
+              }, 200);
             }
           },
           (err) => {
@@ -182,6 +294,10 @@ export class AppComponent {
           } else {
             this.mode = 2;
             this.tablesUp();
+            this.details = this.verify.getUserDetails();
+            setTimeout(() => {
+              this.dungeons.setPlayer(this.details);
+            }, 200);
           }
         },
         (err) => {

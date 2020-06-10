@@ -22,6 +22,7 @@ export class User {
   speedBuildUp: number;
   luck: number;
   location: string;
+  dungeonsOpen: number;
   dungeon: number;
   subdungeon: Array<number>;
   goldInSack: number;

@@ -67,9 +67,9 @@
 </div>
 
 <app-coins *ngIf="mode == 1"></app-coins>
-<app-dungeons *ngIf="mode == 2 || mode == 3"></app-dungeons>
+<app-dungeons #dungeons *ngIf="mode == 2 || mode == 3"></app-dungeons>
 
-<app-settings *ngIf="mode == 2 || mode == 3" [showSettings]="shSettings" (close)="closeSettings()"></app-settings>
+<app-settings *ngIf="mode == 2 || mode == 3" [showSettings]="shSettings" (close)="closeSettings($event)"></app-settings>
 <div class="darken" *ngIf="shSettings"></div>
 
 <img *ngIf="mode == 2 || mode == 3" class="gear" src="assets/settings.png" (click)="showSettings()" />

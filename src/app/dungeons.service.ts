@@ -32,14 +32,16 @@ export class DungeonsService {
     "Holy Three",
   ];
 
-  constructor(private images: ImagesService) {
+  constructor(private images: ImagesService) {}
+
+  firstFill(ds, open) {
     this.dungeons.push(
       new Dungeon(
         this.names[0],
         "assets/dungeon/1.png",
-        this.fillDungeon(1),
-        0,
-        true,
+        this.fillDungeon(1, ds[0]),
+        ds[0],
+        open[0],
         0
       )
     );
@@ -47,9 +49,9 @@ export class DungeonsService {
       new Dungeon(
         this.names[1],
         "assets/dungeon/2.png",
-        this.fillDungeon(2),
-        0,
-        false,
+        this.fillDungeon(2, ds[0]),
+        ds[1],
+        open[1],
         0
       )
     );
@@ -57,9 +59,9 @@ export class DungeonsService {
       new Dungeon(
         this.names[2],
         "assets/dungeon/3.png",
-        this.fillDungeon(3),
-        0,
-        false,
+        this.fillDungeon(3, ds[0]),
+        ds[2],
+        open[2],
         0
       )
     );
@@ -67,9 +69,9 @@ export class DungeonsService {
       new Dungeon(
         this.names[3],
         "assets/dungeon/4.png",
-        this.fillDungeon(4),
-        0,
-        false,
+        this.fillDungeon(4, ds[0]),
+        ds[3],
+        open[3],
         0
       )
     );
@@ -77,9 +79,9 @@ export class DungeonsService {
       new Dungeon(
         this.names[4],
         "assets/dungeon/5.png",
-        this.fillDungeon(5),
-        0,
-        false,
+        this.fillDungeon(5, ds[0]),
+        ds[4],
+        open[4],
         0
       )
     );
@@ -87,9 +89,9 @@ export class DungeonsService {
       new Dungeon(
         this.names[5],
         "assets/dungeon/6.png",
-        this.fillDungeon(6),
-        0,
-        false,
+        this.fillDungeon(6, ds[0]),
+        ds[5],
+        open[5],
         0
       )
     );
@@ -97,9 +99,9 @@ export class DungeonsService {
       new Dungeon(
         this.names[6],
         "assets/dungeon/7.png",
-        this.fillDungeon(7),
-        0,
-        false,
+        this.fillDungeon(7, ds[0]),
+        ds[6],
+        open[6],
         0
       )
     );
@@ -108,9 +110,9 @@ export class DungeonsService {
       new Dungeon(
         this.names[7],
         "assets/dungeon/8.png",
-        this.fillDungeon(8),
-        0,
-        false,
+        this.fillDungeon(8, ds[0]),
+        ds[7],
+        open[7],
         0
       )
     );
@@ -119,9 +121,9 @@ export class DungeonsService {
       new Dungeon(
         this.names[8],
         "assets/dungeon/9.png",
-        this.fillDungeon(9),
-        0,
-        false,
+        this.fillDungeon(9, ds[0]),
+        ds[8],
+        open[8],
         0
       )
     );
@@ -129,9 +131,9 @@ export class DungeonsService {
       new Dungeon(
         this.names[9],
         "assets/dungeon/10.png",
-        this.fillDungeon(10),
-        0,
-        true,
+        this.fillDungeon(10, ds[0]),
+        ds[9],
+        open[9],
         0
       )
     );
@@ -139,9 +141,9 @@ export class DungeonsService {
       new Dungeon(
         this.names[10],
         "assets/dungeon/11.png",
-        this.fillDungeon(11),
-        0,
-        true,
+        this.fillDungeon(11, ds[0]),
+        ds[10],
+        open[10],
         0
       )
     );
@@ -149,9 +151,9 @@ export class DungeonsService {
       new Dungeon(
         this.names[11],
         "assets/dungeon/12.png",
-        this.fillDungeon(12),
-        0,
-        true,
+        this.fillDungeon(12, ds[0]),
+        ds[11],
+        open[11],
         0
       )
     );
@@ -1185,9 +1187,13 @@ export class DungeonsService {
     ],
   ];
 
-  fillDungeon(dungeon) {
+  fillDungeon(dungeon, min = 0) {
     var monsterArray: Array<Enemy> = [];
     var amount = Math.round(Math.random() * 12 + 10);
+
+    if (amount < min) {
+      amount = min + 2;
+    }
 
     for (let i = 0; i <= amount; i++) {
       let addLvl = Math.round((Math.random() * i) / 3 + i / 3);

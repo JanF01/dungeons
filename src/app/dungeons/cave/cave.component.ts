@@ -11,6 +11,7 @@ import { ImagesService } from "../../images.service";
 import { Item } from "../models/item.model";
 import { Weapon } from "../models/items/weapon.model";
 import { MissionsService } from "src/app/missions.service";
+import { UpdateService } from "src/app/update.service";
 
 @Component({
   selector: "app-cave",
@@ -75,7 +76,8 @@ export class CaveComponent {
     private audio: AudioService,
     private dungeons: DungeonsService,
     private images: ImagesService,
-    private missions: MissionsService
+    private missions: MissionsService,
+    private update: UpdateService
   ) {
     this.enemy = this.dungeons.dungeons[0].monsters[0];
   }
@@ -532,6 +534,7 @@ export class CaveComponent {
           if (!this.dungeons.dungeons[this.player.dungeon + 1].open) {
             this.player.subdungeon[this.player.dungeon + 1] = 0;
             this.dungeons.dungeons[this.player.dungeon + 1].open = true;
+            this.player.dungeonsOpen++;
           }
           this.dungeons.dungeons[this.player.dungeon].completed = 0;
         }

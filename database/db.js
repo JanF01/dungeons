@@ -5,7 +5,7 @@ const sequelize = new Sequelize("dungeons", "root", "", {
   dialect: "mysql",
 
   pool: {
-    max: 5,
+    max: 20,
     min: 0,
     aquire: 30000,
     idle: 10000

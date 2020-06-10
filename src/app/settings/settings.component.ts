@@ -22,7 +22,7 @@ export class SettingsComponent implements OnInit {
   ngOnInit(): void {}
 
   closeSet() {
-    this.closeSettings.emit(null);
+    this.closeSettings.emit("close");
   }
 
   sendValue($event) {
@@ -33,7 +33,11 @@ export class SettingsComponent implements OnInit {
   }
 
   logout() {
-    this.verify.logout();
-    location.reload();
+    this.closeSettings.emit("logout");
+
+    setTimeout(() => {
+      this.verify.logout();
+      location.reload();
+    }, 1000);
   }
 }

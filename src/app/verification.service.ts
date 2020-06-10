@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Observable, of } from "rxjs";
+import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { HttpClient } from "@angular/common/http";
 
@@ -8,11 +8,46 @@ export interface PlayerDetails {
   login: string;
   email: string;
   password: string;
+  experience: number;
+  gold: number;
+  strength: number;
+  hpleft: number;
+  health: number;
+  speed: number;
+  staminaleft: number;
+  stamina: number;
+  luck: number;
+  lvl: number;
+  dungeon_open: number;
+  bp_str: number;
+  bp_hp: number;
+  bp_sp: number;
+  bp_stam: number;
+  bp_luck: number;
+  d1: number;
+  d2: number;
+  d3: number;
+  d4: number;
+  d5: number;
+  d6: number;
+  d7: number;
+  d8: number;
+  d9: number;
+  d10: number;
+  d11: number;
+  d12: number;
+  d13: number;
+  d14: number;
+  d15: number;
+  d16: number;
+  d17: number;
+  d18: number;
+  d19: number;
   exp: number;
   iat: number;
 }
 
-interface TokenResponse {
+export interface TokenResponse {
   token: string;
 }
 
@@ -21,6 +56,41 @@ export interface TokenPayload {
   login: string;
   email: string;
   password: string;
+  experience: number;
+  gold: number;
+  strength: number;
+  hpleft: number;
+  health: number;
+  speed: number;
+  staminaleft: number;
+  stamina: number;
+  luck: number;
+  lvl: number;
+  dungeon_open: number;
+  bp_str: number;
+  bp_hp: number;
+  bp_sp: number;
+  bp_stam: number;
+  bp_luck: number;
+  d1: number;
+  d2: number;
+  d3: number;
+  d4: number;
+  d5: number;
+  d6: number;
+  d7: number;
+  d8: number;
+  d9: number;
+  d10: number;
+  d11: number;
+  d12: number;
+  d13: number;
+  d14: number;
+  d15: number;
+  d16: number;
+  d17: number;
+  d18: number;
+  d19: number;
 }
 
 @Injectable({
@@ -37,9 +107,8 @@ export class VerificationService {
   }
 
   private getToken(): string {
-    if (!this.token) {
-      this.token = localStorage.getItem("userToken");
-    }
+    this.token = localStorage.getItem("userToken");
+
     return this.token;
   }
 
@@ -71,6 +140,21 @@ export class VerificationService {
 
   public login(player: TokenPayload): Observable<any> {
     const base = this.http.post("/players/login", player);
+
+    const request = base.pipe(
+      map((data: TokenResponse) => {
+        if (data.token) {
+          this.saveToken(data.token);
+        }
+        return data;
+      })
+    );
+
+    return request;
+  }
+
+  public updateToken(nick): Observable<any> {
+    const base = this.http.post("/players/getupdated", { login: nick });
 
     const request = base.pipe(
       map((data: TokenResponse) => {
