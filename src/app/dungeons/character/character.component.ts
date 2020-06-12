@@ -2,6 +2,8 @@ import { Component, OnInit, Input, ɵPlayer } from "@angular/core";
 import { User } from "../models/user.model";
 import { CdkDragEnd } from "@angular/cdk/drag-drop";
 import { ImagesService } from "../../images.service";
+import { UpdateService } from "src/app/update.service";
+import { SocketService } from "src/app/socket.service";
 
 @Component({
   selector: "app-character",
@@ -25,7 +27,9 @@ export class CharacterComponent implements OnInit {
     speed: 0,
   };
 
-  constructor(private images: ImagesService) {}
+  updateDetails: any;
+
+  constructor(private images: ImagesService, private socket: SocketService) {}
 
   countPotions() {
     for (let i = 0; i < this.player.potions.length; i++) {
@@ -66,6 +70,7 @@ export class CharacterComponent implements OnInit {
       this.strengthCost = Math.round(
         (this.player.basePoints[0] + 5) * ((this.player.basePoints[0] + 1) / 3)
       );
+      this.socket.updatePlayer(this.player);
     }
   }
   addSpeed() {
@@ -79,6 +84,7 @@ export class CharacterComponent implements OnInit {
           ((this.player.basePoints[2] + 1) / 2) *
           1.2
       );
+      this.socket.updatePlayer(this.player);
     }
   }
   addHealth() {
@@ -94,6 +100,7 @@ export class CharacterComponent implements OnInit {
           ((this.player.basePoints[3] + 1) / 1.5) *
           1.15
       );
+      this.socket.updatePlayer(this.player);
     }
   }
   addLuck() {
@@ -105,6 +112,7 @@ export class CharacterComponent implements OnInit {
       this.luckCost = Math.round(
         (this.player.basePoints[4] + 5) * (this.player.basePoints[4] + 1) * 1.15
       );
+      this.socket.updatePlayer(this.player);
     }
   }
   addStamina() {
@@ -115,6 +123,7 @@ export class CharacterComponent implements OnInit {
 
       this.player.gold -= this.staminaCost;
       this.staminaCost += 2;
+      this.socket.updatePlayer(this.player);
     }
   }
 

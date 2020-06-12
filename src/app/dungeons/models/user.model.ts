@@ -5,6 +5,7 @@ import { Necklace } from "./items/necklace.model";
 import { Ring } from "./items/ring.model";
 
 export class User {
+  id: number;
   name: string;
   level: number;
   exp: number;

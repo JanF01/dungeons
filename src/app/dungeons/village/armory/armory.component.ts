@@ -4,6 +4,7 @@ import { ImagesService } from "src/app/images.service";
 import { Item } from "../../models/item.model";
 import { Armor } from "../../models/items/armor.model";
 import { Weapon } from "../../models/items/weapon.model";
+import { SocketService } from "src/app/socket.service";
 
 @Component({
   selector: "app-armory",
@@ -28,7 +29,7 @@ export class ArmoryComponent implements OnInit {
   showAlert: boolean = false;
   alertInput: string = "";
 
-  constructor(private images: ImagesService) {}
+  constructor(private images: ImagesService, private socket: SocketService) {}
 
   ngOnInit(): void {}
 
@@ -38,6 +39,7 @@ export class ArmoryComponent implements OnInit {
     );
 
     this.player.armorsInShop[0] = new Armor(
+      this.player.id,
       "normal",
       "Shield Yourself",
       "assets/armor/1_1.png",
@@ -51,6 +53,7 @@ export class ArmoryComponent implements OnInit {
       "normal"
     );
     this.player.armorsInShop[1] = new Armor(
+      this.player.id,
       "normal",
       "Shield Yourself",
       "assets/armor/1_2.png",
@@ -64,6 +67,7 @@ export class ArmoryComponent implements OnInit {
       "normal"
     );
     this.player.armorsInShop[2] = new Armor(
+      this.player.id,
       "normal",
       "Shield Yourself",
       "assets/armor/1_3.png",
@@ -78,6 +82,7 @@ export class ArmoryComponent implements OnInit {
     );
 
     this.player.weaponsInShop[0] = new Weapon(
+      this.player.id,
       "normal",
       "A Fricking Sword",
       "assets/weapon/1_2.png",
@@ -93,6 +98,7 @@ export class ArmoryComponent implements OnInit {
       "normal"
     );
     this.player.weaponsInShop[1] = new Weapon(
+      this.player.id,
       "normal",
       "A Fricking Sword",
       "assets/weapon/1_1.png",
@@ -108,6 +114,7 @@ export class ArmoryComponent implements OnInit {
       "normal"
     );
     this.player.weaponsInShop[2] = new Weapon(
+      this.player.id,
       "normal",
       "A Fricking Sword",
       "assets/weapon/1_1.png",
@@ -159,6 +166,8 @@ export class ArmoryComponent implements OnInit {
           this.player.items.push(itemCopy);
           this.player.itemsOnHold.push(itemCopy);
           this.player.gold -= item.cost;
+
+          this.socket.updatePlayer(this.player);
 
           t[n] = { x: 0, y: 0 };
         } else {

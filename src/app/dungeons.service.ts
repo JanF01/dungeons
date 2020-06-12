@@ -49,7 +49,7 @@ export class DungeonsService {
       new Dungeon(
         this.names[1],
         "assets/dungeon/2.png",
-        this.fillDungeon(2, ds[0]),
+        this.fillDungeon(2, ds[1]),
         ds[1],
         open[1],
         0
@@ -59,7 +59,7 @@ export class DungeonsService {
       new Dungeon(
         this.names[2],
         "assets/dungeon/3.png",
-        this.fillDungeon(3, ds[0]),
+        this.fillDungeon(3, ds[2]),
         ds[2],
         open[2],
         0
@@ -69,7 +69,7 @@ export class DungeonsService {
       new Dungeon(
         this.names[3],
         "assets/dungeon/4.png",
-        this.fillDungeon(4, ds[0]),
+        this.fillDungeon(4, ds[3]),
         ds[3],
         open[3],
         0
@@ -79,7 +79,7 @@ export class DungeonsService {
       new Dungeon(
         this.names[4],
         "assets/dungeon/5.png",
-        this.fillDungeon(5, ds[0]),
+        this.fillDungeon(5, ds[4]),
         ds[4],
         open[4],
         0
@@ -89,7 +89,7 @@ export class DungeonsService {
       new Dungeon(
         this.names[5],
         "assets/dungeon/6.png",
-        this.fillDungeon(6, ds[0]),
+        this.fillDungeon(6, ds[5]),
         ds[5],
         open[5],
         0
@@ -99,7 +99,7 @@ export class DungeonsService {
       new Dungeon(
         this.names[6],
         "assets/dungeon/7.png",
-        this.fillDungeon(7, ds[0]),
+        this.fillDungeon(7, ds[6]),
         ds[6],
         open[6],
         0
@@ -110,7 +110,7 @@ export class DungeonsService {
       new Dungeon(
         this.names[7],
         "assets/dungeon/8.png",
-        this.fillDungeon(8, ds[0]),
+        this.fillDungeon(8, ds[7]),
         ds[7],
         open[7],
         0
@@ -121,7 +121,7 @@ export class DungeonsService {
       new Dungeon(
         this.names[8],
         "assets/dungeon/9.png",
-        this.fillDungeon(9, ds[0]),
+        this.fillDungeon(9, ds[8]),
         ds[8],
         open[8],
         0
@@ -131,7 +131,7 @@ export class DungeonsService {
       new Dungeon(
         this.names[9],
         "assets/dungeon/10.png",
-        this.fillDungeon(10, ds[0]),
+        this.fillDungeon(10, ds[9]),
         ds[9],
         open[9],
         0
@@ -141,7 +141,7 @@ export class DungeonsService {
       new Dungeon(
         this.names[10],
         "assets/dungeon/11.png",
-        this.fillDungeon(11, ds[0]),
+        this.fillDungeon(11, ds[10]),
         ds[10],
         open[10],
         0
@@ -151,7 +151,7 @@ export class DungeonsService {
       new Dungeon(
         this.names[11],
         "assets/dungeon/12.png",
-        this.fillDungeon(12, ds[0]),
+        this.fillDungeon(12, ds[11]),
         ds[11],
         open[11],
         0
@@ -384,6 +384,7 @@ export class DungeonsService {
 
     if (IC > 0.288 * chance) {
       item = new Crystal(
+        0,
         "artefact",
         "Sonic's Crystal",
         "assets/crystal/artefact_speed.png",
@@ -397,6 +398,7 @@ export class DungeonsService {
       );
     } else if (IC > 0.286 * chance) {
       item = new Crystal(
+        0,
         "artefact",
         "Rain of Experience",
         "assets/crystal/artefact_exp.png",
@@ -410,6 +412,7 @@ export class DungeonsService {
       );
     } else if (IC > 0.284 * chance) {
       item = new Crystal(
+        0,
         "artefact",
         "Crystal of Destruction",
         "assets/crystal/artefact_dmg.png",
@@ -423,6 +426,7 @@ export class DungeonsService {
       );
     } else if (IC > 0.282 * chance) {
       item = new Crystal(
+        0,
         "artefact",
         "Life's Crystal",
         "assets/crystal/artefact_hp.png",
@@ -436,6 +440,7 @@ export class DungeonsService {
       );
     } else if (IC > 0.278 * chance) {
       item = new Crystal(
+        0,
         "legend",
         "Velocity Crystal",
         "assets/crystal/legend_speed.png",
@@ -449,6 +454,7 @@ export class DungeonsService {
       );
     } else if (IC > 0.274 * chance) {
       item = new Crystal(
+        0,
         "legend",
         "Experience Multiplier",
         "assets/crystal/legend_exp.png",
@@ -462,6 +468,7 @@ export class DungeonsService {
       );
     } else if (IC > 0.27 * chance) {
       item = new Crystal(
+        0,
         "legend",
         "Power Crystal",
         "assets/crystal/legend_dmg.png",
@@ -475,6 +482,7 @@ export class DungeonsService {
       );
     } else if (IC > 0.266 * chance) {
       item = new Crystal(
+        0,
         "legend",
         "Health Stream",
         "assets/crystal/legend_hp.png",
@@ -488,6 +496,7 @@ export class DungeonsService {
       );
     } else if (IC > 0.259 * chance) {
       item = new Crystal(
+        0,
         "normal",
         "Speed Gem",
         "assets/crystal/normal_speed.png",
@@ -501,6 +510,7 @@ export class DungeonsService {
       );
     } else if (IC > 0.252 * chance) {
       item = new Crystal(
+        0,
         "normal",
         "Crystal Of Experience",
         "assets/crystal/normal_exp.png",
@@ -514,6 +524,7 @@ export class DungeonsService {
       );
     } else if (IC > 0.245 * chance) {
       item = new Crystal(
+        0,
         "normal",
         "Damage Crystal",
         "assets/crystal/normal_dmg.png",
@@ -527,6 +538,7 @@ export class DungeonsService {
       );
     } else if (IC > 0.238 * chance) {
       item = new Crystal(
+        0,
         "normal",
         "Endurance Gem",
         "assets/crystal/normal_hp.png",
@@ -541,6 +553,7 @@ export class DungeonsService {
     } else if (IC > 0.13 * chance) {
       if (chance == 3 && IC > 0.233 * chance) {
         item = new Weapon(
+          0,
           "revered",
           "The Sword of Napoleon",
           "assets/weapon/" + w + "2.png",
@@ -555,6 +568,7 @@ export class DungeonsService {
         );
       } else if (chance == 3 && IC > 0.228 * chance) {
         item = new Armor(
+          0,
           "revered",
           "The Armor of Napoleon",
           "assets/armor/" + w + "2.png",
@@ -569,6 +583,7 @@ export class DungeonsService {
         );
       } else if (chance == 3 && IC > 0.225 * chance) {
         item = new Weapon(
+          0,
           "holy",
           "The Needle of Ascension",
           "assets/weapon/" + w + "3.png",
@@ -583,6 +598,7 @@ export class DungeonsService {
         );
       } else if (chance == 3 && IC > 0.222 * chance) {
         item = new Armor(
+          0,
           "holy",
           "Armor of Zeus",
           "assets/armor/" + w + "3.png",
@@ -597,6 +613,7 @@ export class DungeonsService {
         );
       } else if (chance == 3 && IC > 0.22 * chance) {
         item = new Necklace(
+          0,
           "revered",
           "Necklace of Poseidon",
           "assets/necklace/1_2.png",
@@ -610,6 +627,7 @@ export class DungeonsService {
         );
       } else if (chance == 3 && IC > 0.218 * chance) {
         item = new Ring(
+          0,
           "revered",
           "Ring of Persefona",
           "assets/ring/1_2.png",
@@ -623,6 +641,7 @@ export class DungeonsService {
         );
       } else if (chance == 3 && IC > 0.217 * chance) {
         item = new Ring(
+          0,
           "holy",
           "End Ring",
           "assets/ring/1_2.png",
@@ -636,6 +655,7 @@ export class DungeonsService {
         );
       } else if (chance == 3 && IC > 0.216 * chance) {
         item = new Necklace(
+          0,
           "holy",
           "End Necklace",
           "assets/necklace/1_2.png",
@@ -649,6 +669,7 @@ export class DungeonsService {
         );
       } else {
         item = new Weapon(
+          0,
           "normal",
           "A Fricking Sword",
           "assets/weapon/" + w + "1.png",
@@ -664,6 +685,7 @@ export class DungeonsService {
       }
     } else if (IC > 0.08 * chance) {
       item = new Armor(
+        0,
         "normal",
         "Shield Yourself",
         "assets/armor/" + a + "1.png",
@@ -678,6 +700,7 @@ export class DungeonsService {
       );
     } else if (IC > 0.05 * chance) {
       item = new Weapon(
+        0,
         "legend",
         "Holy Sword",
         "assets/weapon/" + w + "2.png",
@@ -692,6 +715,7 @@ export class DungeonsService {
       );
     } else if (IC > 0.045 * chance) {
       item = new Armor(
+        0,
         "legend",
         "Holy Armor",
         "assets/armor/" + a + "2.png",
@@ -706,6 +730,7 @@ export class DungeonsService {
       );
     } else if (IC > 0.04 * chance) {
       item = new Weapon(
+        0,
         "artefact",
         "Lucky Needle",
         "assets/weapon/" + w + "3.png",
@@ -720,6 +745,7 @@ export class DungeonsService {
       );
     } else if (IC > 0.042 * chance) {
       item = new Armor(
+        0,
         "artefact",
         "Foreknowing Armor AI",
         "assets/armor/" + a + "3.png",
@@ -734,6 +760,7 @@ export class DungeonsService {
       );
     } else if (IC > 0.027 * chance) {
       item = new Necklace(
+        0,
         "normal",
         "Necklace of Wisdom",
         "assets/necklace/1_1.png",
@@ -747,6 +774,7 @@ export class DungeonsService {
       );
     } else if (IC > 0.014 * chance) {
       item = new Ring(
+        0,
         "normal",
         "Ring of Wisdom",
         "assets/ring/1_1.png",
@@ -760,6 +788,7 @@ export class DungeonsService {
       );
     } else if (IC > 0.009 * chance) {
       item = new Necklace(
+        0,
         "legend",
         "Necklace on Fire",
         "assets/necklace/1_2.png",
@@ -773,6 +802,7 @@ export class DungeonsService {
       );
     } else if (IC > 0.004 * chance) {
       item = new Ring(
+        0,
         "legend",
         "Ring of Darkness",
         "assets/ring/1_2.png",
@@ -786,6 +816,7 @@ export class DungeonsService {
       );
     } else if (IC > 0.002 * chance) {
       item = new Necklace(
+        0,
         "artefact",
         "Necklace 1/500",
         "assets/necklace/1_2.png",
@@ -799,6 +830,7 @@ export class DungeonsService {
       );
     } else if (IC <= 0.002 * chance) {
       item = new Ring(
+        0,
         "artefact",
         "Ring 1/500",
         "assets/ring/1_2.png",

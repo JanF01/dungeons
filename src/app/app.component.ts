@@ -7,6 +7,7 @@ import {
 } from "./verification.service";
 import { GuardService } from "./guard.service";
 import { DungeonsComponent } from "./dungeons/dungeons.component";
+import { SocketService } from "./socket.service";
 
 @Component({
   selector: "app-root",
@@ -118,7 +119,8 @@ export class AppComponent {
   constructor(
     private images: ImagesService,
     private verify: VerificationService,
-    private guard: GuardService
+    private guard: GuardService,
+    private socket: SocketService
   ) {
     setTimeout(() => {
       this.registerBck = this.images.registerBck;
@@ -161,7 +163,7 @@ export class AppComponent {
     if (value == "close") {
       this.shSettings = false;
     } else {
-      this.dungeons.sendUpdate();
+      this.socket.disconnect();
     }
   }
 

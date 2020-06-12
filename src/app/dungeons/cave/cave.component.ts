@@ -12,6 +12,7 @@ import { Item } from "../models/item.model";
 import { Weapon } from "../models/items/weapon.model";
 import { MissionsService } from "src/app/missions.service";
 import { UpdateService } from "src/app/update.service";
+import { SocketService } from "src/app/socket.service";
 
 @Component({
   selector: "app-cave",
@@ -77,7 +78,7 @@ export class CaveComponent {
     private dungeons: DungeonsService,
     private images: ImagesService,
     private missions: MissionsService,
-    private update: UpdateService
+    private socket: SocketService
   ) {
     this.enemy = this.dungeons.dungeons[0].monsters[0];
   }
@@ -99,6 +100,8 @@ export class CaveComponent {
       }
       this.player.loot.splice(0, 1);
     }
+
+    this.socket.updatePlayer(this.player);
 
     this.player.location = "home";
     this.player.gold += this.player.goldInSack;
@@ -473,6 +476,7 @@ export class CaveComponent {
     if (item.code != undefined) {
       if (this.player.loot.length < 8) {
         if (!this.player.loot.includes(item)) {
+          item.player_id = this.player.id;
           this.player.loot.push(item);
         }
       }
@@ -497,6 +501,7 @@ export class CaveComponent {
       this.dungeons.dungeons[this.player.dungeon].completed = 1;
       this.player.subdungeon[this.player.dungeon] = 0;
       this.audio.win();
+
       this.goBackToMap();
     } else {
       if (
@@ -534,6 +539,7 @@ export class CaveComponent {
           if (!this.dungeons.dungeons[this.player.dungeon + 1].open) {
             this.player.subdungeon[this.player.dungeon + 1] = 0;
             this.dungeons.dungeons[this.player.dungeon + 1].open = true;
+
             this.player.dungeonsOpen++;
           }
           this.dungeons.dungeons[this.player.dungeon].completed = 0;
@@ -545,6 +551,7 @@ export class CaveComponent {
         this.goBackToMap();
       }
     }
+    this.socket.updatePlayer(this.player);
   }
 
   //Status check

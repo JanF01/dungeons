@@ -2,7 +2,13 @@ const Sequelize = require("Sequelize")
 
 const db = require("../database/db.js")
 
-module.exports = db.sequelize.define(
+const Weapon = require("./Weapon");
+const Armor = require("./Armor");
+const Crystal = require("./Crystal");
+const Necklace = require("./Necklace");
+const Ring = require("./Ring");
+
+const Player = db.sequelize.define(
   "player", {
     id: {
       type: Sequelize.INTEGER,
@@ -130,3 +136,7 @@ module.exports = db.sequelize.define(
     timestamps: false,
   }
 )
+
+
+
+module.exports = Player;

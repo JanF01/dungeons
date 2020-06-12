@@ -11,6 +11,7 @@
 
 - Node.js
 - Express
+- WebSocket - Socket.IO
 - JWT Token
 
 * localStorage

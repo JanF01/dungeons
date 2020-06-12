@@ -6,6 +6,7 @@ import { Armor } from "../models/items/armor.model";
 import { Item } from "../models/item.model";
 import { Necklace } from "../models/items/necklace.model";
 import { Ring } from "../models/items/ring.model";
+import { SocketService } from "src/app/socket.service";
 
 @Component({
   selector: "app-backpack",
@@ -51,7 +52,7 @@ export class BackpackComponent implements OnInit {
 
   menuOption: string;
 
-  constructor(private images: ImagesService) {
+  constructor(private images: ImagesService, private socket: SocketService) {
     for (let i = 0; i <= 35; i++) {
       this.arrayItemsPos.push({ x: 0, y: 0 });
     }
@@ -159,6 +160,7 @@ export class BackpackComponent implements OnInit {
             this.player.items.push(this.player.weapon);
             this.checkGemWeapon();
             this.player.weapon = new Weapon(
+              this.player.id,
               "normal",
               "Fist",
               "assets/weapon/fist.png",
@@ -178,6 +180,7 @@ export class BackpackComponent implements OnInit {
             this.player.items.push(this.player.armor);
             this.checkGemArmor();
             this.player.armor = new Armor(
+              this.player.id,
               "normal",
               "none",
               "assets/armor/none.png",
@@ -197,6 +200,7 @@ export class BackpackComponent implements OnInit {
             this.player.items.push(this.player.necklace);
             this.checkGemRest();
             this.player.necklace = new Necklace(
+              this.player.id,
               "normal",
               "none",
               "assets/necklace/none.png",
@@ -231,6 +235,7 @@ export class BackpackComponent implements OnInit {
       }
     }
     this.appearMenu = false;
+    this.socket.updatePlayer(this.player);
   }
 
   itemForInfo: any;
@@ -313,6 +318,7 @@ export class BackpackComponent implements OnInit {
       this.player.items.splice(i, 1);
       this.player.gold += item.cost;
       this.hideInfo();
+      this.socket.updatePlayer(this.player);
     }
   }
 
@@ -323,6 +329,7 @@ export class BackpackComponent implements OnInit {
       this.player.items.splice(this.player.items.indexOf(item), 1);
       what = undefined;
     }
+    this.socket.updatePlayer(this.player);
   }
 
   changeItem(item, type) {
@@ -391,6 +398,7 @@ export class BackpackComponent implements OnInit {
         }
       }
     }
+    this.socket.updatePlayer(this.player);
   }
 
   changeItems(item, pos, i, type) {

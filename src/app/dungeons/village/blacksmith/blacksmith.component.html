@@ -1,36 +1,98 @@
 <section id="inner">
-
-
-    <div class="backpack">
+  <div class="backpack">
     <div class="items">
-        <div class="spaces">
-            <div *ngFor="let i of arrayForItems" class="spot" (mouseenter)="showInfo(player.items[i])" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()" cdkDrag (cdkDragStarted)="grab(i)" (cdkDragEnded)="dropItem(i)" [cdkDragFreeDragPosition]="arrayItemsPos[i]">
-                <div class="{{player.items[i]==undefined?'normal':player.items[i].type}}"></div>
-                <img *ngIf="player.items[i]!=undefined" src="{{player.items[i].graphic}}" [ngClass]="{'smallCrystal':player.items[i].amp!=undefined && player.items[i].type=='normal', 'bigCrystal':player.items[i].amp!=undefined && player.items[i].type=='legend'}">
-            </div>
+      <div class="spaces">
+        <div
+          *ngFor="let i of arrayForItems"
+          class="spot"
+          (mouseenter)="showInfo(player.items[i])"
+          (mousemove)="changePosition($event)"
+          (mouseleave)="hideInfo()"
+          cdkDrag
+          (cdkDragStarted)="grab(i)"
+          (cdkDragEnded)="dropItem(i)"
+          [cdkDragFreeDragPosition]="arrayItemsPos[i]"
+          (contextmenu)="showMenu($event, -1, player.armor)"
+        >
+          <div
+            class="{{
+              player.items[i] == undefined ? 'normal' : player.items[i].type
+            }}"
+          ></div>
+          <img
+            *ngIf="player.items[i] != undefined"
+            src="{{ player.items[i].graphic }}"
+            [ngClass]="{
+              smallCrystal:
+                player.items[i].amp != undefined &&
+                player.items[i].type == 'normal',
+              bigCrystal:
+                player.items[i].amp != undefined &&
+                player.items[i].type == 'legend'
+            }"
+          />
         </div>
+      </div>
     </div>
-    </div>
+  </div>
 
-    <div class="anvil">
-    <div class="item" id="start" class="{{getClass(itemForUpgrade)}}" (mouseenter)="showInfo(itemForUpgrade)" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()">
-        <img *ngIf="itemForUpgrade!=undefined" src="{{itemForUpgrade.graphic}}">
-        <img *ngIf="itemForUpgrade==undefined" src="assets/placeForItem.png">
+  <div class="anvil">
+    <div
+      class="item"
+      id="start"
+      class="{{ getClass(itemForUpgrade) }}"
+      (mouseenter)="showInfo(itemForUpgrade)"
+      (mousemove)="changePosition($event)"
+      (mouseleave)="hideInfo()"
+    >
+      <img
+        *ngIf="itemForUpgrade != undefined"
+        src="{{ itemForUpgrade.graphic }}"
+      />
+      <img *ngIf="itemForUpgrade == undefined" src="assets/placeForItem.png" />
     </div>
     <span>+</span>
-    <div class="gem" class="{{getClass(gemForUpgrade)}}" (mouseenter)="showInfo(gemForUpgrade)" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()">
-        <img *ngIf="gemForUpgrade!=undefined" src="{{gemForUpgrade.graphic}}">
-        <img *ngIf="gemForUpgrade==undefined" src="assets/placeForCrystal.png">
+    <div
+      class="gem"
+      class="{{ getClass(gemForUpgrade) }}"
+      (mouseenter)="showInfo(gemForUpgrade)"
+      (mousemove)="changePosition($event)"
+      (mouseleave)="hideInfo()"
+    >
+      <img
+        *ngIf="gemForUpgrade != undefined"
+        src="{{ gemForUpgrade.graphic }}"
+      />
+      <img
+        *ngIf="gemForUpgrade == undefined"
+        src="assets/placeForCrystal.png"
+      />
     </div>
     <span>=</span>
-    <div *ngIf="this.upgradedItem.sum==2" class="item" id="end">
-        <img src="assets/placeForItem.png">
+    <div *ngIf="this.upgradedItem.sum == 2" class="item" id="end">
+      <img src="assets/placeForItem.png" />
     </div>
-    <div *ngIf="this.upgradedItem.sum!=2" class='{{getClass(upgradedItem)}}' class="item " id="end" (mouseenter)="showInfo(upgradedItem)" (mousemove)="changePosition($event)" (mouseleave)="hideInfo()" cdkDrag (cdkDragStarted)="grabUpgraded()" (cdkDragEnded)="dropToBackpack()" [cdkDragFreeDragPosition]="upgradedItemPos">
-        <img src="{{itemForUpgrade.graphic}}">
+    <div
+      *ngIf="this.upgradedItem.sum != 2"
+      class="{{ getClass(upgradedItem) }}"
+      class="item"
+      id="end"
+      (mouseenter)="showInfo(upgradedItem)"
+      (mousemove)="changePosition($event)"
+      (mouseleave)="hideInfo()"
+      cdkDrag
+      (cdkDragStarted)="grabUpgraded()"
+      (cdkDragEnded)="dropToBackpack()"
+      [cdkDragFreeDragPosition]="upgradedItemPos"
+    >
+      <img src="{{ itemForUpgrade.graphic }}" />
     </div>
-    </div>
+  </div>
 
-
-    <app-infobubble [user]="player" [item]="itemForInfo" *ngIf="showInfoBubble" [ngStyle]="{left: ''+ bubblePos.x + 'px' ,top: ''+bubblePos.y + 'px'}"></app-infobubble>
+  <app-infobubble
+    [user]="player"
+    [item]="itemForInfo"
+    *ngIf="showInfoBubble"
+    [ngStyle]="{ left: '' + bubblePos.x + 'px', top: '' + bubblePos.y + 'px' }"
+  ></app-infobubble>
 </section>

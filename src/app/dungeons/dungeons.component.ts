@@ -8,7 +8,6 @@ import { ShopComponent } from "./shop/shop.component";
 import { ImagesService } from "../images.service";
 import { CharacterComponent } from "./character/character.component";
 import { BackpackComponent } from "./backpack/backpack.component";
-import { Item } from "./models/item.model";
 import { Armor } from "./models/items/armor.model";
 import { Weapon } from "./models/items/weapon.model";
 import { Necklace } from "./models/items/necklace.model";
@@ -17,6 +16,8 @@ import { VillageComponent } from "./village/village.component";
 import { Crystal } from "./models/items/crystal.model";
 import { VerificationService, PlayerDetails } from "../verification.service";
 import { UpdateService } from "../update.service";
+import { SocketService } from "../socket.service";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-dungeons",
@@ -39,48 +40,126 @@ export class DungeonsComponent implements OnInit {
 
   showAlert: boolean = false;
   alertInput: string = "";
+  enemyPlayer: User;
+  private enemyPlayerSub: Subscription;
+  private itemsSub: Subscription;
 
   ngOnInit() {
     this.start();
+
+    this.enemyPlayerSub = this.socket.enemyPlayer.subscribe((player) => {
+      this.enemyPlayer = player;
+    });
+
+    this.itemsSub = this.socket.playerItems.subscribe((items) => {
+      this.player.items = [];
+      for (let item of items) {
+        if (item.damageLow != undefined) {
+          let weapon = new Weapon(
+            item.player_id,
+            item.type,
+            item.name,
+            item.graphic,
+            item.code,
+            item.perks,
+            item.cost,
+            item.damageLow,
+            item.damageHigh,
+            item.state
+          );
+          if (!item.wearing) {
+            this.player.items.push(weapon);
+          } else {
+            this.player.weapon = weapon;
+          }
+        } else if (item.defence != undefined) {
+          let armor = new Armor(
+            item.player_id,
+            item.type,
+            item.name,
+            item.graphic,
+            item.code,
+            item.perks,
+            item.cost,
+            item.defence,
+            item.chance,
+            item.state
+          );
+          if (!item.wearing) {
+            this.player.items.push(armor);
+          } else {
+            this.player.armor = armor;
+          }
+        } else if (item.critical != undefined) {
+          let necklace = new Necklace(
+            item.player_id,
+            item.type,
+            item.name,
+            item.graphic,
+            item.code,
+            item.perks,
+            item.cost,
+            item.stamina,
+            item.critical
+          );
+          if (!item.wearing) {
+            this.player.items.push(necklace);
+          } else {
+            this.player.necklace = necklace;
+          }
+        } else if (item.critM != undefined) {
+          let ring = new Ring(
+            item.player_id,
+            item.type,
+            item.name,
+            item.graphic,
+            item.code,
+            item.perks,
+            item.cost,
+            item.stamina,
+            item.critM
+          );
+          if (!item.wearing) {
+            this.player.items.push(ring);
+          } else {
+            this.player.ring = ring;
+          }
+        } else if (item.amp != undefined) {
+          let crystal = new Crystal(
+            item.player_id,
+            item.type,
+            item.name,
+            item.graphic,
+            item.code,
+            item.perks,
+            item.cost,
+            item.amp,
+            item.power,
+            item.offset,
+            item.clas
+          );
+          if (!item.wearing) {
+            this.player.items.push(crystal);
+          }
+        }
+      }
+      this.socket.updatePlayer(this.player);
+    });
   }
 
   constructor(
     private audio: AudioService,
     private dungeons: DungeonsService,
     private images: ImagesService,
-    private update: UpdateService
+    private update: UpdateService,
+    private socket: SocketService
   ) {}
-
-  public updateDetails = {
-    id: 0,
-    login: "",
-    email: "jolo@gmail.com",
-    password: "",
-    experience: 0,
-    gold: 0,
-    strength: 0,
-    hpleft: 0,
-    health: 0,
-    speed: 0,
-    staminaleft: 0,
-    stamina: 0,
-    luck: 0,
-    lvl: 0,
-    exp: 0,
-    bp_str: 0,
-    bp_hp: 0,
-    bp_sp: 0,
-    bp_stam: 0,
-    bp_luck: 0,
-    iat: 0,
-  };
 
   setPlayer(details: PlayerDetails) {
     let nextExp = Math.round(details.lvl * (details.lvl * 0.4) * 928);
 
-    this.updateDetails = details;
-
     this.player = {
+      id: details.id,
       name: details.login,
       level: details.lvl,
       exp: details.experience,
@@ -103,102 +182,19 @@ export class DungeonsComponent implements OnInit {
       subdungeon: [],
       goldInSack: 0,
       graphic: "assets/player/knight_blue_plus.png",
-      weapon: new Weapon(
-        "normal",
-        "Dagger",
-        "assets/weapon/1_1.png",
-        "#00A9A",
-        "none",
-        15,
-        3.5,
-        4.5,
-        0
-      ),
-      armor: new Armor(
-        "normal",
-        "Feeble Armor",
-        "assets/armor/1_1.png",
-        "#00B11",
-        "none",
-        10,
-        39,
-        10,
-        100
-      ),
-      necklace: new Necklace(
-        "normal",
-        "Rat's Collar",
-        "assets/necklace/1_1.png",
-        "#00C01",
-        "fire",
-        21,
-        15,
-        0.06
-      ),
-      ring: new Ring(
-        "normal",
-        "Rat's Collar",
-        "assets/ring/1_1.png",
-        "#00C01",
-        "none",
-        33,
-        10,
-        0.3
-      ),
+      weapon: null,
+      armor: null,
+      necklace: null,
+      ring: null,
       potions: [
         new Potion("Health I", this.images.hpPotion, "hp", 600, "HP Potion"),
       ],
-      items: [
-        new Weapon(
-          "revered",
-          "Dagger",
-          "assets/weapon/swordDev.png",
-          "#00A54",
-          "fireicedarkness",
-          15,
-          3500,
-          4500,
-          100
-        ),
-        new Armor(
-          "holy",
-          "Fricking Holy Armor",
-          "assets/armor/2_1.png",
-          "#00B19",
-          "none",
-          673345,
-          39054,
-          50,
-          100
-        ),
-        new Armor(
-          "holy",
-          "Fricking Holy Armor",
-          "assets/armor/2_1.png",
-          "#00B19",
-          "none",
-          673345,
-          39054,
-          50,
-          100
-        ),
-        new Crystal(
-          "artefact",
-          "Life's Crystal",
-          "assets/crystal/artefact_hp.png",
-          "#00E84",
-          "none",
-          Math.round(2 * 2 * 0.6),
-          "hp",
-          Math.round(Math.random() * 20 + 25) / 100,
-          Math.random() * 30 - 15,
-          "artefact"
-        ),
-      ],
+      items: [],
       itemsOnHold: [],
       loot: [],
       weaponsInShop: [
         new Weapon(
+          details.id,
           "normal",
           "A Fricking Sword",
           "assets/weapon/1_2.png",
@@ -212,6 +208,7 @@ export class DungeonsComponent implements OnInit {
           "normal"
         ),
         new Weapon(
+          details.id,
           "normal",
           "A Fricking Sword",
           "assets/weapon/1_2.png",
@@ -225,6 +222,7 @@ export class DungeonsComponent implements OnInit {
           "normal"
         ),
         new Weapon(
+          details.id,
           "normal",
           "A Fricking Sword",
           "assets/weapon/1_2.png",
@@ -240,6 +238,7 @@ export class DungeonsComponent implements OnInit {
       ],
       armorsInShop: [
         new Armor(
+          details.id,
           "normal",
           "Shield Yourself",
           "assets/armor/1_1.png",
@@ -253,6 +252,7 @@ export class DungeonsComponent implements OnInit {
           "normal"
         ),
         new Armor(
+          details.id,
           "normal",
           "Shield Yourself",
           "assets/armor/1_1.png",
@@ -266,6 +266,7 @@ export class DungeonsComponent implements OnInit {
           "normal"
         ),
         new Armor(
+          details.id,
           "normal",
           "Shield Yourself",
           "assets/armor/1_1.png",
@@ -348,6 +349,10 @@ export class DungeonsComponent implements OnInit {
       open
     );
 
+    this.socket.loginComplete(this.player);
+
+    this.socket.getItems(this.player.name);
+
     setTimeout(() => {
       this.mainBck = this.images.bckMain;
 
@@ -358,66 +363,6 @@ export class DungeonsComponent implements OnInit {
       assets.appendChild(this.images.gold);
       assets.append(this.player.gold.toString());
     }, 10);
-
-    setInterval(() => {
-      this.sendUpdate();
-    }, 15000);
-  }
-
-  sendUpdate() {
-    if (this.updateDetails.gold != this.player.gold) {
-      this.updateDetails.gold = this.player.gold;
-      this.updateDetails.health = this.player.hitPoints;
-      this.updateDetails.luck = this.player.luck;
-      this.updateDetails.speed = this.player.speed;
-      this.updateDetails.strength = this.player.strength;
-      this.updateDetails.stamina = this.player.stamina;
-      this.updateDetails.bp_str = this.player.basePoints[0];
-      this.updateDetails.bp_hp = this.player.basePoints[1];
-      this.updateDetails.bp_sp = this.player.basePoints[2];
-      this.updateDetails.bp_stam = this.player.basePoints[3];
-      this.updateDetails.bp_luck = this.player.basePoints[4];
-
-      this.update.sendUserData(this.updateDetails);
-    } else if (
-      this.updateDetails.experience != this.player.exp ||
-      this.updateDetails.lvl != this.player.level ||
-      this.updateDetails.staminaleft != this.player.staminaLeft ||
-      this.updateDetails.hpleft != this.player.health
-    ) {
-      this.updateDetails.experience = this.player.exp;
-      this.updateDetails.hpleft = this.player.health;
-      this.updateDetails.lvl = this.player.level;
-      this.updateDetails.staminaleft = this.player.staminaLeft;
-
-      this.update.sendUserData(this.updateDetails);
-
-      let subList = {
-        login: this.player.name,
-        dungeon_open: this.player.dungeonsOpen,
-        d1: this.player.subdungeon[0],
-        d2: this.player.subdungeon[1],
-        d3: this.player.subdungeon[2],
-        d4: this.player.subdungeon[3],
-        d5: this.player.subdungeon[4],
-        d6: this.player.subdungeon[5],
-        d7: this.player.subdungeon[6],
-        d8: this.player.subdungeon[7],
-        d9: this.player.subdungeon[8],
-        d10: this.player.subdungeon[9],
-        d11: this.player.subdungeon[10],
-        d12: this.player.subdungeon[11],
-        d13: this.player.subdungeon[12],
-        d14: this.player.subdungeon[13],
-        d15: this.player.subdungeon[14],
-        d16: this.player.subdungeon[15],
-        d17: this.player.subdungeon[16],
-        d18: this.player.subdungeon[17],
-        d19: this.player.subdungeon[18],
-      };
-
-      this.update.dungeonUpdate(subList);
-    }
   }
 
   goToShop() {
@@ -497,6 +442,8 @@ export class DungeonsComponent implements OnInit {
       }
       this.player.loot.splice(0, 1);
     }
+
+    this.socket.updatePlayer(this.player);
 
     this.player.location = "home";
     this.player.gold += this.player.goldInSack;

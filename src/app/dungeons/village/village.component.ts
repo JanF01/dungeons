@@ -8,6 +8,7 @@ import { Weapon } from "../models/items/weapon.model";
 import { AudioService } from "src/app/audio.service";
 import { MissionsService } from "src/app/missions.service";
 import { MissionsComponent } from "./missions/missions.component";
+import { SocketService } from "src/app/socket.service";
 
 @Component({
   selector: "app-village",
@@ -26,7 +27,8 @@ export class VillageComponent implements OnInit {
   constructor(
     private images: ImagesService,
     private audio: AudioService,
-    private missions: MissionsService
+    private missions: MissionsService,
+    private socket: SocketService
   ) {}
 
   ngOnInit(): void {}

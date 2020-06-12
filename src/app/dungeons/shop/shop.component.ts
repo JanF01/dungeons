@@ -3,6 +3,7 @@ import { User } from "../models/user.model";
 import { Potion } from "../models/potion.model";
 import { ImagesService } from "../../images.service";
 import { CdkDragEnd } from "@angular/cdk/drag-drop";
+import { SocketService } from "src/app/socket.service";
 
 @Component({
   selector: "app-shop",
@@ -30,7 +31,7 @@ export class ShopComponent implements OnInit {
   showAlert: boolean = false;
   alertInput: string = "";
 
-  constructor(private images: ImagesService) {}
+  constructor(private images: ImagesService, private socket: SocketService) {}
 
   ngOnInit(): void {}
 
@@ -72,6 +73,7 @@ export class ShopComponent implements OnInit {
       potion.y >= rect.y - width / 25 &&
       potion.y < rect.y + width / 35
     ) {
+      this.socket.updatePlayer(this.player);
       return true;
     } else {
       this.potionPos[n] = { x: 0, y: 0 };

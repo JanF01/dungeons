@@ -5,6 +5,8 @@ import { Weapon } from "../../models/items/weapon.model";
 import { AudioService } from "src/app/audio.service";
 import { PlayerAnimations } from "../../animations/player.animation";
 import { AdditionAnimations } from "../../animations/additions.animation";
+import { Socket } from "ngx-socket-io";
+import { SocketService } from "src/app/socket.service";
 
 @Component({
   selector: "app-missions",
@@ -26,7 +28,11 @@ export class MissionsComponent implements OnInit {
   showAlert: boolean = false;
   alertInput: string = "";
 
-  constructor(private missions: MissionsService, private audio: AudioService) {}
+  constructor(
+    private missions: MissionsService,
+    private audio: AudioService,
+    private socket: SocketService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -56,6 +62,7 @@ export class MissionsComponent implements OnInit {
 
     this.player.missionTime = -3;
     this.player.missionOn[this.player.missionNumber] = false;
+    this.socket.updatePlayer(this.player);
   }
 
   getType(i) {
@@ -110,13 +117,14 @@ export class MissionsComponent implements OnInit {
 
     this.player.missionTime = this.missions.missions[i].time;
     this.player.missionStart = this.missions.missions[i].time;
-
+    this.socket.updatePlayer(this.player);
     this.missionInterval = setInterval(() => {
       this.player.missionTime -= 1;
       if (this.player.missionTime <= 0) {
         this.missionFinished = true;
         this.player.missionOn[this.player.missionNumber] = false;
         clearInterval(this.missionInterval);
+        this.socket.updatePlayer(this.player);
       }
     }, 1000);
   }
@@ -210,6 +218,7 @@ export class MissionsComponent implements OnInit {
     if (item.code != undefined) {
       if (this.player.items.length < 27) {
         if (!this.player.items.includes(item)) {
+          item.player_id = this.player.id;
           this.player.items.push(item);
         }
       }
@@ -226,6 +235,7 @@ export class MissionsComponent implements OnInit {
         }
       }, 600);
     }
+    this.socket.updatePlayer(this.player);
   }
 
   itemForInfo: any;

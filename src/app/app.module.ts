@@ -1,5 +1,9 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { SocketIoModule, SocketIoConfig } from "ngx-socket-io";
+
+const config: SocketIoConfig = { url: "http://localhost:3000", options: {} };
+
 import { NgModule } from "@angular/core";
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { MatGridListModule } from "@angular/material/grid-list";
@@ -56,6 +60,7 @@ import { ItemMenuComponent } from "./dungeons/item-menu/item-menu.component";
     MatGridListModule,
     FormsModule,
     HttpClientModule,
+    SocketIoModule.forRoot(config),
   ],
   providers: [AudioService, ImagesService],
   bootstrap: [AppComponent],
