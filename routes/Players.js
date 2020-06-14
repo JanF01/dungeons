@@ -26,6 +26,7 @@ players.post("/register", (req, res) => {
     email: req.body.email,
     password: req.body.password,
     experience: 0,
+    expmulti: 1,
     gold: 30,
     strength: 7,
     hpleft: 912,
@@ -74,6 +75,7 @@ players.post("/register", (req, res) => {
         playerData.password = hash;
         Player.create(playerData)
           .then((player) => {
+            player.dataValues.id = player.null;
             let token = jwt.sign(player.dataValues, process.env.SECRET_KEY, {
               expiresIn: 1440,
             });
@@ -210,6 +212,7 @@ players.post("/update", async function (req, res) {
     const playerData = {
       login: req.body.login,
       experience: req.body.experience,
+      expmulti: req.body.expmulti,
       gold: req.body.gold,
       strength: req.body.strength,
       hpleft: req.body.hpleft,
@@ -249,6 +252,7 @@ players.post("/update", async function (req, res) {
 
     const result = await Player.update({
         experience: playerData.experience,
+        expmulti: playerData.expmulti,
         gold: playerData.gold,
         strength: playerData.strength,
         hpleft: playerData.hpleft,
@@ -288,9 +292,12 @@ players.post("/update", async function (req, res) {
           login: playerData.login,
         },
       })
-      .then((res) => {
+      .then(async function (res) {
+
+
 
         if (playerData.items.length > 0) {
+
 
           const destroyedWeapon = Weapon.destroy({
             where: {
@@ -319,46 +326,93 @@ players.post("/update", async function (req, res) {
           const destroyedCrystal = Crystal.destroy({
             where: {
               player_id: playerData.items[0].player_id,
-              wearing: false
             }
           }).then((res) => {});
 
 
+
+
           for (var item of playerData.items) {
 
-            if (item.defence != undefined) {
-              const newArmor = Armor.create(item).then(
-                (res) => {}, (err) => {
-                  console.error(err);
-                })
-            } else if (item.damageLow != undefined) {
-              const newWeapon = Weapon.create(item).then(
-                (res) => {
 
+
+            if (item.gem != undefined) {
+              item.gem.wearing = true;
+              const newCrystal = await Crystal.create(item.gem).then(
+                (res) => {
+                  item.crystal_id = res.null;
+                  if (item.defence != undefined) {
+                    const newArmor = Armor.create(item).then(
+                      (res) => {}, (err) => {
+                        console.error(err);
+                      })
+                  } else if (item.damageLow != undefined) {
+                    const newWeapon = Weapon.create(item).then(
+                      (res) => {
+
+                      }, (err) => {
+                        console.error(err);
+                      })
+                  } else if (item.amp != undefined) {
+                    const newCrystal = Crystal.create(item).then(
+                      (res) => {
+                        crystalid = res.null;
+                      }, (err) => {
+                        console.error(err);
+                      })
+                  } else if (item.critical != undefined) {
+                    const newNecklace = Necklace.create(item).then(
+                      (res) => {
+
+                      }, (err) => {
+                        console.error(err);
+                      })
+                  } else if (item.critM != undefined) {
+                    const newRing = Ring.create(item).then(
+                      (res) => {
+
+                      }, (err) => {
+                        console.error(err);
+                      })
+                  }
                 }, (err) => {
                   console.error(err);
                 })
-            } else if (item.amp != undefined) {
-              const newCrystal = Crystal.create(item).then(
-                (res) => {
+            } else {
+              if (item.defence != undefined) {
+                const newArmor = Armor.create(item).then(
+                  (res) => {}, (err) => {
+                    console.error(err);
+                  })
+              } else if (item.damageLow != undefined) {
+                const newWeapon = Weapon.create(item).then(
+                  (res) => {
 
-                }, (err) => {
-                  console.error(err);
-                })
-            } else if (item.critical != undefined) {
-              const newNecklace = Necklace.create(item).then(
-                (res) => {
+                  }, (err) => {
+                    console.error(err);
+                  })
+              } else if (item.amp != undefined) {
+                const newCrystal = Crystal.create(item).then(
+                  (res) => {
+                    crystalid = res.null;
+                  }, (err) => {
+                    console.error(err);
+                  })
+              } else if (item.critical != undefined) {
+                const newNecklace = Necklace.create(item).then(
+                  (res) => {
 
-                }, (err) => {
-                  console.error(err);
-                })
-            } else if (item.critM != undefined) {
-              const newRing = Ring.create(item).then(
-                (res) => {
+                  }, (err) => {
+                    console.error(err);
+                  })
+              } else if (item.critM != undefined) {
+                const newRing = Ring.create(item).then(
+                  (res) => {
 
-                }, (err) => {
-                  console.error(err);
-                })
+                  }, (err) => {
+                    console.error(err);
+                  })
+              }
             }
           }
         }

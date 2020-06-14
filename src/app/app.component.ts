@@ -8,6 +8,7 @@ import {
 import { GuardService } from "./guard.service";
 import { DungeonsComponent } from "./dungeons/dungeons.component";
 import { SocketService } from "./socket.service";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-root",
@@ -23,6 +24,9 @@ export class AppComponent {
   registerBck: any;
   passRepeat: string = "";
 
+  globalChat: any;
+  globalSub: Subscription;
+
   userState = 0;
   showAlert: boolean = false;
 
@@ -30,12 +34,15 @@ export class AppComponent {
 
   state = "";
 
+  chatOn: boolean = false;
+
   credentials: TokenPayload = {
     id: 0,
     login: "",
     email: "jolo@gmail.com",
     password: "",
     experience: 0,
+    expmulti: 0,
     gold: 0,
     strength: 0,
     hpleft: 0,
@@ -78,6 +85,7 @@ export class AppComponent {
     email: "jolo@gmail.com",
     password: "",
     experience: 0,
+    expmulti: 0,
     gold: 0,
     strength: 0,
     hpleft: 0,
@@ -147,6 +155,10 @@ export class AppComponent {
         }
       );
     }
+
+    this.globalSub = this.socket.chat.subscribe((chat) => {
+      this.globalChat = chat;
+    });
   }
   startCoins() {
     this.mode = 1;

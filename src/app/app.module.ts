@@ -31,6 +31,8 @@ import { ArmoryComponent } from "./dungeons/village/armory/armory.component";
 import { MissionsComponent } from "./dungeons/village/missions/missions.component";
 import { AlertComponent } from "./dungeons/alert/alert.component";
 import { ItemMenuComponent } from "./dungeons/item-menu/item-menu.component";
+import { ChatComponent } from './chat/chat.component';
+import { ArenaComponent } from './dungeons/arena/arena.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +53,8 @@ import { ItemMenuComponent } from "./dungeons/item-menu/item-menu.component";
     MissionsComponent,
     AlertComponent,
     ItemMenuComponent,
+    ChatComponent,
+    ArenaComponent,
   ],
   imports: [
     BrowserModule,

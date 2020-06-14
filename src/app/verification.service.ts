@@ -9,6 +9,7 @@ export interface PlayerDetails {
   email: string;
   password: string;
   experience: number;
+  expmulti: number;
   gold: number;
   strength: number;
   hpleft: number;
@@ -57,6 +58,7 @@ export interface TokenPayload {
   email: string;
   password: string;
   experience: number;
+  expmulti: number;
   gold: number;
   strength: number;
   hpleft: number;

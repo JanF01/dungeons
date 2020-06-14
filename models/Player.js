@@ -30,6 +30,9 @@ const Player = db.sequelize.define(
     experience: {
       type: Sequelize.INTEGER,
     },
+    expmulti: {
+      type: Sequelize.FLOAT,
+    },
     gold: {
       type: Sequelize.MEDIUMINT,
     },

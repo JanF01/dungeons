@@ -1,0 +1,11 @@
+<section id="arena">
+
+  <app-left-nav [gold]="player.gold" (click)="backHome()" [place]="backpack"></app-left-nav>
+  <div class="players">
+    <p *ngFor="let player of playersOnline">
+      <span class="name">{{player.name}}</span>
+      <span class="online">Online</span>
+      <span class="level">LVL {{player.level}}</span>
+    </p>
+  </div>
+</section>

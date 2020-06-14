@@ -38,7 +38,7 @@
       </div>
     </mat-grid-tile>
     <mat-grid-tile></mat-grid-tile>
-    <mat-grid-tile>
+    <mat-grid-tile (click)="goToArena()">
       <div class="col"><span>Arena</span>
         <div class="add"><img src="assets/char.png" draggable="false"></div>
       </div>
@@ -125,6 +125,7 @@
   <app-backpack #backpack [user]="this.player" *ngIf="player.location=='backpack'"></app-backpack>
   <app-village #village [user]="this.player" *ngIf="player.location=='village'" id="village" draggable="false">
   </app-village>
+  <app-arena #arena [user]="this.player" *ngIf="player.location=='arena'" id="arena" draggable="false"></app-arena>
 
 
 </div>

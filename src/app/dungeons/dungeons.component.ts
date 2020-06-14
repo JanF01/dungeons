@@ -67,6 +67,28 @@ export class DungeonsComponent implements OnInit {
             item.damageHigh,
             item.state
           );
+
+          if (item.crystal_id != 0) {
+            for (let item2 of items) {
+              if (item.crystal_id == item2.id) {
+                let gem = new Crystal(
+                  this.player.id,
+                  item2.type,
+                  item2.name,
+                  item2.graphic,
+                  item2.code,
+                  item2.perks,
+                  item2.cost,
+                  item2.amp,
+                  item2.power
+                );
+                weapon.gem = gem;
+              }
+            }
+          }
+
+          console.log(item);
+
           if (!item.wearing) {
             this.player.items.push(weapon);
           } else {
@@ -140,10 +162,25 @@ export class DungeonsComponent implements OnInit {
           );
           if (!item.wearing) {
             this.player.items.push(crystal);
+          } else {
           }
         }
       }
       this.socket.updatePlayer(this.player);
+
+      this.player.items.push(
+        new Crystal(
+          this.player.id,
+          "normal",
+          "crystal",
+          "assets/crystal/normal_hp.png",
+          "#222",
+          "none",
+          10,
+          "dmg",
+          0.15
+        )
+      );
     });
   }
 
@@ -163,7 +200,7 @@ export class DungeonsComponent implements OnInit {
       name: details.login,
       level: details.lvl,
       exp: details.experience,
-      expMulti: 1,
+      expMulti: details.expmulti,
       nextExp: nextExp,
       gold: details.gold,
       basePoints: [],
@@ -182,10 +219,52 @@ export class DungeonsComponent implements OnInit {
       subdungeon: [],
       goldInSack: 0,
       graphic: "assets/player/knight_blue_plus.png",
-      weapon: null,
-      armor: null,
-      necklace: null,
-      ring: null,
+      weapon: new Weapon(
+        details.id,
+        "normal",
+        "A Fricking Sword",
+        "assets/weapon/1_2.png",
+        "#00A11",
+        "none",
+        5,
+        3,
+        4,
+        100
+      ),
+      armor: new Armor(
+        details.id,
+        "normal",
+        "Shield Yourself",
+        "assets/armor/1_1.png",
+        "#00B12",
+        "none",
+        5,
+        38,
+        10,
+        100
+      ),
+      necklace: new Necklace(
+        details.id,
+        "normal",
+        "Necklace of Wisdom",
+        "assets/necklace/1_1.png",
+        "#00C01",
+        "none",
+        5,
+        9,
+        0.07
+      ),
+      ring: new Ring(
+        details.id,
+        "normal",
+        "Ring of Beginnings",
+        "assets/ring/1_1.png",
+        "#00C01",
+        "none",
+        5,
+        12,
+        0.32
+      ),
       potions: [
         new Potion("Health I", this.images.hpPotion, "hp", 600, "HP Potion"),
       ],
@@ -349,13 +428,8 @@ export class DungeonsComponent implements OnInit {
       open
     );
 
-    this.socket.loginComplete(this.player);
-
-    this.socket.getItems(this.player.name);
-
     setTimeout(() => {
       this.mainBck = this.images.bckMain;
-
       document.getElementById("cont").style.opacity = "1";
 
       let assets = document.getElementsByClassName("assets")[0];
@@ -363,6 +437,10 @@ export class DungeonsComponent implements OnInit {
       assets.appendChild(this.images.gold);
       assets.append(this.player.gold.toString());
     }, 10);
+
+    setTimeout(() => {
+      this.socket.loginComplete(this.player);
+    }, 200);
   }
 
   goToShop() {
@@ -396,6 +474,16 @@ export class DungeonsComponent implements OnInit {
       elites.push(this.dungeons.dungeons[i]);
     }
     return elites;
+  }
+
+  goToArena() {
+    this.audio.stopMusicBck();
+
+    document.getElementById("mainBck").style.opacity = "0";
+    this.player.location = "arena";
+    setTimeout(() => {
+      document.getElementById("arena").style.opacity = "1";
+    }, 50);
   }
 
   goToVillage() {

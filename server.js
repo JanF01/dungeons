@@ -27,19 +27,30 @@ app.use("/players", Players);
 var playersJson = {};
 var socketNames = {};
 
+var globalChat = [
+
+]
+
 io.on("connection", (socket) => {
   var id = 0;
 
   socket.on("addPlayer", (player) => {
     socketName = player.name;
     console.log("Player " + player.name + " Connected");
-    let index = player.name;
-    playersJson[index] = player;
     id = player.id;
-    socketNames[id] = index;
+    io.emit("chat", globalChat);
   });
 
-  socket.on("getItems", (nick) => {
+  socket.on("write", (text) => {
+    globalChat.push([socketNames[id], text]);
+    io.emit("chat", globalChat);
+  })
+
+  socket.on("getNicks", () => {
+    socket.emit("names", Object.values(playersJson));
+  })
+
+  socket.on("getItems", (player) => {
 
     var options = {
       method: 'POST',
@@ -48,16 +59,23 @@ io.on("connection", (socket) => {
         'Connection': 'keep-alive',
       },
       body: {
-        id: playersJson[nick].id
+        id: id
       },
       json: true,
       grip: true
 
     }
     rp(options).then((res) => {
-      playersJson[nick].items = res;
+      let index = player.name;
+      playersJson[index] = player;
+      id = player.id;
+      socketNames[id] = index;
 
-      socket.emit("items", playersJson[nick].items);
+      playersJson[index].items = res;
+
+      io.emit("names", Object.values(playersJson));
+
+      socket.emit("items", playersJson[index].items);
     }, (err) => {
       //  console.error(err);
     });
@@ -75,22 +93,34 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
 
+
     if (playersJson[socketNames[id]] != undefined) {
+
+      var items = playersJson[socketNames[id]].items;
+
+
       console.log("Player " + socketNames[id] + " Disconnected");
 
-      if (playersJson[socketNames[id]].ring != null) {
+      if (playersJson[socketNames[id]].weapon != null) {
         let weapon = playersJson[socketNames[id]].weapon;
-        let armor = playersJson[socketNames[id]].armor;
-        let necklace = playersJson[socketNames[id]].necklace;
-        let ring = playersJson[socketNames[id]].ring;
-
         weapon.wearing = true;
+        playersJson[socketNames[id]].items.push(weapon);
+      }
+      if (playersJson[socketNames[id]].armor != null) {
+        let armor = playersJson[socketNames[id]].armor;
         armor.wearing = true;
+        playersJson[socketNames[id]].items.push(armor);
+      }
+
+      if (playersJson[socketNames[id]].necklace != null) {
+        let necklace = playersJson[socketNames[id]].necklace;
         necklace.wearing = true;
+        playersJson[socketNames[id]].items.push(necklace);
+      }
+      if (playersJson[socketNames[id]].ring != null) {
+        let ring = playersJson[socketNames[id]].ring;
         ring.wearing = true;
-
-        playersJson[socketNames[id]].items.push(weapon, armor, necklace, ring);
-
+        playersJson[socketNames[id]].items.push(ring);
       }
 
 
@@ -98,6 +128,7 @@ io.on("connection", (socket) => {
         json: {
           login: playersJson[socketNames[id]].name,
           experience: playersJson[socketNames[id]].exp,
+          expmulti: playersJson[socketNames[id]].expmulti,
           gold: playersJson[socketNames[id]].gold,
           strength: playersJson[socketNames[id]].strength,
           hpleft: playersJson[socketNames[id]].health,
@@ -132,7 +163,7 @@ io.on("connection", (socket) => {
           d17: playersJson[socketNames[id]].subdungeon[16],
           d18: playersJson[socketNames[id]].subdungeon[17],
           d19: playersJson[socketNames[id]].subdungeon[18],
-          items: playersJson[socketNames[id]].items,
+          items: items,
         }
       }, function (error, response, body) {
         if (error) {
@@ -144,6 +175,7 @@ io.on("connection", (socket) => {
       delete playersJson[socketNames[id]];
       delete socketNames.id;
     }
+
   });
 });
 

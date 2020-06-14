@@ -1,0 +1,36 @@
+section {
+  width: 100%;
+  min-height: 100vh;
+  background: rgb(1, 11, 34);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  color: white;
+
+  p {
+    font-size: 1.1em;
+    font-family: "Work Sans", sans-serif;
+    width: 95%;
+    padding-left: 2.5%;
+    font-weight: 400;
+
+    span {
+      font-weight: 600;
+
+    }
+  }
+
+  input {
+    background: none;
+    width: 95%;
+    padding: 0.5% 0 0.5% 2.5%;
+    margin: 1% 0 5% 0;
+    border: none;
+    font-family: "Work Sans", sans-serif;
+    color: white;
+    font-size: 1.1em;
+    font-weight: 400;
+    outline: none;
+  }
+
+}

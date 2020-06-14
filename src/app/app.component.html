@@ -66,6 +66,10 @@
   </mat-grid-list>
 </div>
 
+
+<img class="chat" src="assets/interaction.png" *ngIf="mode == 2 || mode == 3" (click)="chatOn=!chatOn">
+<app-chat *ngIf="chatOn" [chat]="globalChat"></app-chat>
+
 <app-coins *ngIf="mode == 1"></app-coins>
 <app-dungeons #dungeons *ngIf="mode == 2 || mode == 3"></app-dungeons>
 
@@ -74,6 +78,6 @@
 
 <img *ngIf="mode == 2 || mode == 3" class="gear" src="assets/settings.png" (click)="showSettings()" />
 
-<div class="version">Alpha v0. 40</div>
+<div class="version" *ngIf="mode == 0">Alpha v0. 40</div>
 
 <!--<img class="logo2" src="assets/player/logo2.png">-->

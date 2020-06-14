@@ -77,6 +77,29 @@ app-settings {
   z-index: 15;
 }
 
+app-chat {
+  width: 24em;
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-height: 100vh;
+  z-index: 15;
+}
+
+.chat {
+  width: 3em;
+  position: absolute;
+  top: 1.8em;
+  left: 2em;
+  transition: 0.3s all;
+  z-index: 16;
+
+  &:hover {
+    transform: scale(0.9);
+    cursor: pointer;
+  }
+}
+
 .line1,
 .line2 {
   width: 1.4%;
