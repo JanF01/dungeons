@@ -1,11 +1,50 @@
 <section id="arena">
 
-  <app-left-nav [gold]="player.gold" (click)="backHome()" [place]="backpack"></app-left-nav>
+  <img src="assets/background/shop.jpg" class="bkg">
+
+  <app-left-nav [gold]="player.gold" (click)="backHome()" [place]="arena"></app-left-nav>
   <div class="players">
-    <p *ngFor="let player of playersOnline">
-      <span class="name">{{player.name}}</span>
+    <p *ngFor="let playerl of playersOnline" (click)="choose(playerl)">
+      <img class="label" src="assets/background/alert.jpg" [ngClass]="{'me': playerl.name==this.player.name}">
+      <span class="name">{{playerl.name}}</span>
       <span class="online">Online</span>
-      <span class="level">LVL {{player.level}}</span>
+      <span class="level">LVL {{playerl.level}}</span>
+      <button class="challange" [ngStyle]="{opacity: playerl.name==this.player.name?'0':'1'}"
+        (click)="goPvp(playerl)">Challenge</button>
     </p>
   </div>
+  <div class="user" *ngIf="chosen">
+    <div class="weapon" class="{{inspect.weapon.type}}" (mouseenter)="showInfo(inspect.weapon)"
+      (mousemove)="changePosition($event)" (mouseleave)="hideInfo()">
+      <img class="item" src="{{inspect.weapon.graphic}}" draggable="false">
+    </div>
+    <div class="armor" class="{{inspect.armor.type}}" (mouseenter)="showInfo(inspect.armor)"
+      (mousemove)="changePosition($event)" (mouseleave)="hideInfo()">
+      <img class="item" src="{{inspect.armor.graphic}}" draggable="false">
+    </div>
+    <div class="necklace" class="{{inspect.necklace.type}}" (mouseenter)="showInfo(inspect.necklace)"
+      (mousemove)="changePosition($event)" (mouseleave)="hideInfo()">
+      <img class="item" src="{{inspect.necklace.graphic}}" draggable="false">
+    </div>
+    <div class="ring" class="{{inspect.ring.type}}" (mouseenter)="showInfo(inspect.ring)"
+      (mousemove)="changePosition($event)" (mouseleave)="hideInfo()">
+      <img class="item" src="{{inspect.ring.graphic}}" draggable="false">
+    </div>
+    <img class="player" src="{{inspect.graphic}}" draggable="false">
+    <span>{{inspect.name}}</span>
+    <div class="exp">
+      <div class="expBar"
+        [ngStyle]="{background: 'linear-gradient(to right, rgb(86, 173, 3) '+ (((inspect.exp)/(inspect.nextExp))*100-2) +'% , #03EF6900 '+ ((inspect.exp)/(inspect.nextExp))*100 +'% )'}">
+        <span>LVL {{inspect.level}}</span><span>{{inspect.exp}} / {{inspect.nextExp}}</span>
+      </div>
+
+    </div>
+  </div>
+
+
+
 </section>
+
+
+<app-infobubble *ngIf="showInfoBubble" [user]="player" [item]="itemForInfo"
+  [ngStyle]="{left: ''+ bubblePos.x + 'px' ,top: ''+bubblePos.y + 'px'}"></app-infobubble>

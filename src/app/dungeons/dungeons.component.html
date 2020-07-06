@@ -1,7 +1,7 @@
 <div class="under">
 
 </div>
-<div class="container">
+<div class="container" (document:keyup)="addCoins($event)">
 
   <img *ngIf="this.mainBck!=undefined" src="{{this.mainBck.src}}" class="mainBck" id="mainBck">
 
@@ -125,7 +125,8 @@
   <app-backpack #backpack [user]="this.player" *ngIf="player.location=='backpack'"></app-backpack>
   <app-village #village [user]="this.player" *ngIf="player.location=='village'" id="village" draggable="false">
   </app-village>
-  <app-arena #arena [user]="this.player" *ngIf="player.location=='arena'" id="arena" draggable="false"></app-arena>
+  <app-arena #arena [user]="this.player" *ngIf="player.location=='arena'" id="arena" draggable="false"
+    (pvp)="pvp($event)"></app-arena>
 
 
 </div>
@@ -138,4 +139,4 @@
   You came back from the mission. Go collect reward</div>
 
 
-<app-alert [input]="alertInput" *ngIf="showAlert" (close)="alertOff()"></app-alert>
+<app-alert [input]="alertInput" *ngIf="showAlert" (close)="alertOff($event)"></app-alert>

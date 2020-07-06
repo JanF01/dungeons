@@ -14,6 +14,10 @@ export class AlertComponent implements OnInit {
   ngOnInit(): void {}
 
   closeAlert() {
-    this.close.emit(null);
+    if (this.value.search("duel") != -1) {
+      this.close.emit("duel");
+    } else {
+      this.close.emit(null);
+    }
   }
 }

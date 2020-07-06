@@ -10,6 +10,9 @@ export class SocketService {
   playerItems = this.socket.fromEvent<any>("items");
   chat = this.socket.fromEvent<any>("chat");
   playersNames = this.socket.fromEvent<any>("names");
+  challenger = this.socket.fromEvent<any>("challenger");
+  confirmed = this.socket.fromEvent<any>("confirm");
+  dmg = this.socket.fromEvent<any>("dmg");
 
   constructor(private socket: Socket) {}
 
@@ -24,6 +27,17 @@ export class SocketService {
 
   getPlayersNicks() {
     this.socket.emit("getNicks");
+  }
+
+  challenge(challenge) {
+    this.socket.emit("challenge", challenge);
+  }
+  confirm(name) {
+    this.socket.emit("confirm", name);
+  }
+
+  sendDmg(dmg) {
+    this.socket.emit("sendDmg", dmg);
   }
 
   updatePlayer(player: User) {

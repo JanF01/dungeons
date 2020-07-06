@@ -17,7 +17,7 @@ import { Crystal } from "./models/items/crystal.model";
 import { VerificationService, PlayerDetails } from "../verification.service";
 import { UpdateService } from "../update.service";
 import { SocketService } from "../socket.service";
-import { Subscription } from "rxjs";
+import { Subscription, Subscribable } from "rxjs";
 
 @Component({
   selector: "app-dungeons",
@@ -27,6 +27,7 @@ import { Subscription } from "rxjs";
 export class DungeonsComponent implements OnInit {
   name: string = "Janke";
   inGame: boolean = true;
+  inFight: boolean = false;
   @ViewChild(CaveComponent) cave: CaveComponent;
   @ViewChild(ShopComponent) shop: ShopComponent;
   @ViewChild(CharacterComponent) character: CharacterComponent;
@@ -44,11 +45,22 @@ export class DungeonsComponent implements OnInit {
   private enemyPlayerSub: Subscription;
   private itemsSub: Subscription;
 
+  private challengeSub: Subscription;
+
+  private challenger: User;
+
   ngOnInit() {
     this.start();
 
     this.enemyPlayerSub = this.socket.enemyPlayer.subscribe((player) => {
       this.enemyPlayer = player;
+    });
+
+    this.challengeSub = this.socket.challenger.subscribe((player) => {
+      this.challenger = player;
+      this.alertOut(
+        player.name + " LVL " + player.level + ", challenged you to a duel"
+      );
     });
 
     this.itemsSub = this.socket.playerItems.subscribe((items) => {
@@ -86,8 +98,6 @@ export class DungeonsComponent implements OnInit {
               }
             }
           }
-
-          console.log(item);
 
           if (!item.wearing) {
             this.player.items.push(weapon);
@@ -465,6 +475,14 @@ export class DungeonsComponent implements OnInit {
     }, 100);
   }
 
+  pvp(player) {
+    player.health = player.hitPoints;
+    this.player.location = "dfight";
+    setTimeout(() => {
+      this.cave.challenge(player);
+    }, 100);
+  }
+
   getDungeons() {
     return this.dungeons.dungeons;
   }
@@ -630,7 +648,33 @@ export class DungeonsComponent implements OnInit {
     this.alertInput = input;
     this.showAlert = true;
   }
-  alertOff() {
+
+  damageSub: Subscription;
+
+  alertOff(value) {
     this.showAlert = false;
+    if (value === "duel") {
+      this.socket.confirm(this.challenger.name);
+
+      this.player.location = "dfight";
+
+      setTimeout(() => {
+        this.cave.enemy = this.challenger;
+        this.damageSub = this.socket.dmg.subscribe((damage) => {
+          if (!this.inFight) {
+            this.cave.pvpOn = true;
+            this.cave.prepToFight();
+            this.cave.enemyTurn(damage);
+            this.inFight = true;
+          }
+        });
+      }, 100);
+    }
+  }
+
+  addCoins(event) {
+    if (event.keyCode == 72) {
+      this.player.gold += 10;
+    }
   }
 }

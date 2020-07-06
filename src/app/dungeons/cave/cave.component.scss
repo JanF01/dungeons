@@ -51,6 +51,10 @@ app-infobubble {
       width: 14%;
     }
 
+    .pvpEnemy {
+      width: 14%;
+    }
+
     .goldInSack {
       display: block;
       position: absolute;
@@ -154,6 +158,74 @@ app-infobubble {
       }
     }
   }
+
+  .await {
+    width: 60%;
+    position: absolute;
+    left: 20%;
+    top: 30%;
+    font-size: 1.6em;
+    color: white;
+    @include flex();
+    flex-direction: column;
+
+    .hanging {
+      width: 1.6em;
+      height: 1.6em;
+      background: #580e0e;
+      margin: 3em 0em 0em 1.7em;
+
+      animation: hang 1.9s infinite;
+      transform: rotateZ(0deg);
+      float: left;
+      box-shadow: 0em 0em 0.3em -0.1em #94180f;
+    }
+  }
+
+}
+
+@keyframes hang {
+  0% {
+    transform: rotateZ(-170deg);
+    transform-origin: top left;
+    transform: rotateY(0deg);
+  }
+
+  20% {
+
+    transform-origin: top left;
+    transform: rotateY(80deg);
+    transform: rotateZ(200deg);
+  }
+
+  40% {
+    transform: rotateZ(80deg);
+    transform-origin: top left;
+    transform: rotateY(180deg);
+  }
+
+  60% {
+    transform: rotateZ(15deg);
+    transform-origin: top left;
+    transform: rotateY(10deg);
+    transform: rotateZ(120deg);
+  }
+
+  80% {
+
+    transform-origin: top left;
+    transform: rotateY(120deg);
+    transform: rotateZ(210deg);
+  }
+
+  100% {
+    transform-origin: top left;
+    transform: rotateX(180deg);
+    transform: rotateZ(-100deg);
+  }
+
+
+
 }
 
 @keyframes rot {

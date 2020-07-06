@@ -10,9 +10,10 @@ import { DungeonsService } from "../../dungeons.service";
 import { ImagesService } from "../../images.service";
 import { Item } from "../models/item.model";
 import { Weapon } from "../models/items/weapon.model";
-import { MissionsService } from "src/app/missions.service";
-import { UpdateService } from "src/app/update.service";
-import { SocketService } from "src/app/socket.service";
+import { MissionsService } from "../../missions.service";
+import { UpdateService } from "../../update.service";
+import { SocketService } from "../../socket.service";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-cave",
@@ -72,6 +73,8 @@ export class CaveComponent {
   showAlert: boolean = false;
   alertInput: string = "";
   showedAlert: boolean = true;
+
+  challangeSub: Subscription;
 
   constructor(
     private audio: AudioService,
@@ -282,29 +285,86 @@ export class CaveComponent {
     this.fighting = true;
   }
 
+  organize() {
+    this.showItemsLooted = false;
+
+    clearInterval(this.healing);
+
+    this.player.weapon.type == "legend"
+      ? (this.weaponMulti = 0.16)
+      : (this.weaponMulti = 0.22);
+
+    this.multipliers[0] = this.weaponMulti;
+    this.multipliers[1] = this.weaponMulti;
+    this.multipliers[2] = this.weaponMulti;
+
+    this.necklaceRingPerk();
+
+    this.DI = 1;
+    this.potions.hp = 0;
+    this.potions.stamina = 0;
+    this.potions.speed = 0;
+  }
+
+  prepPotions() {
+    for (let i = 0; i < this.player.potions.length; i++) {
+      switch (this.player.potions[i].type) {
+        case "hp":
+          this.potions.hp++;
+          break;
+        case "stamina":
+          this.potions.stamina++;
+          break;
+        case "speed":
+          this.potions.speed++;
+          break;
+      }
+    }
+  }
+
+  confirmSub: Subscription;
+  pvpOn: boolean = false;
+  awaitPvp = false;
+
+  challenge(challenge) {
+    this.label = this.player.name + " vs " + challenge.name;
+    this.socket.challenge(challenge);
+    this.enemy = challenge;
+    this.awaitPvp = true;
+    this.confirmSub = this.socket.confirmed.subscribe((confirm) => {
+      this.awaitPvp = false;
+      this.pvpOn = true;
+      this.pvp(challenge);
+    });
+  }
+
+  damageSub: Subscription;
+  defendSub: Subscription;
+
+  prepToFight() {
+    this.label = this.player.name + " vs " + this.enemy.name;
+    this.organize();
+    this.defendSub = this.socket.dmg.subscribe((damage) => {
+      this.enemyTurn(damage);
+    });
+  }
+
+  pvp(challenge) {
+    this.organize();
+    this.audio.dungeonsBck.volume = 0.02 * this.audio.globalVolume;
+    this.playerTurn();
+    this.pvpOn = true;
+    this.damageSub = this.socket.dmg.subscribe((dmg) => {
+      console.log("too many");
+      this.enemyTurn(dmg);
+    });
+  }
+
   fight(lvl, elite) {
     if (this.player.loot.length < 8 || this.showedAlert) {
-      this.showedAlert = false;
-      this.elite = elite;
+      this.pvpOn = false;
+      this.organize();
 
-      this.showItemsLooted = false;
-
-      clearInterval(this.healing);
-
-      this.player.weapon.type == "legend"
-        ? (this.weaponMulti = 0.16)
-        : (this.weaponMulti = 0.22);
-
-      this.multipliers[0] = this.weaponMulti;
-      this.multipliers[1] = this.weaponMulti;
-      this.multipliers[2] = this.weaponMulti;
-
-      this.necklaceRingPerk();
-
-      this.DI = 1;
-      this.potions.hp = 0;
-      this.potions.stamina = 0;
-      this.potions.speed = 0;
       this.player.dungeon = lvl - 1;
       this.label = this.dungeons.dungeons[this.player.dungeon].label;
 
@@ -312,19 +372,7 @@ export class CaveComponent {
         this.player.subdungeon[this.player.dungeon]
       ];
 
-      for (let i = 0; i < this.player.potions.length; i++) {
-        switch (this.player.potions[i].type) {
-          case "hp":
-            this.potions.hp++;
-            break;
-          case "stamina":
-            this.potions.stamina++;
-            break;
-          case "speed":
-            this.potions.speed++;
-            break;
-        }
-      }
+      this.prepPotions();
 
       this.audio.dungeonsBck.volume = 0.02 * this.audio.globalVolume;
       this.nextFight(lvl);
@@ -373,44 +421,68 @@ export class CaveComponent {
 
   enemyDouble = false;
 
-  enemyTurn() {
+  enemyTurn(playerDmg = []) {
     this.enemyFireball();
 
     this.blocked = false;
-    let dmg = 0;
+    let dmg;
+
     this.block = Math.random() * 100;
     if (this.block < this.player.armor.chance) {
-      dmg = this.enemy.damage - this.player.armor.defence;
-      this.blocked = true;
+      if (playerDmg.length > 0) {
+        for (let i = 0; i < playerDmg.length; i++) {
+          playerDmg[i][0] -= this.player.armor.defence;
+        }
+      } else {
+        dmg = this.enemy.damage - this.player.armor.defence;
+        this.blocked = true;
+      }
     } else {
-      dmg = this.enemy.damage;
+      if (playerDmg.length <= 0) dmg = this.enemy.damage;
     }
 
-    if (dmg < 0) dmg = 0;
+    if (playerDmg.length <= 0) {
+      if (dmg < 0) {
+        dmg = 0;
+      }
+      playerDmg.push([Math.round(dmg), false, "dmg"]);
+    } else {
+      for (let i = 0; i < playerDmg.length; i++) {
+        if (playerDmg[i][0] < 0) playerDmg[i][0] == 0;
+
+        playerDmg[i][1] = false;
+      }
+    }
 
     setTimeout(() => {
-      this.enemyHitAnimation(dmg);
+      this.enemyHitAnimation(playerDmg);
     }, 660 * this.speed);
 
     setTimeout(() => {
-      this.playerHurt(dmg);
-
+      this.playerHurt(playerDmg);
       setTimeout(() => {
         if (this.checkIfAlive()) {
-          if (
-            Math.random() < this.enemy.level / this.player.level / 10 &&
-            !this.enemyDouble
-          ) {
-            setTimeout(() => {
-              this.enemyTurn();
-            }, 233 * this.speed);
-            this.enemyDouble = true;
+          if (!this.pvpOn) {
+            if (
+              Math.random() < this.enemy.level / this.player.level / 10 &&
+              !this.enemyDouble
+            ) {
+              setTimeout(() => {
+                this.enemyTurn();
+              }, 233 * this.speed);
+              this.enemyDouble = true;
+            } else {
+              this.tour();
+              this.enemyDouble = false;
+            }
           } else {
-            this.tour();
+            this.playerTurn();
             this.enemyDouble = false;
           }
+        } else {
+          if (this.pvpOn) this.playerDead();
         }
-      }, 200 * this.speed);
+      }, 600 * this.speed);
     }, 860 * this.speed);
   }
 
@@ -573,7 +645,7 @@ export class CaveComponent {
     }, 10 * this.speed);
     setTimeout(() => {
       this.playerDamage.shift();
-    }, 2350);
+    }, 1400);
   }
   showEnemyDamage() {
     setTimeout(() => {
@@ -581,7 +653,7 @@ export class CaveComponent {
     }, 10 * this.speed);
     setTimeout(() => {
       this.enemyDamage.shift();
-    }, 2350);
+    }, 1400);
   }
 
   //Animations
@@ -652,15 +724,33 @@ export class CaveComponent {
       this.enemy.health -= Math.round(dmg * this.DI * this.multipliers[2]);
     }
 
-    if (this.enemy.health < 0) this.enemy.health = 0;
+    if (this.enemy.health < 0) {
+      this.enemy.health = 0;
+      if (this.pvpOn) {
+        this.enemyDead();
+        this.backHome();
+      }
+    }
   }
 
   playerHurt(dmg) {
     this.enemyHit = false;
+    console.log(dmg);
+    let i = 0;
 
-    this.playerDamage.push([Math.round(dmg * this.DI), false, "dmg"]);
+    let interv = setInterval(() => {
+      this.playerDamage.push([
+        Math.round(dmg[i][0] * this.DI),
+        dmg[i][1],
+        dmg[i][2],
+      ]);
+      i++;
+      this.showPlayerDamage();
 
-    this.showPlayerDamage();
+      if (i >= dmg.length) {
+        clearInterval(interv);
+      }
+    }, 200);
   }
 
   //Enemy Animations
@@ -672,7 +762,7 @@ export class CaveComponent {
 
   enemyHitAnimation(dmg) {
     this.enemyState = "back";
-    if (dmg != 0) {
+    if (dmg[0][0] != 0) {
       if (this.blocked) {
         this.audio.playBlock();
       }
@@ -682,7 +772,9 @@ export class CaveComponent {
       this.audio.playBlock();
     }
 
-    this.player.health -= Math.round(dmg * this.DI);
+    for (let i = 0; i < dmg.length; i++) {
+      this.player.health -= Math.round(dmg[i][0] * this.DI);
+    }
 
     if (this.player.health < 0) {
       this.player.health = 0;
@@ -690,6 +782,12 @@ export class CaveComponent {
   }
 
   perks = ["fire", "darkness", "ice"];
+
+  damageToSocket(dmg) {
+    if (this.pvpOn) {
+      this.socket.sendDmg(dmg);
+    }
+  }
 
   enemyHurt(dmg) {
     this.enemyState = "back";
@@ -710,6 +808,7 @@ export class CaveComponent {
           false,
           this.player.weapon.perks,
         ]);
+        this.damageToSocket(this.enemyDamage);
         this.showEnemyDamage();
       } else if (
         this.player.weapon.perks == "fireice" ||
@@ -720,7 +819,6 @@ export class CaveComponent {
           false,
           "ice",
         ]);
-        this.showEnemyDamage();
 
         setTimeout(() => {
           let perk = "fire";
@@ -732,6 +830,8 @@ export class CaveComponent {
             false,
             perk,
           ]);
+          this.damageToSocket(this.enemyDamage);
+          this.showEnemyDamage();
           this.showEnemyDamage();
         }, 500 * this.speed);
       } else if (this.player.weapon.perks == "fireicedarkness") {
@@ -756,9 +856,12 @@ export class CaveComponent {
               false,
               "darkness",
             ]);
+            this.damageToSocket(this.enemyDamage);
             this.showEnemyDamage();
           }, 500 * this.speed);
         }, 500 * this.speed);
+      } else {
+        this.damageToSocket(this.enemyDamage);
       }
     }, 500 * this.speed);
 
