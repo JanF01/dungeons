@@ -364,6 +364,9 @@ export class CaveComponent {
     if (this.player.loot.length < 8 || this.showedAlert) {
       this.pvpOn = false;
       this.organize();
+      if (elite) {
+        this.elite = true;
+      }
 
       this.player.dungeon = lvl - 1;
       this.label = this.dungeons.dungeons[this.player.dungeon].label;
