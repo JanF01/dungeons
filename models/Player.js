@@ -135,6 +135,9 @@ const Player = db.sequelize.define(
     d19: {
       type: Sequelize.SMALLINT,
     },
+    d20: {
+      type: Sequelize.SMALLINT,
+    },
   }, {
     timestamps: false,
   }

@@ -61,6 +61,7 @@ players.post("/register", (req, res) => {
     d17: 0,
     d18: 0,
     d19: 0,
+    d20: 0,
     created: today,
   };
 
@@ -247,6 +248,7 @@ players.post("/update", async function (req, res) {
       d17: req.body.d17,
       d18: req.body.d18,
       d19: req.body.d19,
+      d20: req.body.d20,
       items: req.body.items
     };
 
@@ -287,6 +289,7 @@ players.post("/update", async function (req, res) {
         d17: playerData.d17,
         d18: playerData.d18,
         d19: playerData.d19,
+        d20: playerData.d20
       }, {
         where: {
           login: playerData.login,
@@ -455,6 +458,7 @@ players.post("/dungeonupdate", async function (req, res) {
       d17: req.body.d17,
       d18: req.body.d18,
       d19: req.body.d19,
+      d20: req.body.d20,
     };
 
     const result = await Player.update({
@@ -478,6 +482,7 @@ players.post("/dungeonupdate", async function (req, res) {
         d17: req.body.d17,
         d18: req.body.d18,
         d19: req.body.d19,
+        d20: req.body.d20
       }, {
         where: {
           login: playerData.login,

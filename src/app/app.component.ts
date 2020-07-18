@@ -77,6 +77,7 @@ export class AppComponent {
     d17: 0,
     d18: 0,
     d19: 0,
+    d20: 0,
   };
 
   details: PlayerDetails = {
@@ -120,6 +121,7 @@ export class AppComponent {
     d17: 0,
     d18: 0,
     d19: 0,
+    d20: 0,
     exp: 0,
     iat: 0,
   };

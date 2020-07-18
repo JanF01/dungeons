@@ -3,7 +3,9 @@ var cors = require("cors");
 var bodyParser = require("body-parser");
 var app = express();
 var port = process.env.PORT || 3000;
-const { connection } = require("websocket");
+const {
+  connection
+} = require("websocket");
 const http = require("http").Server(app);
 const io = require("socket.io")(http);
 
@@ -141,8 +143,7 @@ io.on("connection", (socket) => {
       }
 
       request.post(
-        "http://localhost:3000/players/update",
-        {
+        "http://localhost:3000/players/update", {
           json: {
             login: playersJson[socketNames[socket.id]].name,
             experience: playersJson[socketNames[socket.id]].exp,
@@ -181,6 +182,7 @@ io.on("connection", (socket) => {
             d17: playersJson[socketNames[socket.id]].subdungeon[16],
             d18: playersJson[socketNames[socket.id]].subdungeon[17],
             d19: playersJson[socketNames[socket.id]].subdungeon[18],
+            d20: playersJson[socketNames[socket.id]].subdungeon[19],
             items: items,
           },
         },

@@ -290,6 +290,25 @@ export class DungeonsService {
         1
       )
     );
+    this.dungeons.push(
+      new Dungeon(
+        "Hell",
+        "assets/elite/zombie_icon.png",
+        [
+          new Enemy(
+            "assets/elite/zombie.png",
+            111333,
+            "Dead Body",
+            this.getDamage(8, 20),
+            60,
+            this.createLoot(8, 18, 65, true)
+          ),
+        ],
+        0,
+        false,
+        1
+      )
+    );
 
     for (let i = 0; i < 12; i++) {
       this.dungeons[i].amount = this.dungeons[i].monsters.length;
@@ -1365,6 +1384,18 @@ export class DungeonsService {
             this.getDamage(7, 21),
             51,
             this.createLoot(8, 18, 56, true)
+          ),
+        ];
+        break;
+      case 7:
+        this.dungeons[elite + 12].monsters = [
+          new Enemy(
+            "assets/elite/zombie.png",
+            86834,
+            "Dead Body",
+            this.getDamage(8, 22),
+            60,
+            this.createLoot(8, 18, 65, true)
           ),
         ];
         break;

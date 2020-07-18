@@ -44,6 +44,7 @@ export interface PlayerDetails {
   d17: number;
   d18: number;
   d19: number;
+  d20: number;
   exp: number;
   iat: number;
 }
@@ -93,6 +94,7 @@ export interface TokenPayload {
   d17: number;
   d18: number;
   d19: number;
+  d20: number;
 }
 
 @Injectable({

@@ -402,6 +402,8 @@ export class DungeonsComponent implements OnInit {
     this.player.subdungeon[16] = details.d17;
     this.player.subdungeon[17] = details.d18;
     this.player.subdungeon[18] = details.d19;
+    this.player.subdungeon[19] = details.d20;
+    this.player.subdungeon[20] = details.d20;
 
     let open: Array<boolean> = [];
 
@@ -434,6 +436,8 @@ export class DungeonsComponent implements OnInit {
         this.player.subdungeon[16],
         this.player.subdungeon[17],
         this.player.subdungeon[18],
+        this.player.subdungeon[19],
+        this.player.subdungeon[20],
       ],
       open
     );
@@ -488,7 +492,7 @@ export class DungeonsComponent implements OnInit {
   }
   getElites() {
     let elites = new Array();
-    for (let i = 12; i < 19; i++) {
+    for (let i = 12; i < 20; i++) {
       elites.push(this.dungeons.dungeons[i]);
     }
     return elites;

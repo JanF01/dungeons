@@ -50,10 +50,10 @@ export class InfobubbleComponent implements OnInit {
   }
 
   getType() {
-    let type =
+    return (
       this.item.type[0].toUpperCase() +
-      this.item.type.slice(1, this.item.type.length);
-    return type;
+      this.item.type.slice(1, this.item.type.length)
+    );
   }
 
   getCritical() {
