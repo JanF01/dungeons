@@ -7,7 +7,6 @@ export interface PlayerDetails {
   id: number;
   login: string;
   email: string;
-  password: string;
   experience: number;
   expmulti: number;
   gold: number;
@@ -57,7 +56,6 @@ export interface TokenPayload {
   id: number;
   login: string;
   email: string;
-  password: string;
   experience: number;
   expmulti: number;
   gold: number;
@@ -128,8 +126,11 @@ export class VerificationService {
     }
   }
 
-  public register(player: TokenPayload): Observable<any> {
-    const base = this.http.post("/players/register", player);
+  public register(player: TokenPayload, pass: string): Observable<any> {
+    const base = this.http.post("/players/register", {
+      cred: player,
+      pass: pass,
+    });
 
     const request = base.pipe(
       map((data: TokenResponse) => {
@@ -142,8 +143,8 @@ export class VerificationService {
     return request;
   }
 
-  public login(player: TokenPayload): Observable<any> {
-    const base = this.http.post("/players/login", player);
+  public login(player: TokenPayload, pass: string): Observable<any> {
+    const base = this.http.post("/players/login", { cred: player, pass: pass });
 
     const request = base.pipe(
       map((data: TokenResponse) => {

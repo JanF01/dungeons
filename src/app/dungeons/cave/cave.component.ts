@@ -496,31 +496,16 @@ export class CaveComponent {
 
     if (bag.coins != undefined) {
       for (let i = bag.coins + Math.random() * this.player.luck; i > 0; ) {
-        if (i >= 30) {
-          this.coins.push([
-            30,
-            "assets/coin/30.png",
-            Math.random() * 12 - 6 + bag.offset,
-            "static",
-          ]);
-          i -= 30;
-        } else if (i >= 5) {
-          this.coins.push([
-            5,
-            "assets/coin/5.png",
-            Math.random() * 12 - 6 + bag.offset,
-            "static",
-          ]);
-          i -= 5;
-        } else {
-          this.coins.push([
-            1,
-            "assets/coin/1.png",
-            Math.random() * 12 - 6 + bag.offset,
-            "static",
-          ]);
-          i -= 1;
-        }
+        let x = i >= 30 ? 30 : i >= 5 ? 5 : 1;
+
+        this.coins.push([
+          x,
+          "assets/coin/" + x + ".png",
+          Math.random() * 12 - 6 + bag.offset,
+          "static",
+        ]);
+        i -= x;
+
         let index = this.coins.length - 1;
 
         setTimeout(() => {

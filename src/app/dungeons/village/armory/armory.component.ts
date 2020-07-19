@@ -13,7 +13,11 @@ import { SocketService } from "src/app/socket.service";
 })
 export class ArmoryComponent implements OnInit {
   @Input("user") player: User;
-  village = "shop";
+
+  showAlert: boolean = false;
+
+  alertInput: string = "";
+  village: string = "shop";
 
   weaponPos = [
     { x: 0, y: 0 },
@@ -26,14 +30,11 @@ export class ArmoryComponent implements OnInit {
     { x: 0, y: 0 },
   ];
 
-  showAlert: boolean = false;
-  alertInput: string = "";
-
   constructor(private images: ImagesService, private socket: SocketService) {}
 
   ngOnInit(): void {}
 
-  newAsortament() {
+  newAsortament(): void {
     let r = Math.round(
       (Math.random() * this.player.level) / 2 + 1 + this.player.level / 2
     );
@@ -80,7 +81,6 @@ export class ArmoryComponent implements OnInit {
       Math.random() * 30 - 15,
       "normal"
     );
-
     this.player.weaponsInShop[0] = new Weapon(
       this.player.id,
       "normal",
@@ -131,7 +131,7 @@ export class ArmoryComponent implements OnInit {
     );
   }
 
-  grab(i) {
+  grab(i): void {
     let items = document.getElementsByClassName("item") as HTMLCollectionOf<
       HTMLElement
     >;
@@ -142,21 +142,21 @@ export class ArmoryComponent implements OnInit {
   showInfoBubble = false;
   bubblePos = { x: 180, y: 180 };
 
-  showInfo(item) {
+  showInfo(item): void {
     this.itemForInfo = item;
     this.showInfoBubble = true;
   }
-  changePosition($event: MouseEvent) {
+  changePosition($event: MouseEvent): void {
     this.bubblePos.x = $event.clientX;
     this.bubblePos.y = $event.clientY;
   }
 
-  hideInfo() {
+  hideInfo(): void {
     this.showInfoBubble = false;
   }
 
-  buyItem(item, n, div, t) {
-    if (this.checkIfBought(item, div, t, n)) {
+  buyItem(item, n, div, t): void {
+    if (this.checkIfBought(div, t, n)) {
       if (this.player.items.length < 27) {
         if (this.player.gold >= item.cost) {
           let itemCopy: any = {};
@@ -183,7 +183,7 @@ export class ArmoryComponent implements OnInit {
     }
   }
 
-  checkIfBought(item, div, t, n) {
+  checkIfBought(div, t, n): boolean {
     var spot = document.getElementById(div).getBoundingClientRect();
 
     let backpack = document.getElementsByClassName(
@@ -204,11 +204,11 @@ export class ArmoryComponent implements OnInit {
     }
   }
 
-  alertOut(input) {
+  alertOut(input): void {
     this.alertInput = input;
     this.showAlert = true;
   }
-  alertOff() {
+  alertOff(): void {
     this.showAlert = false;
   }
 }

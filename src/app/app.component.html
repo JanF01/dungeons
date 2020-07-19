@@ -39,7 +39,7 @@
 
   <input type="text" class="form-control" placeholder="Nick" [(ngModel)]="this.credentials.login"
     *ngIf="state=='register'" />
-  <input type="password" class="form-control" placeholder="Password" [(ngModel)]="this.credentials.password"
+  <input type="password" class="form-control" placeholder="Password" [(ngModel)]="this.pass"
     *ngIf="state=='register'" />
   <input type="password" class="form-control" placeholder="Password" [(ngModel)]="this.passRepeat"
     *ngIf="state=='register'" />
@@ -47,8 +47,7 @@
 
   <input type="text" class="form-control" placeholder="Nick" [(ngModel)]="this.credentials.login"
     *ngIf="state=='login'" />
-  <input type="password" class="form-control" placeholder="Password" [(ngModel)]="this.credentials.password"
-    *ngIf="state=='login'" />
+  <input type="password" class="form-control" placeholder="Password" [(ngModel)]="this.pass" *ngIf="state=='login'" />
   <button (click)="login()" *ngIf="state=='login'">DONE</button>
 
 

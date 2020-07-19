@@ -22,6 +22,7 @@ export class AppComponent {
   mode: number = 0;
   shSettings = false;
   registerBck: any;
+  pass: string = "";
   passRepeat: string = "";
 
   globalChat: any;
@@ -36,95 +37,17 @@ export class AppComponent {
 
   chatOn: boolean = false;
 
-  credentials: TokenPayload = {
-    id: 0,
-    login: "",
-    email: "jolo@gmail.com",
-    password: "",
-    experience: 0,
-    expmulti: 0,
-    gold: 0,
-    strength: 0,
-    hpleft: 0,
-    health: 0,
-    speed: 0,
-    staminaleft: 0,
-    stamina: 0,
-    luck: 0,
-    lvl: 0,
-    dungeon_open: 0,
-    bp_str: 0,
-    bp_hp: 0,
-    bp_sp: 0,
-    bp_stam: 0,
-    bp_luck: 0,
-    d1: 0,
-    d2: 0,
-    d3: 0,
-    d4: 0,
-    d5: 0,
-    d6: 0,
-    d7: 0,
-    d8: 0,
-    d9: 0,
-    d10: 0,
-    d11: 0,
-    d12: 0,
-    d13: 0,
-    d14: 0,
-    d15: 0,
-    d16: 0,
-    d17: 0,
-    d18: 0,
-    d19: 0,
-    d20: 0,
-  };
+  info1: HTMLElement;
+  info2: HTMLElement;
+  l1: HTMLElement;
+  l2: HTMLElement;
+  c: HTMLElement;
+  l: HTMLElement;
+  r: HTMLElement;
+  sp: HTMLElement;
 
-  details: PlayerDetails = {
-    id: 0,
-    login: "",
-    email: "jolo@gmail.com",
-    password: "",
-    experience: 0,
-    expmulti: 0,
-    gold: 0,
-    strength: 0,
-    hpleft: 0,
-    health: 0,
-    speed: 0,
-    staminaleft: 0,
-    stamina: 0,
-    luck: 0,
-    lvl: 0,
-    dungeon_open: 0,
-    bp_str: 0,
-    bp_hp: 0,
-    bp_sp: 0,
-    bp_stam: 0,
-    bp_luck: 0,
-    d1: 0,
-    d2: 0,
-    d3: 0,
-    d4: 0,
-    d5: 0,
-    d6: 0,
-    d7: 0,
-    d8: 0,
-    d9: 0,
-    d10: 0,
-    d11: 0,
-    d12: 0,
-    d13: 0,
-    d14: 0,
-    d15: 0,
-    d16: 0,
-    d17: 0,
-    d18: 0,
-    d19: 0,
-    d20: 0,
-    exp: 0,
-    iat: 0,
-  };
+  credentials: TokenPayload = {} as any;
+  details: PlayerDetails = {} as any;
 
   constructor(
     private images: ImagesService,
@@ -161,7 +84,21 @@ export class AppComponent {
     this.globalSub = this.socket.chat.subscribe((chat) => {
       this.globalChat = chat;
     });
+
+    setTimeout(() => this.getElements(), 500);
   }
+
+  getElements(): void {
+    this.r = document.getElementById("r");
+    this.info1 = document.getElementById("info1");
+    this.info2 = document.getElementById("info2");
+    this.sp = document.getElementById("sp");
+    this.l1 = document.getElementById("l1");
+    this.l2 = document.getElementById("l2");
+    this.c = document.getElementById("c");
+    this.l = document.getElementById("l");
+  }
+
   startCoins() {
     this.mode = 1;
   }
@@ -216,62 +153,40 @@ export class AppComponent {
   }
 
   tablesUp() {
-    let info1 = document.getElementById("info1");
-    let info2 = document.getElementById("info2");
-    let l1 = document.getElementById("l1");
-    let l2 = document.getElementById("l2");
-    let c = document.getElementById("c");
-    let l = document.getElementById("l");
-    let r = document.getElementById("r");
-    r.style.top = "-65%";
-
-    info1.style.top = "-20%";
-    info2.style.top = "-20%";
-    c.style.top = "-20%";
-    l.style.top = "-20%";
-    l1.style.top = "-60%";
-    l2.style.top = "-60%";
+    this.r.style.top = "-65%";
+    this.info1.style.top = "-20%";
+    this.info2.style.top = "-20%";
+    this.c.style.top = "-20%";
+    this.l.style.top = "-20%";
+    this.l1.style.top = "-60%";
+    this.l2.style.top = "-60%";
   }
 
   mainPage() {
     setTimeout(() => {
-      let r = document.getElementById("r");
-      r.style.top = "-65%";
-      let l1 = document.getElementById("l1");
-      let l2 = document.getElementById("l2");
-      let sp = document.getElementById("sp");
-      sp.style.opacity = "0";
-      l1.style.top = "-60%";
-      l2.style.top = "-60%";
+      this.r.style.top = "-65%";
+      this.sp.style.opacity = "0";
+      this.l1.style.top = "-60%";
+      this.l2.style.top = "-60%";
       setTimeout(() => {
-        let l1 = document.getElementById("l1");
-        let l2 = document.getElementById("l2");
-        let info1 = document.getElementById("info1");
-        let info2 = document.getElementById("info2");
-        let c = document.getElementById("c");
-        let l = document.getElementById("l");
-        info1.style.top = "calc(34.6vh + 5%)";
-        info2.style.top = "calc(34.6vh + 5%)";
-        c.style.top = "calc(34.6vh + 6.4%)";
-        l.style.top = "calc(34.6vh + 6.4%)";
-        l1.style.top = "0";
-        l2.style.top = "0";
+        this.info1.style.top = "calc(34.6vh + 5%)";
+        this.info2.style.top = "calc(34.6vh + 5%)";
+        this.c.style.top = "calc(34.6vh + 6.4%)";
+        this.l.style.top = "calc(34.6vh + 6.4%)";
+        this.l1.style.top = "0";
+        this.l2.style.top = "0";
       }, 500);
     }, 600);
   }
 
   logValue() {
-    if (this.credentials.login.length > 2) {
-      return false;
-    } else {
-      return true;
-    }
+    return this.credentials.login.length <= 2;
   }
 
   register() {
     if (!this.logValue()) {
-      if (this.credentials.password == this.passRepeat) {
-        this.verify.register(this.credentials).subscribe(
+      if (this.pass == this.passRepeat) {
+        this.verify.register(this.credentials, this.pass).subscribe(
           (resp) => {
             if (resp.error) {
               this.alert = resp.error;
@@ -302,7 +217,7 @@ export class AppComponent {
 
   login() {
     if (!this.logValue()) {
-      this.verify.login(this.credentials).subscribe(
+      this.verify.login(this.credentials, this.pass).subscribe(
         (resp) => {
           if (resp.error) {
             this.alert = resp.error;

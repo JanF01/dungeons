@@ -17,16 +17,19 @@ import { SocketService } from "src/app/socket.service";
 export class MissionsComponent implements OnInit {
   @Input("user") player: User;
 
-  missionInterval: any;
-  missionNumber: number = 0;
-  coins: Array<any> = [];
   missionFinished: boolean = true;
-  sumGold: number = 0;
   afterMission: boolean = false;
+  showAlert: boolean = false;
+
+  alertInput: string = "";
+
+  missionNumber: number = 0;
+  sumGold: number = 0;
+
+  coins: Array<any> = [];
   amount = [];
 
-  showAlert: boolean = false;
-  alertInput: string = "";
+  missionInterval: any;
 
   constructor(
     private missions: MissionsService,
@@ -36,7 +39,7 @@ export class MissionsComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  endMission() {
+  endMission(): void {
     this.missions.needed[this.player.missionNumber] = true;
 
     setTimeout(() => {
@@ -65,17 +68,17 @@ export class MissionsComponent implements OnInit {
     this.socket.updatePlayer(this.player);
   }
 
-  getType(i) {
+  getType(i): number {
     return this.missions.missions[i].type;
   }
-  getMissionDesc(i) {
+  getMissionDesc(i): string {
     return this.missions.missions[i].description;
   }
-  getMissionExp(i) {
+  getMissionExp(i): number {
     return this.missions.missions[i].exp;
   }
 
-  getMissionTime(i, time = 0) {
+  getMissionTime(i, time = 0): string {
     let t = 0;
     if (!time) {
       t = this.missions.missions[i].time;
@@ -90,29 +93,29 @@ export class MissionsComponent implements OnInit {
 
     return m + ":" + s0;
   }
-  getMissionsAdd(i) {
+  getMissionsAdd(i): string {
     return this.missions.missions[i].additions;
   }
 
-  getMissionStatus(i) {
+  getMissionStatus(i): string {
     return (
       this.missions.missions[i].done + " / " + this.missions.missions[i].sum
     );
   }
 
-  missionDone(i) {
+  missionDone(i): boolean {
     return this.missions.missions[i].done / this.missions.missions[i].sum == 1
       ? true
       : false;
   }
 
-  turnMissionBack(i) {
+  turnMissionBack(i): void {
     if (this.missions.missions[i].done / this.missions.missions[i].sum == 1) {
       this.startMission(i);
     }
   }
 
-  startMission(i) {
+  startMission(i): void {
     this.player.missionNumber = i;
 
     this.player.missionTime = this.missions.missions[i].time;
@@ -129,7 +132,7 @@ export class MissionsComponent implements OnInit {
     }, 1000);
   }
 
-  undertakeMission(i) {
+  undertakeMission(i): void {
     if (this.player.missions > 0) {
       this.missions.missions[i].partaken = true;
       this.player.missionOn[i] = true;
@@ -142,45 +145,28 @@ export class MissionsComponent implements OnInit {
     }
   }
 
-  getLoot() {
+  getLoot(): any[] {
     return this.missions.missions[this.player.missionNumber].loot;
   }
 
-  showCoins(bag: any) {
+  showCoins(bag: any): void {
     if (bag.perks != undefined) {
       this.showInfo(bag);
     }
 
     if (bag.coins != undefined) {
       for (let i = bag.coins + Math.random() * this.player.luck; i > 0; ) {
-        if (i >= 30) {
-          this.coins.push([
-            30,
-            "assets/coin/30.png",
-            Math.random() * 12 - 6 + bag.offset,
-            "static",
-          ]);
-          this.sumGold += 30;
-          i -= 30;
-        } else if (i >= 5) {
-          this.coins.push([
-            5,
-            "assets/coin/5.png",
-            Math.random() * 12 - 6 + bag.offset,
-            "static",
-          ]);
-          this.sumGold += 5;
-          i -= 5;
-        } else {
-          this.coins.push([
-            1,
-            "assets/coin/1.png",
-            Math.random() * 12 - 6 + bag.offset,
-            "static",
-          ]);
-          this.sumGold += 1;
-          i -= 1;
-        }
+        let x = i >= 30 ? 30 : i >= 5 ? 5 : 1;
+
+        this.coins.push([
+          x,
+          "assets/coin/" + x + ".png",
+          Math.random() * 12 - 6 + bag.offset,
+          "static",
+        ]);
+        this.sumGold += x;
+        i -= x;
+
         let index = this.coins.length - 1;
 
         setTimeout(() => {
@@ -212,7 +198,7 @@ export class MissionsComponent implements OnInit {
     }
   }
 
-  collectItem(item: Weapon) {
+  collectItem(item: Weapon): void {
     this.hideInfo();
 
     if (item.code != undefined) {
@@ -242,25 +228,25 @@ export class MissionsComponent implements OnInit {
   showInfoBubble = false;
   bubblePos = { x: 180, y: 180 };
 
-  showInfo(item) {
+  showInfo(item): void {
     this.itemForInfo = item;
     this.showInfoBubble = true;
   }
 
-  changePosition($event: MouseEvent) {
+  changePosition($event: MouseEvent): void {
     this.bubblePos.x = $event.clientX;
     this.bubblePos.y = $event.clientY;
   }
 
-  hideInfo() {
+  hideInfo(): void {
     this.showInfoBubble = false;
   }
 
-  alertOut(input) {
+  alertOut(input): void {
     this.alertInput = input;
     this.showAlert = true;
   }
-  alertOff() {
+  alertOff(): void {
     this.showAlert = false;
   }
 }

@@ -31,8 +31,9 @@ import { ArmoryComponent } from "./dungeons/village/armory/armory.component";
 import { MissionsComponent } from "./dungeons/village/missions/missions.component";
 import { AlertComponent } from "./dungeons/alert/alert.component";
 import { ItemMenuComponent } from "./dungeons/item-menu/item-menu.component";
-import { ChatComponent } from './chat/chat.component';
-import { ArenaComponent } from './dungeons/arena/arena.component';
+import { ChatComponent } from "./chat/chat.component";
+import { ArenaComponent } from "./dungeons/arena/arena.component";
+import { Starter } from "./store/startEquipment";
 
 @NgModule({
   declarations: [
@@ -66,7 +67,7 @@ import { ArenaComponent } from './dungeons/arena/arena.component';
     HttpClientModule,
     SocketIoModule.forRoot(config),
   ],
-  providers: [AudioService, ImagesService],
+  providers: [AudioService, ImagesService, Starter],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

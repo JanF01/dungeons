@@ -12,58 +12,39 @@ import { SocketService } from "src/app/socket.service";
 })
 export class BlacksmithComponent implements OnInit {
   @Input("user") player: User;
-  village = "shop";
-  itemForUpgrade: any;
-  gemForUpgrade: Crystal;
-  upgradedItem: any = { sum: 2 };
 
-  arrayForItems: Array<number> = [
-    0,
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20,
-    21,
-    22,
-    23,
-    24,
-    25,
-    26,
-  ];
-  arrayItemsPos = [];
+  village: string = "shop";
+
+  dragging: boolean = false;
+  showInfoBubble: boolean = false;
+
+  arrayForItems: Array<number> = [];
+  arrayItemsPos: Array<Object> = [];
+
   upgradedItemPos = { x: 0, y: 0 };
+  gemForUpgrade: Crystal;
+  itemForUpgrade: any;
+  upgradedItem: any = { sum: 2 };
+  itemForInfo: any;
+  draggedItem: HTMLElement;
 
-  constructor(private images: ImagesService, private socket: SocketService) {}
+  bubblePos: any = { x: 180, y: 180 };
+
+  constructor(private images: ImagesService, private socket: SocketService) {
+    this.arrayForItems = [...new Array(27)].map((a, i) => {
+      return i;
+    });
+  }
 
   ngOnInit(): void {}
 
-  itemForInfo: any;
-  showInfoBubble = false;
-  bubblePos = { x: 180, y: 180 };
-
-  showInfo(item) {
+  showInfo(item): void {
     if (item != undefined) {
       this.itemForInfo = item;
       this.showInfoBubble = true;
     }
   }
-  changePosition($event: MouseEvent) {
+  changePosition($event: MouseEvent): void {
     if (!this.dragging) {
       this.bubblePos.x = $event.clientX;
       this.bubblePos.y = $event.clientY;
@@ -74,43 +55,37 @@ export class BlacksmithComponent implements OnInit {
     }
   }
 
-  hideInfo() {
+  hideInfo(): void {
     this.showInfoBubble = false;
   }
 
-  dragging: boolean = false;
-  draggedItem: HTMLElement;
-
-  grab(i) {
+  grab(i): void {
     let items = document.getElementsByClassName("spot") as HTMLCollectionOf<
       HTMLElement
     >;
-    items[i].style.cursor = "grabbing";
     this.dragging = true;
-    let pos = items[i].getBoundingClientRect();
     this.draggedItem = items[i];
+
+    items[i].style.cursor = "grabbing";
+    let pos = items[i].getBoundingClientRect();
     this.bubblePos.x = pos.x + window.innerWidth / 15;
     this.bubblePos.y = pos.y;
   }
-  grabUpgraded() {
+  grabUpgraded(): void {
     let item = document.getElementById("end");
     item.style.cursor = "grabbing";
     this.dragging = true;
-    let pos = item.getBoundingClientRect();
     this.draggedItem = item;
+    let pos = item.getBoundingClientRect();
     this.bubblePos.x = pos.x + window.innerWidth / 15;
     this.bubblePos.y = pos.y;
   }
 
-  getClass(item) {
-    if (item != undefined) {
-      return item.type;
-    } else {
-      return "normal";
-    }
+  getClass(item): string {
+    return item != undefined ? item.type : "normal";
   }
 
-  dropToBackpack() {
+  dropToBackpack(): void {
     let upgraded = document.getElementById("end").getBoundingClientRect();
 
     let backpack = document.getElementsByClassName(
@@ -149,7 +124,7 @@ export class BlacksmithComponent implements OnInit {
     }
   }
 
-  dropItem(i) {
+  dropItem(i): void {
     let items = document.getElementsByClassName("spot") as HTMLCollectionOf<
       HTMLElement
     >;
@@ -169,7 +144,7 @@ export class BlacksmithComponent implements OnInit {
     this.setDefault(i);
   }
 
-  checkIfAnvil(dropedPos) {
+  checkIfAnvil(dropedPos): boolean {
     var anvil = document.getElementsByClassName("anvil") as HTMLCollectionOf<
       HTMLElement
     >;
@@ -188,7 +163,7 @@ export class BlacksmithComponent implements OnInit {
     }
   }
 
-  createUpgradedItem() {
+  createUpgradedItem(): void {
     if (this.itemForUpgrade != undefined && this.gemForUpgrade != undefined) {
       if (
         (this.itemForUpgrade.damageLow != undefined &&
@@ -212,7 +187,7 @@ export class BlacksmithComponent implements OnInit {
     }
   }
 
-  setDefault(i) {
+  setDefault(i): void {
     let items = document.getElementsByClassName("spot") as HTMLCollectionOf<
       HTMLElement
     >;
@@ -223,7 +198,7 @@ export class BlacksmithComponent implements OnInit {
     this.dragging = false;
   }
 
-  changeGem() {
+  changeGem(): void {
     this.upgradedItem.gem = this.gemForUpgrade;
 
     if (this.gemForUpgrade.amp == "dmg") {

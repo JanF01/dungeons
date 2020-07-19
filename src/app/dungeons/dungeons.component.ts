@@ -18,6 +18,8 @@ import { VerificationService, PlayerDetails } from "../verification.service";
 import { UpdateService } from "../update.service";
 import { SocketService } from "../socket.service";
 import { Subscription, Subscribable } from "rxjs";
+import { Starter } from "../store/startEquipment";
+import { Dungeon } from "./models/dungeon.model";
 
 @Component({
   selector: "app-dungeons",
@@ -42,11 +44,10 @@ export class DungeonsComponent implements OnInit {
   showAlert: boolean = false;
   alertInput: string = "";
   enemyPlayer: User;
+
   private enemyPlayerSub: Subscription;
   private itemsSub: Subscription;
-
   private challengeSub: Subscription;
-
   private challenger: User;
 
   ngOnInit() {
@@ -177,20 +178,6 @@ export class DungeonsComponent implements OnInit {
         }
       }
       this.socket.updatePlayer(this.player);
-
-      this.player.items.push(
-        new Crystal(
-          this.player.id,
-          "normal",
-          "crystal",
-          "assets/crystal/normal_hp.png",
-          "#222",
-          "none",
-          10,
-          "dmg",
-          0.15
-        )
-      );
     });
   }
 
@@ -198,11 +185,11 @@ export class DungeonsComponent implements OnInit {
     private audio: AudioService,
     private dungeons: DungeonsService,
     private images: ImagesService,
-    private update: UpdateService,
-    private socket: SocketService
+    private socket: SocketService,
+    private starterPack: Starter
   ) {}
 
-  setPlayer(details: PlayerDetails) {
+  setPlayer(details: PlayerDetails): void {
     let nextExp = Math.round(details.lvl * (details.lvl * 0.4) * 928);
 
     this.player = {
@@ -229,52 +216,10 @@ export class DungeonsComponent implements OnInit {
       subdungeon: [],
       goldInSack: 0,
       graphic: "assets/player/knight_blue_plus.png",
-      weapon: new Weapon(
-        details.id,
-        "normal",
-        "A Fricking Sword",
-        "assets/weapon/1_2.png",
-        "#00A11",
-        "none",
-        5,
-        3,
-        4,
-        100
-      ),
-      armor: new Armor(
-        details.id,
-        "normal",
-        "Shield Yourself",
-        "assets/armor/1_1.png",
-        "#00B12",
-        "none",
-        5,
-        38,
-        10,
-        100
-      ),
-      necklace: new Necklace(
-        details.id,
-        "normal",
-        "Necklace of Wisdom",
-        "assets/necklace/1_1.png",
-        "#00C01",
-        "none",
-        5,
-        9,
-        0.07
-      ),
-      ring: new Ring(
-        details.id,
-        "normal",
-        "Ring of Beginnings",
-        "assets/ring/1_1.png",
-        "#00C01",
-        "none",
-        5,
-        12,
-        0.32
-      ),
+      weapon: this.starterPack.getStartWeapon(details.id),
+      armor: this.starterPack.getStartArmor(details.id),
+      necklace: this.starterPack.getStartNecklace(details.id),
+      ring: this.starterPack.getStartRing(details.id),
       potions: [
         new Potion("Health I", this.images.hpPotion, "hp", 600, "HP Potion"),
       ],
@@ -282,92 +227,14 @@ export class DungeonsComponent implements OnInit {
       itemsOnHold: [],
       loot: [],
       weaponsInShop: [
-        new Weapon(
-          details.id,
-          "normal",
-          "A Fricking Sword",
-          "assets/weapon/1_2.png",
-          "#00A11",
-          "none",
-          Math.round(2 * 2 * 0.8),
-          Math.round(2 * 12) / 10 + 2,
-          Math.round(2 * 12) / 10 + 2 + Math.round(2 / 4.5),
-          100,
-          Math.random() * 30 - 15,
-          "normal"
-        ),
-        new Weapon(
-          details.id,
-          "normal",
-          "A Fricking Sword",
-          "assets/weapon/1_2.png",
-          "#00A11",
-          "none",
-          Math.round(2 * 2 * 0.8),
-          Math.round(2 * 12) / 10 + 2,
-          Math.round(2 * 12) / 10 + 2 + Math.round(2 / 4.5),
-          100,
-          Math.random() * 30 - 15,
-          "normal"
-        ),
-        new Weapon(
-          details.id,
-          "normal",
-          "A Fricking Sword",
-          "assets/weapon/1_2.png",
-          "#00A11",
-          "none",
-          Math.round(2 * 2 * 0.8),
-          Math.round(2 * 12) / 10 + 2,
-          Math.round(2 * 12) / 10 + 2 + Math.round(2 / 4.5),
-          100,
-          Math.random() * 30 - 15,
-          "normal"
-        ),
+        this.starterPack.getStartWeapon(details.id),
+        this.starterPack.getStartWeapon(details.id),
+        this.starterPack.getStartWeapon(details.id),
       ],
       armorsInShop: [
-        new Armor(
-          details.id,
-          "normal",
-          "Shield Yourself",
-          "assets/armor/1_1.png",
-          "#00B12",
-          "none",
-          Math.round(2 * 2),
-          Math.round((2 * 2) / 2) + 2 + 30,
-          5 + Math.round(Math.random() * 5),
-          100,
-          Math.random() * 30 - 15,
-          "normal"
-        ),
-        new Armor(
-          details.id,
-          "normal",
-          "Shield Yourself",
-          "assets/armor/1_1.png",
-          "#00B12",
-          "none",
-          Math.round(2 * 2),
-          Math.round((2 * 2) / 2) + 2 + 30,
-          5 + Math.round(Math.random() * 5),
-          100,
-          Math.random() * 30 - 15,
-          "normal"
-        ),
-        new Armor(
-          details.id,
-          "normal",
-          "Shield Yourself",
-          "assets/armor/1_1.png",
-          "#00B12",
-          "none",
-          Math.round(2 * 2),
-          Math.round((2 * 2) / 2) + 2 + 30,
-          5 + Math.round(Math.random() * 5),
-          100,
-          Math.random() * 30 - 15,
-          "normal"
-        ),
+        this.starterPack.getStartArmor(details.id),
+        this.starterPack.getStartArmor(details.id),
+        this.starterPack.getStartArmor(details.id),
       ],
       missionOn: [false, false, false, false],
       missionStart: 0,
@@ -383,64 +250,17 @@ export class DungeonsComponent implements OnInit {
     this.player.basePoints[3] = details.bp_stam;
     this.player.basePoints[4] = details.bp_luck;
 
-    this.player.subdungeon[0] = details.d1;
-    this.player.subdungeon[1] = details.d2;
-    this.player.subdungeon[2] = details.d3;
-    this.player.subdungeon[3] = details.d4;
-    this.player.subdungeon[4] = details.d5;
-    this.player.subdungeon[5] = details.d6;
-    this.player.subdungeon[6] = details.d7;
-    this.player.subdungeon[7] = details.d8;
-    this.player.subdungeon[8] = details.d9;
-    this.player.subdungeon[9] = details.d10;
-    this.player.subdungeon[10] = details.d11;
-    this.player.subdungeon[11] = details.d12;
-    this.player.subdungeon[12] = details.d13;
-    this.player.subdungeon[13] = details.d14;
-    this.player.subdungeon[14] = details.d15;
-    this.player.subdungeon[15] = details.d16;
-    this.player.subdungeon[16] = details.d17;
-    this.player.subdungeon[17] = details.d18;
-    this.player.subdungeon[18] = details.d19;
-    this.player.subdungeon[19] = details.d20;
-    this.player.subdungeon[20] = details.d20;
+    this.player.subdungeon = [...new Array(20)].map((e, i) => {
+      return details["d" + (i + 1)];
+    });
 
     let open: Array<boolean> = [];
 
     for (let i = 0; i < 12; i++) {
-      if (i < this.player.dungeonsOpen) {
-        open.push(true);
-      } else {
-        open.push(false);
-      }
+      open.push(i < this.player.dungeonsOpen);
     }
 
-    this.dungeons.firstFill(
-      [
-        this.player.subdungeon[0],
-        this.player.subdungeon[1],
-        this.player.subdungeon[2],
-        this.player.subdungeon[3],
-        this.player.subdungeon[4],
-        this.player.subdungeon[5],
-        this.player.subdungeon[6],
-        this.player.subdungeon[7],
-        this.player.subdungeon[8],
-        this.player.subdungeon[9],
-        this.player.subdungeon[10],
-        this.player.subdungeon[11],
-        this.player.subdungeon[12],
-        this.player.subdungeon[13],
-        this.player.subdungeon[14],
-        this.player.subdungeon[15],
-        this.player.subdungeon[16],
-        this.player.subdungeon[17],
-        this.player.subdungeon[18],
-        this.player.subdungeon[19],
-        this.player.subdungeon[20],
-      ],
-      open
-    );
+    this.dungeons.firstFill(this.player.subdungeon, open);
 
     setTimeout(() => {
       this.mainBck = this.images.bckMain;
@@ -457,14 +277,14 @@ export class DungeonsComponent implements OnInit {
     }, 200);
   }
 
-  goToShop() {
+  goToShop(): void {
     document.getElementById("mainBck").style.opacity = "0";
     this.player.location = "shop";
     setTimeout(() => {
       this.shop.showPotions();
     }, 50);
   }
-  goToBackpack() {
+  goToBackpack(): void {
     document.getElementById("mainBck").style.opacity = "0";
     this.player.location = "backpack";
     setTimeout(() => {
@@ -472,14 +292,14 @@ export class DungeonsComponent implements OnInit {
     }, 50);
   }
 
-  goToCharacter() {
+  goToCharacter(): void {
     this.player.location = "character";
     setTimeout(() => {
       this.character.countPotions();
     }, 100);
   }
 
-  pvp(player) {
+  pvp(player): void {
     player.health = player.hitPoints;
     this.player.location = "dfight";
     setTimeout(() => {
@@ -487,15 +307,13 @@ export class DungeonsComponent implements OnInit {
     }, 100);
   }
 
-  getDungeons() {
+  getDungeons(): Array<Dungeon> {
     return this.dungeons.dungeons;
   }
-  getElites() {
-    let elites = new Array();
-    for (let i = 12; i < 20; i++) {
-      elites.push(this.dungeons.dungeons[i]);
-    }
-    return elites;
+  getElites(): Array<Dungeon> {
+    return [...new Array(8)].map((a, i) => {
+      return this.dungeons.dungeons[i + 12];
+    });
   }
 
   goToArena() {
@@ -508,7 +326,7 @@ export class DungeonsComponent implements OnInit {
     }, 50);
   }
 
-  goToVillage() {
+  goToVillage(): void {
     this.audio.stopMusicBck();
     this.audio.playVillageMusic();
 
@@ -522,17 +340,7 @@ export class DungeonsComponent implements OnInit {
     }, 50);
   }
 
-  check() {
-    if (this.name.length < 2) {
-      // document.getElementById("n").style.animation="none";
-      // document.getElementById("n").style.borderBottomColor="#ff073a";
-      return false;
-    } else {
-      // document.getElementById("n").style.borderBottomColor="black";
-      // document.getElementById("n").style.animation="blink 3s infinite";
-      return true;
-    }
-  }
+  check = (): boolean => this.name.length >= 2;
 
   isOpen = (i) => {
     return this.dungeons.dungeons[i].open;
@@ -545,13 +353,17 @@ export class DungeonsComponent implements OnInit {
     }
   }
 
-  backHome() {
+  putLootInTheBackpack() {
     while (this.player.loot[0] != undefined) {
       if (this.player.items.length < 27) {
         this.player.items.push(this.player.loot[0]);
       }
       this.player.loot.splice(0, 1);
     }
+  }
+
+  backHome() {
+    this.putLootInTheBackpack();
 
     this.socket.updatePlayer(this.player);
 
@@ -561,6 +373,7 @@ export class DungeonsComponent implements OnInit {
     this.audio.stopDungeonMusic();
     this.audio.stopVillageMusic();
     this.audio.playBackgroundOne();
+
     setTimeout(() => {
       let assets = document.getElementsByClassName("assets")[0];
       assets.innerHTML = "";

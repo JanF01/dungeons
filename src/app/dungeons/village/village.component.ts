@@ -33,7 +33,7 @@ export class VillageComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  backHome() {
+  backHome(): void {
     this.player.location = "home";
     this.audio.stopVillageMusic();
     this.audio.playBackgroundOne();
@@ -52,7 +52,7 @@ export class VillageComponent implements OnInit {
     }, 10);
   }
 
-  goToMissions() {
+  goToMissions(): void {
     this.villageLocation = "missions";
 
     if (this.missions.areMissionsNeeded()) {
@@ -72,7 +72,7 @@ export class VillageComponent implements OnInit {
     }, 50);
   }
 
-  goToArmory() {
+  goToArmory(): void {
     this.villageLocation = "armory";
 
     setTimeout(() => {
@@ -84,7 +84,7 @@ export class VillageComponent implements OnInit {
     }, 50);
   }
 
-  goToBlacksmith() {
+  goToBlacksmith(): void {
     this.villageLocation = "blacksmith";
 
     setTimeout(() => {
@@ -94,7 +94,7 @@ export class VillageComponent implements OnInit {
     }, 50);
   }
 
-  backToVillage() {
+  backToVillage(): void {
     this.villageLocation = "village";
 
     document.getElementById("inner").style.opacity = "0";

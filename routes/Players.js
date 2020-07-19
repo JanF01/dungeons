@@ -15,6 +15,17 @@ players.use(cors());
 
 process.env.SECRET_KEY = "secret";
 
+
+const objectWithoutKey = (object, key) => {
+  const {
+    [key]: deletedKey, ...otherKeys
+  } = object;
+  return otherKeys;
+}
+
+
+
+
 //register
 
 
@@ -22,9 +33,9 @@ process.env.SECRET_KEY = "secret";
 players.post("/register", (req, res) => {
   const today = new Date();
   const playerData = {
-    login: req.body.login,
-    email: req.body.email,
-    password: req.body.password,
+    login: req.body.cred.login,
+    email: req.body.cred.email,
+    password: req.body.pass,
     experience: 0,
     expmulti: 1,
     gold: 30,
@@ -67,7 +78,7 @@ players.post("/register", (req, res) => {
 
   Player.findOne({
       where: {
-        login: req.body.login,
+        login: playerData.login,
       },
     })
     .then((player) => {
@@ -77,9 +88,11 @@ players.post("/register", (req, res) => {
         Player.create(playerData)
           .then((player) => {
             player.dataValues.id = player.null;
-            let token = jwt.sign(player.dataValues, process.env.SECRET_KEY, {
-              expiresIn: 1440,
-            });
+            let token = jwt.sign(
+              objectWithoutKey(player.dataValues, 'password'),
+              process.env.SECRET_KEY, {
+                expiresIn: 1440,
+              });
             res.json({
               token: token,
             });
@@ -100,23 +113,25 @@ players.post("/register", (req, res) => {
 
 players.post("/login", (req, res) => {
   const playerData = {
-    login: req.body.login,
-    password: req.body.password,
+    login: req.body.cred.login,
+    password: req.body.pass,
   };
 
   Player.findOne({
       where: {
-        login: req.body.login,
+        login: playerData.login,
       },
     })
     .then((player) => {
       if (player) {
-        let pass = bcrypt.compareSync(req.body.password, player.password);
+        let pass = bcrypt.compareSync(playerData.password, player.password);
 
         if (pass) {
-          let token = jwt.sign(player.dataValues, process.env.SECRET_KEY, {
-            expiresIn: 1440,
-          });
+          let token = jwt.sign(
+            objectWithoutKey(player.dataValues, 'password'),
+            process.env.SECRET_KEY, {
+              expiresIn: 1440,
+            });
           res.json({
             token: token,
           });
@@ -506,14 +521,16 @@ players.post("/getupdated", (req, res) => {
 
   Player.findOne({
       where: {
-        login: req.body.login,
+        login: playerData.login,
       },
     })
     .then((player) => {
       if (player) {
-        let token = jwt.sign(player.dataValues, process.env.SECRET_KEY, {
-          expiresIn: 1440,
-        });
+        let token = jwt.sign(
+          objectWithoutKey(player.dataValues, 'password'),
+          process.env.SECRET_KEY, {
+            expiresIn: 1440,
+          });
         res.json({
           token: token,
         });
