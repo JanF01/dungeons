@@ -27,23 +27,25 @@ import { Dungeon } from "./models/dungeon.model";
   styleUrls: ["./dungeons.component.scss"],
 })
 export class DungeonsComponent implements OnInit {
-  name: string = "Janke";
-  inGame: boolean = true;
-  inFight: boolean = false;
   @ViewChild(CaveComponent) cave: CaveComponent;
   @ViewChild(ShopComponent) shop: ShopComponent;
   @ViewChild(CharacterComponent) character: CharacterComponent;
   @ViewChild(BackpackComponent) backpack: BackpackComponent;
   @ViewChild(VillageComponent) village: VillageComponent;
 
-  player: User = new User();
   mainBck: any;
 
-  dungeonMode = "normal";
-
-  showAlert: boolean = false;
+  name: string = "Janke";
+  dungeonMode: string = "normal";
   alertInput: string = "";
+
+  inGame: boolean = true;
+  inFight: boolean = false;
+  showAlert: boolean = false;
+
+
   enemyPlayer: User;
+  player: User = new User();
 
   private enemyPlayerSub: Subscription;
   private itemsSub: Subscription;
@@ -316,7 +318,7 @@ export class DungeonsComponent implements OnInit {
     });
   }
 
-  goToArena() {
+  goToArena():void {
     this.audio.stopMusicBck();
 
     document.getElementById("mainBck").style.opacity = "0";
@@ -346,14 +348,14 @@ export class DungeonsComponent implements OnInit {
     return this.dungeons.dungeons[i].open;
   };
 
-  start() {
+  start():void {
     if (this.check()) {
       this.audio.playBackgroundOne();
       this.inGame = true;
     }
   }
 
-  putLootInTheBackpack() {
+  putLootInTheBackpack():void {
     while (this.player.loot[0] != undefined) {
       if (this.player.items.length < 27) {
         this.player.items.push(this.player.loot[0]);
@@ -362,7 +364,7 @@ export class DungeonsComponent implements OnInit {
     }
   }
 
-  backHome() {
+  backHome():void {
     this.putLootInTheBackpack();
 
     this.socket.updatePlayer(this.player);
@@ -387,7 +389,7 @@ export class DungeonsComponent implements OnInit {
 
   // DUNGEONS
 
-  goCave(lvl, elite = false) {
+  goCave(lvl, elite = false):void {
     if (this.player.missionTime == -3) {
       let staminaRequired = lvl * lvl + 2;
 
@@ -415,7 +417,7 @@ export class DungeonsComponent implements OnInit {
     }
   }
 
-  goElites() {
+  goElites():void {
     var mains = document.getElementsByTagName("main") as HTMLCollectionOf<
       HTMLElement
     >;
@@ -438,7 +440,7 @@ export class DungeonsComponent implements OnInit {
     this.images.map.classList.toggle("elites");
   }
 
-  goToDungeon() {
+  goToDungeon():void {
     this.audio.stopMusicBck();
     this.audio.playDungeonsMusic();
     this.player.location = "dungeons";
@@ -449,7 +451,7 @@ export class DungeonsComponent implements OnInit {
     }, 60);
   }
 
-  getMissionTime(time = 0) {
+  getMissionTime(time = 0):string {
     let t = time;
 
     let m = Math.floor(t / 60);
@@ -461,14 +463,14 @@ export class DungeonsComponent implements OnInit {
     return m + ":" + s0;
   }
 
-  alertOut(input) {
+  alertOut(input):void {
     this.alertInput = input;
     this.showAlert = true;
   }
 
   damageSub: Subscription;
 
-  alertOff(value) {
+  alertOff(value):void {
     this.showAlert = false;
     if (value === "duel") {
       this.socket.confirm(this.challenger.name);
@@ -489,7 +491,7 @@ export class DungeonsComponent implements OnInit {
     }
   }
 
-  addCoins(event) {
+  addCoins(event):void {
     if (event.keyCode == 72) {
       this.player.gold += 10;
     }

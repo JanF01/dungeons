@@ -5,6 +5,7 @@ import { Item } from "../../models/item.model";
 import { Armor } from "../../models/items/armor.model";
 import { Weapon } from "../../models/items/weapon.model";
 import { SocketService } from "src/app/socket.service";
+import { ItemFactory } from 'src/app/store/itemFactory';
 
 @Component({
   selector: "app-armory",
@@ -30,105 +31,24 @@ export class ArmoryComponent implements OnInit {
     { x: 0, y: 0 },
   ];
 
-  constructor(private images: ImagesService, private socket: SocketService) {}
+  constructor(private images: ImagesService, private socket: SocketService, private factory: ItemFactory) {}
 
   ngOnInit(): void {}
 
   newAsortament(): void {
+    
     let r = Math.round(
       (Math.random() * this.player.level) / 2 + 1 + this.player.level / 2
     );
 
-    this.player.armorsInShop[0] = new Armor(
-      this.player.id,
-      "normal",
-      "Shield Yourself",
-      "assets/armor/1_1.png",
-      "#00B12",
-      "none",
-      Math.round(this.player.level * this.player.level + 20),
-      Math.round((this.player.level * this.player.level) / 2) + r + 30,
-      5 + Math.round(Math.random() * 5),
-      100,
-      Math.random() * 30 - 15,
-      "normal"
-    );
-    this.player.armorsInShop[1] = new Armor(
-      this.player.id,
-      "normal",
-      "Shield Yourself",
-      "assets/armor/1_2.png",
-      "#00B13",
-      "none",
-      Math.round(this.player.level * this.player.level * 1.2 + 20),
-      Math.round((this.player.level * this.player.level) / 1.8) + r + 30,
-      5 + Math.round(Math.random() * 5 + 2),
-      100,
-      Math.random() * 30 - 15,
-      "normal"
-    );
-    this.player.armorsInShop[2] = new Armor(
-      this.player.id,
-      "normal",
-      "Shield Yourself",
-      "assets/armor/1_3.png",
-      "#00B13",
-      "none",
-      Math.round(this.player.level * this.player.level * 1.5 + 20),
-      Math.round((this.player.level * this.player.level) / 1.7) + r + 30,
-      5 + Math.round(Math.random() * 5 + 4),
-      100,
-      Math.random() * 30 - 15,
-      "normal"
-    );
-    this.player.weaponsInShop[0] = new Weapon(
-      this.player.id,
-      "normal",
-      "A Fricking Sword",
-      "assets/weapon/1_2.png",
-      "#00A11",
-      "none",
-      Math.round(this.player.level * this.player.level + 20),
-      Math.round(this.player.level * 8) / 10 + r,
-      Math.round(this.player.level * 8) / 10 +
-        r +
-        Math.round(this.player.level / 4.5),
-      100,
-      Math.random() * 30 - 15,
-      "normal"
-    );
-    this.player.weaponsInShop[1] = new Weapon(
-      this.player.id,
-      "normal",
-      "A Fricking Sword",
-      "assets/weapon/1_1.png",
-      "#00A11",
-      "none",
-      Math.round(this.player.level * this.player.level * 1.2 + 30),
-      Math.round(this.player.level * 10) / 10 + r,
-      Math.round(this.player.level * 10) / 10 +
-        r +
-        Math.round(this.player.level / 4.5),
-      100,
-      Math.random() * 30 - 15,
-      "normal"
-    );
-    this.player.weaponsInShop[2] = new Weapon(
-      this.player.id,
-      "normal",
-      "A Fricking Sword",
-      "assets/weapon/1_1.png",
-      "#00A11",
-      "none",
-      Math.round(this.player.level * this.player.level * 1.4 + 40),
-      Math.round(this.player.level * 12) / 10 + r,
-      Math.round(this.player.level * 12) / 10 +
-        r +
-        Math.round(this.player.level / 4.5),
-      100,
-      Math.random() * 30 - 15,
-      "normal"
-    );
+    this.player.armorsInShop[0] = this.factory.armoryArmor(this.player.id,1,this.player.level,1,2,2,r);
+    this.player.armorsInShop[1] = this.factory.armoryArmor(this.player.id,2,this.player.level,1.2,1.8,2,r);
+    this.player.armorsInShop[2] = this.factory.armoryArmor(this.player.id,3,this.player.level,1.5,1.7,4,r);
+
+    this.player.weaponsInShop[0] = this.factory.armoryWeapon(this.player.id,2,this.player.level,1,8,20,r);
+    this.player.weaponsInShop[1] = this.factory.armoryWeapon(this.player.id,1,this.player.level,1.2,10,30,r);
+    this.player.weaponsInShop[2] = this.factory.armoryWeapon(this.player.id,1,this.player.level,1.4,12,40,r);
+
   }
 
   grab(i): void {

@@ -13,43 +13,53 @@ import { SocketService } from "src/app/socket.service";
 export class ShopComponent implements OnInit {
   @Input("user") player: User;
 
+
+  alertInput: string = "";
+  shop: string = "shop";
+
+  showAlert: boolean = false;
+  showInfoBubble:boolean = false;
+
+  healthPrice: number = 10;
+  staminaPrice: number = 10;
+  speedPrice: number = 10;
+
+
+
+  hp = new Potion("Health I", "none", "hp", 600, "HP Potion");
+  sp = new Potion("Speed I", "none", "speed", 2, "Speed Potion");
+  st = new Potion("Stamina I", "none", "stamina", 5, "Stamina Potion");
+
   potionPos = [
     { x: 0, y: 0 },
     { x: 0, y: 0 },
     { x: 0, y: 0 },
   ];
+
   posspeed = { x: 0, y: 0 };
   posstamina = { x: 0, y: 0 };
-  healthPrice = 10;
-  staminaPrice = 10;
-  speedPrice = 10;
-  shop = "shop";
-  hp = new Potion("Health I", "none", "hp", 600, "HP Potion");
-  sp = new Potion("Speed I", "none", "speed", 2, "Speed Potion");
-  st = new Potion("Stamina I", "none", "stamina", 5, "Stamina Potion");
+  bubblePos = { x: 180, y: 180 };
+  
+  itemForInfo: any;
 
-  showAlert: boolean = false;
-  alertInput: string = "";
 
   constructor(private images: ImagesService, private socket: SocketService) {}
 
   ngOnInit(): void {}
 
-  showCost(n) {
+  showCost(n): void {
     document.getElementById("cost" + n).style.opacity = "1";
   }
-  hideCost(n) {
+  hideCost(n): void {
     document.getElementById("cost" + n).style.opacity = "0";
   }
 
-  backHome() {
+  backHome(): void {
     this.player.location = "home";
 
     setTimeout(() => {
       document.getElementById("cont").style.opacity = "1";
-      let mBck = document.getElementsByClassName("mainBck") as HTMLCollectionOf<
-        HTMLElement
-      >;
+      let mBck = document.getElementsByClassName("mainBck") as HTMLCollectionOf<HTMLElement>;
       mBck[0].style.opacity = "0.8";
 
       let assets = document.getElementsByClassName("assets")[0];
@@ -59,7 +69,16 @@ export class ShopComponent implements OnInit {
     }, 10);
   }
 
-  checkIfBought(p, n) {
+  resetPotionPos(n): void {
+    this.potionPos[n] = { x: 0, y: 0 };
+  }
+
+  grabPotion(n): void {
+    let potions = document.getElementsByClassName("item") as HTMLCollectionOf<HTMLElement>;
+    potions[n].style.cursor = "grab";
+  }
+
+  checkIfBought(p, n): boolean {
     var potion = document.getElementById(p).getBoundingClientRect();
 
     let backpack = document.getElementsByClassName(
@@ -76,20 +95,19 @@ export class ShopComponent implements OnInit {
       this.socket.updatePlayer(this.player);
       return true;
     } else {
-      this.potionPos[n] = { x: 0, y: 0 };
+      this.resetPotionPos(n);
       return false;
     }
   }
 
-  buyHpPotion(size, $event: CdkDragEnd) {
-    let potions = document.getElementsByClassName("item") as HTMLCollectionOf<
-      HTMLElement
-    >;
-    potions[0].style.cursor = "grab";
+
+  buyHpPotion(size, $event: CdkDragEnd): void {
+    this.grabPotion(0);
 
     if (this.checkIfBought("hp", 0)) {
       if (this.player.gold >= this.healthPrice) {
-        if (this.player.potions.length < 9) {
+        if (this.player.potions.length < 9){
+
           this.player.gold -= this.healthPrice;
           let potion = this.images.newHpPotion() as HTMLImageElement;
           potion.classList.toggle("potionInBackpack");
@@ -98,27 +116,24 @@ export class ShopComponent implements OnInit {
             new Potion("Health I", potion, "hp", size, "HP Potion")
           );
 
-          this.potionPos[0] = { x: 0, y: 0 };
         } else {
-          this.potionPos[0] = { x: 0, y: 0 };
           this.alertOut("No space for potions");
         }
       } else {
         this.alertOut("Not enough gold");
-        this.potionPos[0] = { x: 0, y: 0 };
       }
+      this.resetPotionPos(0);
     }
   }
-  buyStaminaPotion(size, $event: CdkDragEnd) {
-    let potions = document.getElementsByClassName("item") as HTMLCollectionOf<
-      HTMLElement
-    >;
-    potions[1].style.cursor = "grab";
-    this.potionPos[1] = { x: 0, y: 0 };
+
+
+  buyStaminaPotion(size, $event: CdkDragEnd): void {
+    this.grabPotion(1);
 
     if (this.checkIfBought("stamina", 1)) {
       if (this.player.gold >= 10) {
         if (this.player.potions.length < 9) {
+
           this.player.gold -= 10;
           let potion = this.images.newStaminaPotion() as HTMLImageElement;
           potion.classList.toggle("potionInBackpack");
@@ -127,26 +142,22 @@ export class ShopComponent implements OnInit {
             new Potion("Stamina I", potion, "stamina", size, "Stamina Potion")
           );
 
-          this.potionPos[1] = { x: 0, y: 0 };
         } else {
-          this.potionPos[1] = { x: 0, y: 0 };
           this.alertOut("No space for potions");
         }
       } else {
         this.alertOut("Not enough gold");
-        this.potionPos[1] = { x: 0, y: 0 };
       }
+      this.resetPotionPos(1);
     }
   }
-  buySpeedPotion(size, $event: CdkDragEnd) {
-    let potions = document.getElementsByClassName("item") as HTMLCollectionOf<
-      HTMLElement
-    >;
-    potions[2].style.cursor = "grab";
+  buySpeedPotion(size, $event: CdkDragEnd): void {
+    this.grabPotion(2);
 
     if (this.checkIfBought("speed", 2)) {
       if (this.player.gold >= this.speedPrice) {
         if (this.player.potions.length < 9) {
+
           this.player.gold -= this.speedPrice;
           let potion = this.images.newSpeedPotion() as HTMLImageElement;
           potion.classList.toggle("potionInBackpack");
@@ -156,19 +167,17 @@ export class ShopComponent implements OnInit {
             new Potion("Speed I", potion, "speed", size, "Speed Potion")
           );
 
-          this.potionPos[2] = { x: 0, y: 0 };
         } else {
-          this.potionPos[2] = { x: 0, y: 0 };
           this.alertOut("No space for potions");
         }
       } else {
         this.alertOut("Not enough gold");
-        this.potionPos[2] = { x: 0, y: 0 };
       }
+      this.resetPotionPos(2);
     }
   }
 
-  showPotions() {
+  showPotions(): void {
     let potions = document.getElementsByClassName("item") as HTMLCollectionOf<
       HTMLElement
     >;
@@ -183,35 +192,31 @@ export class ShopComponent implements OnInit {
     this.speedPrice = 10 + this.player.level * 2;
   }
 
-  grab(i) {
+  grab(i): void {
     let potions = document.getElementsByClassName("item") as HTMLCollectionOf<
       HTMLElement
     >;
     potions[i].style.cursor = "grabbing";
   }
 
-  itemForInfo: any;
-  showInfoBubble = false;
-  bubblePos = { x: 180, y: 180 };
-
-  showInfo(item) {
+  showInfo(item): void {
     this.itemForInfo = item;
     this.showInfoBubble = true;
   }
-  changePosition($event: MouseEvent) {
+  changePosition($event: MouseEvent): void {
     this.bubblePos.x = $event.clientX;
     this.bubblePos.y = $event.clientY;
   }
 
-  hideInfo() {
+  hideInfo(): void {
     this.showInfoBubble = false;
   }
 
-  alertOut(input) {
+  alertOut(input): void {
     this.alertInput = input;
     this.showAlert = true;
   }
-  alertOff() {
+  alertOff(): void {
     this.showAlert = false;
   }
 }
