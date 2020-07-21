@@ -14,13 +14,13 @@ export class InfobubbleComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  getPower(p) {
+  getPower(p): number {
     return this.item.type == "hp"
       ? Math.round(p + this.player.hitPoints * 0.09)
       : p;
   }
 
-  getSrc() {
+  getSrc(): string {
     switch (this.item.type) {
       case "hp":
         return this.images.healthBubble.src;
@@ -49,20 +49,20 @@ export class InfobubbleComponent implements OnInit {
     }
   }
 
-  getType() {
+  getType(): string {
     return (
       this.item.type[0].toUpperCase() +
       this.item.type.slice(1, this.item.type.length)
     );
   }
 
-  getCritical() {
+  getCritical(): number {
     return Math.round(this.item.critical * 100);
   }
-  getCriticalMulti() {
+  getCriticalMulti(): number {
     return Math.round(this.item.critM * 100);
   }
-  getCrystal(c) {
+  getCrystal(c): string {
     switch (c) {
       case "dmg":
         return "Damage";
@@ -74,27 +74,26 @@ export class InfobubbleComponent implements OnInit {
         return "Experience";
     }
   }
-  getGemPerk() {
-    let string: string = "";
+  getGemPerk(): string {
+
     let power = this.item.gem.power * 100;
     switch (this.item.gem.amp) {
       case "speed":
-        string = "Speed +" + Math.round(this.item.gem.power);
+        return "Speed +" + Math.round(this.item.gem.power);
         break;
       case "hp":
-        string = "Health +" + Math.round(power) + "%";
+        return "Health +" + Math.round(power) + "%";
         break;
       case "exp":
-        string = "Experience +" + Math.round(power) + "%";
+        return "Experience +" + Math.round(power) + "%";
         break;
       case "dmg":
-        string = "Damage +" + Math.round(power) + "%";
+        return "Damage +" + Math.round(power) + "%";
         break;
     }
-    return string;
   }
 
-  getBoost() {
+  getBoost(): string {
     switch (this.item.amp) {
       case "dmg":
       case "hp":

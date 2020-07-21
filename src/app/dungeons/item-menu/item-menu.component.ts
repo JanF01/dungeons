@@ -13,14 +13,14 @@ export class ItemMenuComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  wear() {
+  wear(): void {
     if (this.option == "Wear") {
       this.clicked.emit("wear");
     } else {
       this.clicked.emit("off");
     }
   }
-  sell() {
+  sell(): void {
     this.clicked.emit("sell");
   }
 }

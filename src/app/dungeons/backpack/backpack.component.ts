@@ -7,6 +7,7 @@ import { Item } from "../models/item.model";
 import { Necklace } from "../models/items/necklace.model";
 import { Ring } from "../models/items/ring.model";
 import { SocketService } from "src/app/socket.service";
+import { Starter } from 'src/app/store/startEquipment';
 
 @Component({
   selector: "app-backpack",
@@ -15,44 +16,25 @@ import { SocketService } from "src/app/socket.service";
 })
 export class BackpackComponent implements OnInit {
   @Input("user") player: User;
-  arrayForItems: Array<number> = [
-    0,
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20,
-    21,
-    22,
-    23,
-    24,
-    25,
-    26,
-  ];
-  arrayItemsPos = [];
 
-  backpack = "backpack";
 
-  appearMenu: boolean = false;
-
+  backpack:string = "backpack";
   menuOption: string;
 
-  constructor(private images: ImagesService, private socket: SocketService) {
+  appearMenu: boolean = false;
+  showInfoBubble:boolean = false;
+  dragging: boolean = false;
+
+  arrayForItems: Array<number> = [];
+  arrayItemsPos = [];
+
+  bubblePos = { x: 180, y: 180 };
+  itemForInfo: any;
+  itemOnCheck: any;
+  draggedItem: HTMLElement;
+
+  constructor(private images: ImagesService, private socket: SocketService, private starter: Starter) {
+    this.arrayForItems = [...new Array(27)].map((a,i)=>i);
     for (let i = 0; i <= 35; i++) {
       this.arrayItemsPos.push({ x: 0, y: 0 });
     }
@@ -60,14 +42,12 @@ export class BackpackComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  backHome() {
+  backHome(): void {
     this.player.location = "home";
 
     setTimeout(() => {
       document.getElementById("cont").style.opacity = "1";
-      let mBck = document.getElementsByClassName("mainBck") as HTMLCollectionOf<
-        HTMLElement
-      >;
+      let mBck = document.getElementsByClassName("mainBck") as HTMLCollectionOf<HTMLElement>;
       mBck[0].style.opacity = "0.8";
 
       let assets = document.getElementsByClassName("assets")[0];
@@ -77,11 +57,11 @@ export class BackpackComponent implements OnInit {
     }, 10);
   }
 
-  showBackpack() {
+  showBackpack():void {
     document.getElementById("backpack").style.opacity = "1";
   }
 
-  checkGemArmor() {
+  checkGemArmor():void {
     if (this.player.armor.gem != undefined) {
       let gem = this.player.armor.gem;
       if (gem.amp == "speed") {
@@ -93,7 +73,7 @@ export class BackpackComponent implements OnInit {
       }
     }
   }
-  checkGemWeapon() {
+  checkGemWeapon():void {
     if (this.player.weapon.gem != undefined) {
       let gem = this.player.weapon.gem;
       if (gem.amp == "speed") {
@@ -101,7 +81,7 @@ export class BackpackComponent implements OnInit {
       }
     }
   }
-  checkGemRest() {
+  checkGemRest():void {
     if (this.player.necklace.gem != undefined) {
       let gem = this.player.necklace.gem;
       if (gem.amp == "exp") {
@@ -110,9 +90,7 @@ export class BackpackComponent implements OnInit {
     }
   }
 
-  itemOnCheck: any;
-
-  showMenu($event: MouseEvent, i, item) {
+  showMenu($event: MouseEvent, i, item):void {
     $event.preventDefault();
     if (item != undefined && item.name != "none") {
       this.itemOnCheck = item;
@@ -130,7 +108,7 @@ export class BackpackComponent implements OnInit {
     }
   }
 
-  itemEvent(value) {
+  itemEvent(value):void {
     console.log(value);
     if (value == "sell") {
       if (this.itemOnCheck.name != "none" && this.itemOnCheck.name != "Fist") {
@@ -159,18 +137,7 @@ export class BackpackComponent implements OnInit {
           ) {
             this.player.items.push(this.player.weapon);
             this.checkGemWeapon();
-            this.player.weapon = new Weapon(
-              this.player.id,
-              "normal",
-              "Fist",
-              "assets/weapon/fist.png",
-              "#00A00",
-              "none",
-              0,
-              1,
-              2,
-              100
-            );
+            this.player.weapon = this.starter.getBlankWeapon(this.player.id);
           }
         } else if (this.itemOnCheck.defence != undefined) {
           if (
@@ -179,18 +146,7 @@ export class BackpackComponent implements OnInit {
           ) {
             this.player.items.push(this.player.armor);
             this.checkGemArmor();
-            this.player.armor = new Armor(
-              this.player.id,
-              "normal",
-              "none",
-              "assets/armor/none.png",
-              "#00B00",
-              "none",
-              0,
-              0,
-              0,
-              100
-            );
+            this.player.armor = this.starter.getBlankArmor(this.player.id);
           }
         } else if (this.itemOnCheck.critical != undefined) {
           if (
@@ -199,18 +155,7 @@ export class BackpackComponent implements OnInit {
           ) {
             this.player.items.push(this.player.necklace);
             this.checkGemRest();
-            this.player.necklace = new Necklace(
-              this.player.id,
-              "normal",
-              "none",
-              "assets/necklace/none.png",
-              "#00C00",
-              "none",
-              0,
-              0,
-              0,
-              100
-            );
+            this.player.necklace = this.starter.getBlankNecklace(this.player.id);
           }
         } else if (this.itemOnCheck.critM != undefined) {
           if (
@@ -219,17 +164,7 @@ export class BackpackComponent implements OnInit {
           ) {
             this.player.items.push(this.player.ring);
             this.checkGemRest();
-            this.player.ring = new Ring(
-              "normal",
-              "none",
-              "assets/ring/none.png",
-              "#00D00",
-              "none",
-              0,
-              0,
-              0,
-              100
-            );
+            this.player.ring = this.starter.getBlankRing(this.player.id);
           }
         }
       }
@@ -238,11 +173,8 @@ export class BackpackComponent implements OnInit {
     this.socket.updatePlayer(this.player);
   }
 
-  itemForInfo: any;
-  showInfoBubble = false;
-  bubblePos = { x: 180, y: 180 };
 
-  showInfo(item) {
+  showInfo(item):void {
     if (item != undefined && (this.itemOnCheck == item || !this.appearMenu)) {
       if (item.name != "none") {
         this.itemForInfo = item;
@@ -250,7 +182,7 @@ export class BackpackComponent implements OnInit {
       }
     }
   }
-  changePosition($event: MouseEvent) {
+  changePosition($event: MouseEvent):void {
     if (!this.appearMenu) {
       if (!this.dragging) {
         this.bubblePos.x = $event.clientX;
@@ -263,17 +195,13 @@ export class BackpackComponent implements OnInit {
     }
   }
 
-  hideInfo() {
+  hideInfo():void {
     this.showInfoBubble = false;
   }
 
-  dragging: boolean = false;
-  draggedItem: HTMLElement;
 
-  grab(i) {
-    let items = document.getElementsByClassName("spot") as HTMLCollectionOf<
-      HTMLElement
-    >;
+  grab(i):void {
+    let items = document.getElementsByClassName("spot") as HTMLCollectionOf<HTMLElement>;
     items[i].style.cursor = "grabbing";
     this.dragging = true;
     let pos = items[i].getBoundingClientRect();
@@ -282,10 +210,8 @@ export class BackpackComponent implements OnInit {
     this.bubblePos.y = pos.y;
   }
 
-  dropItem(i) {
-    let items = document.getElementsByClassName("spot") as HTMLCollectionOf<
-      HTMLElement
-    >;
+  dropItem(i):void {
+    let items = document.getElementsByClassName("spot") as HTMLCollectionOf<HTMLElement>;
 
     var dropedPos = items[i].getBoundingClientRect();
 
@@ -306,7 +232,7 @@ export class BackpackComponent implements OnInit {
     }
   }
 
-  checkIfSold(item, pos, i) {
+  checkIfSold(item, pos, i):void {
     let box = document.getElementById("sell").getBoundingClientRect();
     let w = window.innerWidth;
     if (
@@ -322,7 +248,7 @@ export class BackpackComponent implements OnInit {
     }
   }
 
-  toBackpack(item, what) {
+  toBackpack(item, what):void {
     if (what.name != "Fist" && what.name != "none")
       this.player.items[this.player.items.indexOf(item)] = what;
     else {
@@ -332,7 +258,7 @@ export class BackpackComponent implements OnInit {
     this.socket.updatePlayer(this.player);
   }
 
-  changeItem(item, type) {
+  changeItem(item, type):void {
     if (type == "weapon") {
       this.checkGemWeapon();
 
@@ -401,7 +327,7 @@ export class BackpackComponent implements OnInit {
     this.socket.updatePlayer(this.player);
   }
 
-  changeItems(item, pos, i, type) {
+  changeItems(item, pos, i, type):void {
     let box = document.getElementById(type).getBoundingClientRect();
     let w = window.innerWidth;
 
@@ -418,10 +344,8 @@ export class BackpackComponent implements OnInit {
       this.setDefault(i);
     }
   }
-  setDefault(i) {
-    let items = document.getElementsByClassName("spot") as HTMLCollectionOf<
-      HTMLElement
-    >;
+  setDefault(i):void {
+    let items = document.getElementsByClassName("spot") as HTMLCollectionOf<HTMLElement>;
     for (let i = 0; i < items.length; i++) {
       items[i].style.cursor = "grab";
     }

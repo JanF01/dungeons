@@ -21,15 +21,19 @@ export class ArenaComponent implements OnInit {
   @Input("user") player: User;
   @Output("pvp") pvp: EventEmitter<any> = new EventEmitter();
 
-  playersOnline: Array<any>;
-
-  arenaSub: Subscription;
 
   arena: string = "arena";
 
-  chosen = false;
+  chosen:boolean = false;
+  showInfoBubble:boolean = false;
+  
+  playersOnline: Array<any>;
 
+  itemForInfo: any;
   inspect: User;
+  bubblePos = { x: 180, y: 180 };
+
+  arenaSub: Subscription;
 
   constructor(private socket: SocketService, private images: ImagesService) {}
 
@@ -41,14 +45,12 @@ export class ArenaComponent implements OnInit {
     });
   }
 
-  backHome() {
+  backHome(): void {
     this.player.location = "home";
 
     setTimeout(() => {
       document.getElementById("cont").style.opacity = "1";
-      let mBck = document.getElementsByClassName("mainBck") as HTMLCollectionOf<
-        HTMLElement
-      >;
+      let mBck = document.getElementsByClassName("mainBck") as HTMLCollectionOf<HTMLElement>;
       mBck[0].style.opacity = "0.8";
 
       let assets = document.getElementsByClassName("assets")[0];
@@ -58,16 +60,12 @@ export class ArenaComponent implements OnInit {
     }, 10);
   }
 
-  choose(target) {
+  choose(target):void {
     this.chosen = true;
     this.inspect = target;
   }
 
-  itemForInfo: any;
-  showInfoBubble = false;
-  bubblePos = { x: 180, y: 180 };
-
-  showInfo(item) {
+  showInfo(item):void {
     if (item != undefined) {
       if (item.name != "none") {
         this.itemForInfo = item;
@@ -75,16 +73,16 @@ export class ArenaComponent implements OnInit {
       }
     }
   }
-  changePosition($event: MouseEvent) {
+  changePosition($event: MouseEvent):void {
     this.bubblePos.x = $event.clientX;
     this.bubblePos.y = $event.clientY;
   }
 
-  hideInfo() {
+  hideInfo():void {
     this.showInfoBubble = false;
   }
 
-  goPvp(player) {
+  goPvp(player):void {
     if (this.player.missionTime == -3) {
       let staminaRequired = this.player.level;
 

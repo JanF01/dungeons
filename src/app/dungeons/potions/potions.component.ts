@@ -17,10 +17,15 @@ export class PotionsComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  drinkPotion(n) {
+  deletePotion(i, type): void{
+    this.player.potions.splice(i, 1);
+    this.potions[type]--;
+  }
+
+  drinkPotion(n, type): void {
+    if (this.potions[type] > 0) {
     switch (n) {
       case 0:
-        if (this.potions.hp > 0) {
           var l = this.player.potions.length - 1;
           for (let i = l; i >= 0; i--) {
             if (this.player.potions[i].type == "hp") {
@@ -30,25 +35,21 @@ export class PotionsComponent implements OnInit {
               if (this.player.health > this.player.hitPoints) {
                 this.player.health = this.player.hitPoints;
               }
-              this.player.potions.splice(i, 1);
-              this.potions.hp--;
+              this.deletePotion(i,type);
 
               this.socket.updatePlayer(this.player);
 
               break;
             }
           }
-        }
         break;
       case 1:
-        if (this.potions.stamina > 0) {
           var l = this.player.potions.length - 1;
           for (let i = l; i >= 0; i--) {
             if (this.player.potions[i].type == "stamina") {
               if (this.player.staminaLeft < this.player.stamina) {
                 this.player.staminaLeft += this.player.potions[i].refill;
-                this.player.potions.splice(i, 1);
-                this.potions.stamina--;
+                this.deletePotion(i,type);
 
                 if (this.player.staminaLeft > this.player.stamina) {
                   this.player.staminaLeft = this.player.stamina;
@@ -58,10 +59,8 @@ export class PotionsComponent implements OnInit {
               break;
             }
           }
-        }
         break;
       case 2:
-        if (this.potions.speed > 0) {
           var l = this.player.potions.length - 1;
           for (let i = l; i >= 0; i--) {
             if (this.player.potions[i].type == "speed") {
@@ -70,15 +69,14 @@ export class PotionsComponent implements OnInit {
                 this.player.speed += refill;
                 this.player.speedBuildUp += refill;
               }
-              this.player.potions.splice(i, 1);
-              this.potions.speed--;
+              this.deletePotion(i,type);
 
               this.socket.updatePlayer(this.player);
               break;
             }
           }
-        }
         break;
     }
+   }
   }
 }

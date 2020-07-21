@@ -35,46 +35,60 @@ import { Subscription } from "rxjs";
 export class CaveComponent {
   @Input("user") player: User;
 
-  speed: number = 0.5;
 
-  fighting: boolean = true;
 
-  coins: Array<any> = [];
+  healing: any;
+
 
   playerAnimation: string = "back";
   swordAnimation: string = "back";
   enemyState: string = "back";
+  label: string = "";
+  alertInput: string = "";
+
+  playerIsDead: boolean = false;
+  showAlert: boolean = false;
+  showedAlert: boolean = true;
   showDamage: boolean = false;
-  enemyDamage: Array<any> = [];
-  playerDamage: Array<any> = [];
+  elite: boolean = false;
   playerLevelUp: boolean = false;
   enemyHit: boolean = false;
   showLoot: boolean = false;
   showItemsLooted: boolean = false;
+  fighting: boolean = true;
+  blocked:boolean = false;
+  enemyDouble:boolean = false;
+  pvpOn: boolean = false;
+  awaitPvp: boolean = false;
+
+  enemyDamage: Array<any> = [];
+  playerDamage: Array<any> = [];
+  coins: Array<any> = [];
+  multipliers = [0, 0, 0];
+
+  speedBuildUp:number = 0;
+  DI:number = 1;
+  weaponMulti: number;
+  speed: number = 0.5;
+  monstersInCave: number = 0;
+  block:number = 0;
+  critical:number = 1;
+  
   enemy: Enemy;
-  speedBuildUp = 0;
+
   potions = {
     hp: 0,
     stamina: 0,
     speed: 0,
   };
-  DI = 1;
-  healing: any;
-  weaponMulti: number;
-  elite: boolean = false;
-  label: string = "";
 
-  multipliers = [0, 0, 0];
-
-  monstersInCave: number = 0;
-
-  playerIsDead: boolean = false;
-
-  showAlert: boolean = false;
-  alertInput: string = "";
-  showedAlert: boolean = true;
 
   challangeSub: Subscription;
+
+  confirmSub: Subscription;
+  damageSub: Subscription;
+  defendSub: Subscription;
+
 
   constructor(
     private audio: AudioService,
@@ -86,15 +100,15 @@ export class CaveComponent {
     this.enemy = this.dungeons.dungeons[0].monsters[0];
   }
 
-  alertOut(input) {
+  alertOut(input):void {
     this.alertInput = input;
     this.showAlert = true;
   }
-  alertOff() {
+  alertOff():void {
     this.showAlert = false;
   }
 
-  backHome() {
+  backHome():void {
     this.showItemsLooted = false;
 
     while (this.player.loot[0] != undefined) {
@@ -112,9 +126,7 @@ export class CaveComponent {
     this.audio.stopDungeonMusic();
     this.audio.playBackgroundOne();
     setTimeout(() => {
-      let mBck = document.getElementsByClassName("mainBck") as HTMLCollectionOf<
-        HTMLElement
-      >;
+      let mBck = document.getElementsByClassName("mainBck") as HTMLCollectionOf<HTMLElement>;
       mBck[0].style.opacity = "0.8";
       document.getElementById("cont").style.opacity = "1";
 
@@ -128,7 +140,7 @@ export class CaveComponent {
     }, 10);
   }
 
-  goBackToMap() {
+  goBackToMap():void {
     this.showItemsLooted = false;
 
     this.player.location = "dungeons";
@@ -141,17 +153,17 @@ export class CaveComponent {
     }, 60);
   }
 
-  getDarkness() {
+  getDarkness():string {
     return this.images.darkness.src;
   }
-  getFire() {
+  getFire():string {
     return this.images.fire.src;
   }
-  getIce() {
+  getIce():string {
     return this.images.ice.src;
   }
 
-  necklaceRingPerk() {
+  necklaceRingPerk():void {
     switch (this.player.weapon.perks) {
       case "fire":
       case "fireice":
@@ -209,7 +221,7 @@ export class CaveComponent {
     }
   }
 
-  enemyDead() {
+  enemyDead():void {
     this.enemyState = "die";
     this.showLoot = true;
     this.audio.enemyDead();
@@ -253,7 +265,7 @@ export class CaveComponent {
     this.deteriorateItems();
   }
 
-  tour() {
+  tour():void {
     this.DI += 0.1;
 
     this.playerTurn();
@@ -269,7 +281,7 @@ export class CaveComponent {
     }
   }
 
-  nextFight(lvl) {
+  nextFight(lvl):void {
     document.getElementById("d").style.opacity = "1";
     document.getElementById("d").appendChild(this.images.map);
 
@@ -285,7 +297,7 @@ export class CaveComponent {
     this.fighting = true;
   }
 
-  organize() {
+  organize():void {
     this.showItemsLooted = false;
 
     clearInterval(this.healing);
@@ -306,7 +318,7 @@ export class CaveComponent {
     this.potions.speed = 0;
   }
 
-  prepPotions() {
+  prepPotions():void {
     for (let i = 0; i < this.player.potions.length; i++) {
       switch (this.player.potions[i].type) {
         case "hp":
@@ -322,11 +334,7 @@ export class CaveComponent {
     }
   }
 
-  confirmSub: Subscription;
-  pvpOn: boolean = false;
-  awaitPvp = false;
-
-  challenge(challenge) {
+  challenge(challenge):void {
     this.label = this.player.name + " vs " + challenge.name;
     this.socket.challenge(challenge);
     this.enemy = challenge;
@@ -338,10 +346,7 @@ export class CaveComponent {
     });
   }
 
-  damageSub: Subscription;
-  defendSub: Subscription;
-
-  prepToFight() {
+  prepToFight():void {
     this.label = this.player.name + " vs " + this.enemy.name;
     this.organize();
     this.defendSub = this.socket.dmg.subscribe((damage) => {
@@ -349,7 +354,7 @@ export class CaveComponent {
     });
   }
 
-  pvp(challenge) {
+  pvp(challenge):void {
     this.organize();
     this.audio.dungeonsBck.volume = 0.02 * this.audio.globalVolume;
     this.playerTurn();
@@ -360,7 +365,7 @@ export class CaveComponent {
     });
   }
 
-  fight(lvl, elite) {
+  fight(lvl, elite):void {
     if (this.player.loot.length < 8 || this.showedAlert) {
       this.pvpOn = false;
       this.organize();
@@ -386,9 +391,7 @@ export class CaveComponent {
     }
   }
 
-  critical = 1;
-
-  playerTurn() {
+  playerTurn():void {
     let dmg;
 
     setTimeout(() => {
@@ -419,12 +422,7 @@ export class CaveComponent {
     }, 911 * this.speed);
   }
 
-  block = 0;
-  blocked = false;
-
-  enemyDouble = false;
-
-  enemyTurn(playerDmg = []) {
+  enemyTurn(playerDmg = []):void {
     this.enemyFireball();
 
     this.blocked = false;
@@ -489,7 +487,7 @@ export class CaveComponent {
     }, 860 * this.speed);
   }
 
-  showCoins(bag: any) {
+  showCoins(bag: any):void {
     if (bag.perks != undefined) {
       this.showInfo(bag);
     }
@@ -530,7 +528,7 @@ export class CaveComponent {
     }
   }
 
-  collectItem(item: Weapon) {
+  collectItem(item: Weapon):void {
     this.hideInfo();
 
     if (item.code != undefined) {
@@ -552,7 +550,7 @@ export class CaveComponent {
     }
   }
 
-  nextDungeon() {
+  nextDungeon():void {
     this.hideInfo();
     this.fighting = false;
 
@@ -569,10 +567,6 @@ export class CaveComponent {
         this.dungeons.dungeons[this.player.dungeon].monsters.length - 1
       ) {
         this.player.subdungeon[this.player.dungeon]++;
-        this.enemy = this.dungeons.dungeons[this.player.dungeon].monsters[
-          this.player.subdungeon[this.player.dungeon]
-        ];
-
         if (
           this.player.subdungeon[this.player.dungeon] >
           this.dungeons.dungeons[this.player.dungeon].completed
@@ -627,7 +621,7 @@ export class CaveComponent {
     }, 3000 * this.speed);
   };
 
-  showPlayerDamage() {
+  showPlayerDamage():void {
     setTimeout(() => {
       this.playerDamage[this.playerDamage.length - 1][1] = true;
     }, 10 * this.speed);
@@ -635,7 +629,7 @@ export class CaveComponent {
       this.playerDamage.shift();
     }, 1400);
   }
-  showEnemyDamage() {
+  showEnemyDamage():void {
     setTimeout(() => {
       this.enemyDamage[this.enemyDamage.length - 1][1] = true;
     }, 10 * this.speed);
@@ -648,7 +642,7 @@ export class CaveComponent {
 
   //Player Animations
 
-  playerDead() {
+  playerDead():boolean {
     this.audio.playerIsDead();
     this.playerIsDead = true;
     this.player.goldInSack = 0;
@@ -681,13 +675,13 @@ export class CaveComponent {
     return false;
   }
 
-  throwSword() {
+  throwSword():void {
     this.playerAnimation = "back";
     this.swordAnimation = "throw";
     this.audio.throwSword();
   }
 
-  hitEnemy(dmg) {
+  hitEnemy(dmg):void {
     this.audio.enemyDamage();
     this.swordAnimation = "back";
     this.enemyState = "takeDamage";
@@ -721,7 +715,7 @@ export class CaveComponent {
     }
   }
 
-  playerHurt(dmg) {
+  playerHurt(dmg):void {
     this.enemyHit = false;
     console.log(dmg);
     let i = 0;
@@ -743,12 +737,12 @@ export class CaveComponent {
 
   //Enemy Animations
 
-  enemyFireball() {
+  enemyFireball():void {
     this.enemyState = "throwFireball";
     this.audio.throwFireball();
   }
 
-  enemyHitAnimation(dmg) {
+  enemyHitAnimation(dmg):void {
     this.enemyState = "back";
     if (dmg[0][0] != 0) {
       if (this.blocked) {
@@ -771,17 +765,17 @@ export class CaveComponent {
 
   perks = ["fire", "darkness", "ice"];
 
-  damageToSocket(dmg) {
+  damageToSocket(dmg):void {
     if (this.pvpOn) {
       this.socket.sendDmg(dmg);
     }
   }
 
-  enemyHurt(dmg) {
+  enemyHurt(dmg):void {
     this.enemyState = "back";
     this.enemyDamage.push([Math.round(dmg * this.DI), false, "normal"]);
 
-    setTimeout(() => {
+    setTimeout(():void => {
       if (
         this.player.weapon.perks == "fire" ||
         this.player.weapon.perks == "darkness" ||
@@ -856,7 +850,7 @@ export class CaveComponent {
     this.showEnemyDamage();
   }
 
-  deteriorateItems() {
+  deteriorateItems():void {
     if (this.player.weapon.name != "Fist") {
       switch (this.player.weapon.type) {
         case "normal":
@@ -908,17 +902,17 @@ export class CaveComponent {
   showInfoBubble = false;
   bubblePos = { x: 180, y: 180 };
 
-  showInfo(item) {
+  showInfo(item):void {
     this.itemForInfo = item;
     this.showInfoBubble = true;
   }
 
-  changePosition($event: MouseEvent) {
+  changePosition($event: MouseEvent):void {
     this.bubblePos.x = $event.clientX;
     this.bubblePos.y = $event.clientY;
   }
 
-  hideInfo() {
+  hideInfo():void {
     this.showInfoBubble = false;
   }
 }

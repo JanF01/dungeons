@@ -12,26 +12,27 @@ import { SocketService } from "src/app/socket.service";
 })
 export class CharacterComponent implements OnInit {
   @Input("user") player: User;
-  weaponPos = { x: 0, y: 0 };
-  armorPos = { x: 0, y: 0 };
-  necklacePos = { x: 0, y: 0 };
-  ringPos = { x: 0, y: 0 };
-  strengthCost = 5;
-  staminaCost = 5;
-  hpCost = 5;
-  speedCost = 5;
-  luckCost = 5;
+
+  strengthCost:number = 5;
+  staminaCost:number = 5;
+  hpCost:number = 5;
+  speedCost:number = 5;
+  luckCost:number = 5;
   potions = {
     hp: 0,
     stamina: 0,
     speed: 0,
   };
+  weaponPos = { x: 0, y: 0 };
+  armorPos = { x: 0, y: 0 };
+  necklacePos = { x: 0, y: 0 };
+  ringPos = { x: 0, y: 0 };
 
   updateDetails: any;
 
   constructor(private images: ImagesService, private socket: SocketService) {}
 
-  countPotions() {
+  countPotions(): void {
     for (let i = 0; i < this.player.potions.length; i++) {
       switch (this.player.potions[i].type) {
         case "hp":
@@ -47,20 +48,16 @@ export class CharacterComponent implements OnInit {
     }
   }
 
-  showCost(i) {
-    let collection = document.getElementsByClassName(
-      "cost"
-    ) as HTMLCollectionOf<HTMLElement>;
+  showCost(i): void {
+    let collection = document.getElementsByClassName("cost") as HTMLCollectionOf<HTMLElement>;
     collection[i].style.opacity = "1";
   }
-  hideCost(i) {
-    let collection = document.getElementsByClassName(
-      "cost"
-    ) as HTMLCollectionOf<HTMLElement>;
+  hideCost(i): void {
+    let collection = document.getElementsByClassName("cost") as HTMLCollectionOf<HTMLElement>;
     collection[i].style.opacity = "0";
   }
 
-  addStrength() {
+  addStrength(): void {
     if (this.player.gold >= this.strengthCost) {
       this.player.strength++;
       this.player.damage = this.player.strength * 3;
@@ -73,7 +70,7 @@ export class CharacterComponent implements OnInit {
       this.socket.updatePlayer(this.player);
     }
   }
-  addSpeed() {
+  addSpeed(): void {
     if (this.player.gold >= this.speedCost) {
       this.player.speed++;
       this.player.basePoints[2]++;
@@ -87,7 +84,7 @@ export class CharacterComponent implements OnInit {
       this.socket.updatePlayer(this.player);
     }
   }
-  addHealth() {
+  addHealth(): void {
     if (this.player.gold >= this.hpCost) {
       this.player.hitPoints += 55;
       this.player.hitPoints *= 1.065;
@@ -103,7 +100,7 @@ export class CharacterComponent implements OnInit {
       this.socket.updatePlayer(this.player);
     }
   }
-  addLuck() {
+  addLuck(): void {
     if (this.player.gold >= this.luckCost) {
       this.player.luck++;
       this.player.basePoints[4]++;
@@ -115,7 +112,7 @@ export class CharacterComponent implements OnInit {
       this.socket.updatePlayer(this.player);
     }
   }
-  addStamina() {
+  addStamina(): void {
     if (this.player.gold >= this.staminaCost) {
       this.player.stamina++;
       this.player.staminaLeft++;
@@ -127,11 +124,11 @@ export class CharacterComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.costUpdate();
   }
 
-  costUpdate() {
+  costUpdate(): void {
     this.strengthCost = Math.round(
       (this.player.basePoints[0] + 5) * ((this.player.basePoints[0] + 1) / 3)
     );
@@ -154,41 +151,37 @@ export class CharacterComponent implements OnInit {
     );
   }
 
-  setDefault() {
-    let items = document.getElementsByClassName("item") as HTMLCollectionOf<
-      HTMLElement
-    >;
+  setDefault(): void {
+    let items = document.getElementsByClassName("item") as HTMLCollectionOf<HTMLElement>;
     for (let i = 0; i < items.length; i++) {
       items[i].style.cursor = "grab";
     }
   }
 
-  weaponDrop($event: CdkDragEnd) {
+  weaponDrop($event: CdkDragEnd): void {
     this.weaponPos = { x: 0, y: 0 };
     this.setDefault();
   }
-  armorDrop($event: CdkDragEnd) {
+  armorDrop($event: CdkDragEnd): void {
     this.armorPos = { x: 0, y: 0 };
     this.setDefault();
   }
-  necklaceDrop($event: CdkDragEnd) {
+  necklaceDrop($event: CdkDragEnd): void {
     this.necklacePos = { x: 0, y: 0 };
     this.setDefault();
   }
-  ringDrop($event: CdkDragEnd) {
+  ringDrop($event: CdkDragEnd): void {
     this.ringPos = { x: 0, y: 0 };
     this.setDefault();
   }
-  startDrag() {
-    let items = document.getElementsByClassName("item") as HTMLCollectionOf<
-      HTMLElement
-    >;
+  startDrag(): void {
+    let items = document.getElementsByClassName("item") as HTMLCollectionOf<HTMLElement>;
     for (let i = 0; i < items.length; i++) {
       items[i].style.cursor = "grabbing";
     }
   }
 
-  backHome() {
+  backHome(): void {
     this.player.location = "home";
     setTimeout(() => {
       document.getElementById("cont").style.opacity = "1";
